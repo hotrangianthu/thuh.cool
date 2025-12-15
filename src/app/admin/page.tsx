@@ -30,7 +30,7 @@ export default async function AdminDashboard() {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
-        <p className="text-zinc-400">Welcome back! Here's what's happening.</p>
+        <p className="text-zinc-400">Welcome back! Here&apos;s what&apos;s happening.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

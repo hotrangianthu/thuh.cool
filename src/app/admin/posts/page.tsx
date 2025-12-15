@@ -23,9 +23,10 @@ async function getPosts(status?: string) {
 export default async function PostsPage({
   searchParams,
 }: {
-  searchParams: { status?: string }
+  searchParams: Promise<{ status?: string }>
 }) {
-  const posts = await getPosts(searchParams.status)
+  const { status } = await searchParams
+  const posts = await getPosts(status)
 
   return (
     <div>
@@ -47,7 +48,7 @@ export default async function PostsPage({
         <Link
           href="/admin/posts"
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            !searchParams.status || searchParams.status === 'all'
+            !status || status === 'all'
               ? 'bg-zinc-800 text-white'
               : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
           }`}
@@ -57,7 +58,7 @@ export default async function PostsPage({
         <Link
           href="/admin/posts?status=published"
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            searchParams.status === 'published'
+            status === 'published'
               ? 'bg-zinc-800 text-white'
               : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
           }`}
@@ -67,7 +68,7 @@ export default async function PostsPage({
         <Link
           href="/admin/posts?status=draft"
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            searchParams.status === 'draft'
+            status === 'draft'
               ? 'bg-zinc-800 text-white'
               : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
           }`}
@@ -77,7 +78,7 @@ export default async function PostsPage({
         <Link
           href="/admin/posts?status=archived"
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            searchParams.status === 'archived'
+            status === 'archived'
               ? 'bg-zinc-800 text-white'
               : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
           }`}

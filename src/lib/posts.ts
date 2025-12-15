@@ -1,7 +1,9 @@
 import { createClient } from '@/lib/supabase-server'
+import { getSupabase } from '@/lib/supabase'
 import { Post } from '@/types/admin'
 import { Note } from '@/types'
 
+// For use in request context (Server Components, API routes)
 export async function getPublishedPosts() {
   const supabase = await createClient()
   const { data, error } = await supabase
@@ -12,6 +14,23 @@ export async function getPublishedPosts() {
 
   if (error) {
     console.error('Error fetching posts:', error)
+    return []
+  }
+
+  return (data || []) as Post[]
+}
+
+// For use in static generation (generateStaticParams) - no cookies
+export async function getPublishedPostsStatic() {
+  const supabase = getSupabase()
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*, category:categories(*)')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching posts for static generation:', error)
     return []
   }
 

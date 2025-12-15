@@ -18,6 +18,9 @@ const nextConfig = {
   // Optimize for production
   poweredByHeader: false,
   compress: true,
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
 }
 
 module.exports = nextConfig

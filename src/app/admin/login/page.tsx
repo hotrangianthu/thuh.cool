@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
                 },
               },
             }}
-            providers={['email', 'google']}
+            providers={['google']}
             redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/admin` : '/admin'}
           />
         </div>

@@ -3,9 +3,10 @@ import { createClient } from '@/lib/supabase-server'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const supabase = await createClient()
     const {
       data: { user },
@@ -18,7 +19,7 @@ export async function GET(
     const { data, error } = await supabase
       .from('posts')
       .select('*, category:categories(*)')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (error) throw error
@@ -32,9 +33,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const supabase = await createClient()
     const {
       data: { user },
@@ -62,7 +64,7 @@ export async function PUT(
       const { data: existingPost } = await supabase
         .from('posts')
         .select('published_at')
-        .eq('id', params.id)
+        .eq('id', id)
         .single()
 
       if (!existingPost?.published_at) {
@@ -73,7 +75,7 @@ export async function PUT(
     const { data, error } = await supabase
       .from('posts')
       .update(updateData)
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single()
 
@@ -88,9 +90,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const supabase = await createClient()
     const {
       data: { user },
@@ -100,7 +103,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { error } = await supabase.from('posts').delete().eq('id', params.id)
+    const { error } = await supabase.from('posts').delete().eq('id', id)
 
     if (error) throw error
 
