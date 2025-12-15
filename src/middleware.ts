@@ -31,6 +31,25 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // Handle OAuth callback code on ANY page that receives it
+  const code = request.nextUrl.searchParams.get('code')
+  if (code && !request.nextUrl.pathname.startsWith('/auth/callback')) {
+    // Exchange code for session
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    
+    if (!error) {
+      // Successfully authenticated - redirect to admin (remove code from URL)
+      const redirectUrl = new URL('/admin', request.url)
+      return NextResponse.redirect(redirectUrl)
+    } else {
+      console.error('OAuth code exchange failed:', error)
+      // Redirect to login with error
+      const redirectUrl = new URL('/admin/login', request.url)
+      redirectUrl.searchParams.set('error', 'auth_failed')
+      return NextResponse.redirect(redirectUrl)
+    }
+  }
+
   // Refresh session if expired - required for Server Components
   const {
     data: { user },
