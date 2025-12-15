@@ -52,7 +52,7 @@ export default function AdminLoginPage() {
               },
             }}
             providers={['google']}
-            redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/admin` : '/admin'}
+            redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/auth/callback?next=/admin` : '/auth/callback?next=/admin'}
           />
         </div>
       </div>

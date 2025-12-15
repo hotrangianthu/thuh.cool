@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { verifyAdmin } from '@/lib/admin-auth'
 
 export async function middleware(request: NextRequest) {
   // Standard NextResponse
@@ -37,15 +38,33 @@ export async function middleware(request: NextRequest) {
 
   // Protect /admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    if (!user && !request.nextUrl.pathname.startsWith('/admin/login')) {
+    // Allow access to login page
+    if (request.nextUrl.pathname.startsWith('/admin/login')) {
+      // If user is already authenticated and is admin, redirect to dashboard
+      if (user) {
+        const isAdmin = await verifyAdmin(user.id)
+        if (isAdmin) {
+          return NextResponse.redirect(new URL('/admin', request.url))
+        }
+      }
+      return supabaseResponse
+    }
+
+    // For all other /admin routes, require authentication and admin status
+    if (!user) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/admin/login'
       redirectUrl.searchParams.set('redirect', request.nextUrl.pathname)
       return NextResponse.redirect(redirectUrl)
     }
 
-    if (user && request.nextUrl.pathname === '/admin/login') {
-      return NextResponse.redirect(new URL('/admin', request.url))
+    // Verify admin status
+    const isAdmin = await verifyAdmin(user.id)
+    if (!isAdmin) {
+      // Redirect non-admin users to homepage with error message
+      const redirectUrl = new URL('/', request.url)
+      redirectUrl.searchParams.set('error', 'admin_access_denied')
+      return NextResponse.redirect(redirectUrl)
     }
   }
 
