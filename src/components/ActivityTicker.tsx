@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 
-const ACTIVITIES = ['building', 'educating', 'hiking', 'writing', 'thinking']
+const ACTIVITIES = ['building', 'thinking', 'running', 'writing', 'singing']
 const FADE_DURATION = 500
 const DISPLAY_DURATION = 3000
 
@@ -28,11 +28,16 @@ export default function ActivityTicker() {
 
   return (
     <span
-      className={`font-handwriting text-accent-orange ml-3 inline-block transition-opacity duration-500 -rotate-2 ${
+      className={`font-handwriting text-accent-orange text-7xl md:text-9xl transition-opacity duration-500 block ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
       aria-live="polite"
       aria-atomic="true"
+      style={{ 
+        textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5)',
+        transform: 'rotate(-2deg)',
+        lineHeight: 0.9,
+      }}
     >
       {ACTIVITIES[index]}
     </span>

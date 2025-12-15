@@ -4,7 +4,7 @@ export default function SocialIcons() {
   return (
     <div className="flex gap-4">
       <a
-        href="https://twitter.com"
+        href="https://x.com/gianthuho"
         target="_blank"
         rel="noopener noreferrer"
         className="text-zinc-400 hover:text-white transition-colors"
@@ -13,7 +13,7 @@ export default function SocialIcons() {
         <Twitter size={20} />
       </a>
       <a
-        href="https://github.com"
+        href="https://github.com/hotrangianthu"
         target="_blank"
         rel="noopener noreferrer"
         className="text-zinc-400 hover:text-white transition-colors"
@@ -22,7 +22,7 @@ export default function SocialIcons() {
         <Github size={20} />
       </a>
       <a
-        href="https://linkedin.com"
+        href="https://www.linkedin.com/in/hotrangianthu/"
         target="_blank"
         rel="noopener noreferrer"
         className="text-zinc-400 hover:text-white transition-colors"
@@ -30,7 +30,7 @@ export default function SocialIcons() {
       >
         <Linkedin size={20} />
       </a>
-      <a
+      {/* <a
         href="https://youtube.com"
         target="_blank"
         rel="noopener noreferrer"
@@ -38,7 +38,7 @@ export default function SocialIcons() {
         aria-label="YouTube"
       >
         <Youtube size={20} />
-      </a>
+      </a> */}
     </div>
   )
 }

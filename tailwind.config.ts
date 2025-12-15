@@ -15,7 +15,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
-        handwriting: ['var(--font-handwriting)', 'Kaushan Script', 'cursive'],
+        handwriting: ['var(--font-handwriting)', 'Mynerve', 'cursive'],
       },
       animation: {
         'slow-pan': 'slow-pan 60s infinite alternate ease-in-out',

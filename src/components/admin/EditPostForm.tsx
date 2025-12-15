@@ -82,11 +82,11 @@ export default function EditPostForm({ post }: EditPostFormProps) {
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Edit Post</h1>
-        <p className="text-zinc-400">Update your blog post</p>
+        <p className="text-zinc-300">Update your blog post</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-zinc-900 rounded-lg border border-zinc-800 p-6 space-y-6">
+        <div className="bg-zinc-900/70 backdrop-blur-md rounded-lg border border-zinc-800/50 p-6 space-y-6">
           <div>
             <label className="block text-sm font-medium text-zinc-300 mb-2">
               Title *
@@ -179,7 +179,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
           <button
             type="button"
             onClick={() => router.back()}
-            className="px-4 py-2 text-zinc-400 hover:text-white transition-colors"
+            className="px-4 py-2 text-zinc-300 hover:text-white transition-colors"
           >
             Cancel
           </button>

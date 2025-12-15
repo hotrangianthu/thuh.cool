@@ -33,7 +33,7 @@ export default async function PostsPage({
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Posts</h1>
-          <p className="text-zinc-400">Manage your blog posts</p>
+          <p className="text-zinc-300">Manage your blog posts</p>
         </div>
         <Link
           href="/admin/posts/new"
@@ -50,7 +50,7 @@ export default async function PostsPage({
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             !status || status === 'all'
               ? 'bg-zinc-800 text-white'
-              : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
+              : 'bg-zinc-900/70 backdrop-blur-sm text-zinc-300 hover:bg-zinc-800/70'
           }`}
         >
           All
@@ -60,7 +60,7 @@ export default async function PostsPage({
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             status === 'published'
               ? 'bg-zinc-800 text-white'
-              : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
+              : 'bg-zinc-900/70 backdrop-blur-sm text-zinc-300 hover:bg-zinc-800/70'
           }`}
         >
           Published
@@ -70,7 +70,7 @@ export default async function PostsPage({
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             status === 'draft'
               ? 'bg-zinc-800 text-white'
-              : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
+              : 'bg-zinc-900/70 backdrop-blur-sm text-zinc-300 hover:bg-zinc-800/70'
           }`}
         >
           Drafts
@@ -80,16 +80,16 @@ export default async function PostsPage({
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             status === 'archived'
               ? 'bg-zinc-800 text-white'
-              : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
+              : 'bg-zinc-900/70 backdrop-blur-sm text-zinc-300 hover:bg-zinc-800/70'
           }`}
         >
           Archived
         </Link>
       </div>
 
-      <div className="bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden">
+      <div className="bg-zinc-900/70 backdrop-blur-md rounded-lg border border-zinc-800/50 overflow-hidden">
         {posts.length > 0 ? (
-          <div className="divide-y divide-zinc-800">
+          <div className="divide-y divide-zinc-800/50">
             {posts.map((post) => (
               <div
                 key={post.id}
@@ -117,7 +117,7 @@ export default async function PostsPage({
                       )}
                     </div>
                     {post.excerpt && (
-                      <p className="text-sm text-zinc-400 mb-2 line-clamp-2">
+                      <p className="text-sm text-zinc-300 mb-2 line-clamp-2">
                         {post.excerpt}
                       </p>
                     )}
@@ -139,7 +139,7 @@ export default async function PostsPage({
           </div>
         ) : (
           <div className="p-12 text-center">
-            <p className="text-zinc-400 mb-4">No posts found.</p>
+            <p className="text-zinc-300 mb-4">No posts found.</p>
             <Link
               href="/admin/posts/new"
               className="inline-flex items-center gap-2 text-accent-orange hover:underline"

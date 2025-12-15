@@ -39,7 +39,7 @@ export default function CategoriesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-zinc-400">Loading...</div>
+        <div className="text-zinc-300">Loading...</div>
       </div>
     )
   }
@@ -49,7 +49,7 @@ export default function CategoriesPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Categories</h1>
-          <p className="text-zinc-400">Manage post categories</p>
+          <p className="text-zinc-300">Manage post categories</p>
         </div>
         <button
           onClick={() => {
@@ -78,9 +78,9 @@ export default function CategoriesPage() {
         />
       )}
 
-      <div className="bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden">
+      <div className="bg-zinc-900/70 backdrop-blur-md rounded-lg border border-zinc-800/50 overflow-hidden">
         {categories.length > 0 ? (
-          <div className="divide-y divide-zinc-800">
+          <div className="divide-y divide-zinc-800/50">
             {categories.map((category) => (
               <div
                 key={category.id}
@@ -89,7 +89,7 @@ export default function CategoriesPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="text-white font-medium mb-1">{category.name}</h3>
-                    <p className="text-sm text-zinc-400 mb-2">{category.slug}</p>
+                    <p className="text-sm text-zinc-300 mb-2">{category.slug}</p>
                     {category.description && (
                       <p className="text-sm text-zinc-500">{category.description}</p>
                     )}
@@ -100,7 +100,7 @@ export default function CategoriesPage() {
                         setEditing(category)
                         setShowForm(true)
                       }}
-                      className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded transition-colors"
+                      className="p-2 text-zinc-300 hover:text-white hover:bg-zinc-800/70 rounded transition-colors"
                     >
                       <Edit size={16} />
                     </button>
@@ -117,7 +117,7 @@ export default function CategoriesPage() {
           </div>
         ) : (
           <div className="p-12 text-center">
-            <p className="text-zinc-400 mb-4">No categories yet.</p>
+            <p className="text-zinc-300 mb-4">No categories yet.</p>
             <button
               onClick={() => setShowForm(true)}
               className="text-accent-orange hover:underline"
@@ -194,7 +194,7 @@ function CategoryForm({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-6">
-      <div className="bg-zinc-900 rounded-lg border border-zinc-800 w-full max-w-md p-6">
+      <div className="bg-zinc-900/80 backdrop-blur-md rounded-lg border border-zinc-800/50 w-full max-w-md p-6">
         <h2 className="text-xl font-bold text-white mb-6">
           {category ? 'Edit Category' : 'New Category'}
         </h2>
@@ -254,7 +254,7 @@ function CategoryForm({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-zinc-400 hover:text-white transition-colors"
+              className="px-4 py-2 text-zinc-300 hover:text-white transition-colors"
             >
               Cancel
             </button>
