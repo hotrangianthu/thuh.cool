@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Left Wine Glass (leaning right) -->
+  <g transform="translate(8, 8) rotate(-8 24 20)">
+    <!-- Bowl outline -->
+    <path d="M 12 8 Q 12 4 16 4 L 20 4 Q 24 4 24 8 L 24 20 Q 24 24 20 24 L 16 24 Q 12 24 12 20 Z" 
+          fill="none" 
+          stroke="#000000" 
+          stroke-width="2"/>
+    <!-- Liquid fill -->
+    <rect x="14" y="16" width="8" height="6" fill="#000000" rx="1"/>
+    <!-- Stem -->
+    <rect x="17.5" y="24" width="1.5" height="10" fill="#000000"/>
+    <!-- Base -->
+    <circle cx="18.25" cy="36" r="3" fill="#000000"/>
+  </g>
+  
+  <!-- Right Wine Glass (leaning left) -->
+  <g transform="translate(24, 8) rotate(8 24 20)">
+    <!-- Bowl outline -->
+    <path d="M 12 8 Q 12 4 16 4 L 20 4 Q 24 4 24 8 L 24 20 Q 24 24 20 24 L 16 24 Q 12 24 12 20 Z" 
+          fill="none" 
+          stroke="#000000" 
+          stroke-width="2"/>
+    <!-- Liquid fill -->
+    <rect x="14" y="16" width="8" height="6" fill="#000000" rx="1"/>
+    <!-- Stem -->
+    <rect x="17.5" y="24" width="1.5" height="10" fill="#000000"/>
+    <!-- Base -->
+    <circle cx="18.25" cy="36" r="3" fill="#000000"/>
+  </g>
+</svg>

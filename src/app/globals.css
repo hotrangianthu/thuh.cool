@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-dark: #0a0a0a;
+  --accent-orange: #ffba75;
+  --accent-purple: #7c3aed;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+}
+
+body {
+  @apply bg-black text-zinc-100 antialiased;
+}
+
+/* Selection styling */
+::selection {
+  @apply bg-accent-orange text-black;
+}
+

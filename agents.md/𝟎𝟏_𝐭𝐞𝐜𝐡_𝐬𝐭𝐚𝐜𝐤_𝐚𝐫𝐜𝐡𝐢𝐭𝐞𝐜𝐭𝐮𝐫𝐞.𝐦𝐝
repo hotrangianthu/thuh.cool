@@ -1,0 +1,484 @@
+# 01 - Tech Stack & Architecture
+
+## Overview
+
+DearStory is built on a modern, serverless-first architecture optimized for rapid development, scalability, and cost-effectiveness.
+
+---
+
+## Core Stack
+
+### Frontend Framework
+**Next.js 14.2.32** (App Router)
+- **Why**: React-based, server-side rendering, file-based routing, API routes
+- **Benefits**: SEO-friendly, fast initial page loads, built-in optimization
+- **Trade-offs**: App Router learning curve, but worth it for performance
+
+### Language
+**TypeScript 5.2.2** (Strict Mode)
+- **Why**: Type safety, better IDE support, fewer runtime errors
+- **Configuration**: `tsconfig.json` with strict checks enabled
+- **Pattern**: All files use `.ts` or `.tsx` extensions
+
+### Database & Backend
+**Supabase** (PostgreSQL + Auth + Storage + Realtime)
+- **Database**: PostgreSQL 15+ with full SQL support
+- **Authentication**: Built-in auth with email/password + OAuth
+- **Storage**: S3-compatible object storage
+- **Real-time**: WebSocket subscriptions (not used in DearStory, but available)
+
+### Styling
+**Tailwind CSS 3.3.3** + **Custom Design System**
+- **Why**: Utility-first, rapid prototyping, small bundle size
+- **Custom Theme**: Pearl/Silk/Iridescent color palettes
+- **Plugins**: Typography, Debug Screens
+
+### Animation
+**Framer Motion 10.16.4**
+- **Why**: Declarative animations, React-first, performant
+- **Usage**: Page transitions, storybook viewer, interactive elements
+
+### Icons
+**Lucide React 0.284.0**
+- **Why**: Modern, consistent, tree-shakeable, TypeScript support
+- **Alternative**: Could use Heroicons or Font Awesome
+
+---
+
+## Key Dependencies
+
+### UI & Interaction
+```json
+{
+  "framer-motion": "^10.16.4",     // Animations
+  "lucide-react": "^0.284.0",      // Icons
+  "react-wrap-balancer": "^1.1.0", // Typography balancing
+  "howler": "^2.2.4",              // Audio playback
+  "gsap": "^3.13.0"                // Advanced animations
+}
+```
+
+### Content & Markdown
+```json
+{
+  "contentlayer": "^0.3.4",           // Content management
+  "next-contentlayer": "^0.3.4",      // Next.js integration
+  "markdown-wasm": "^1.2.0",          // Markdown parsing
+  "rehype-autolink-headings": "^7.0.0", // Auto-link headers
+  "rehype-pretty-code": "^0.10.1",    // Code syntax highlighting
+  "rehype-slug": "^6.0.0",            // Generate slugs
+  "remark-gfm": "3.0.1",              // GitHub Flavored Markdown
+  "shiki": "^0.14.1"                  // Syntax highlighting
+}
+```
+
+### Email & Communication
+```json
+{
+  "resend": "^6.4.0"  // Transactional email service
+}
+```
+
+### Supabase
+```json
+{
+  "@supabase/supabase-js": "^2.38.0"  // Supabase client library
+}
+```
+
+---
+
+## Project Structure
+
+```
+dearstory/
+├── app/                          # Next.js App Router
+│   ├── (public pages)/           # Public routes (no auth)
+│   │   ├── page.tsx              # Homepage
+│   │   ├── products/             # Product catalog
+│   │   ├── contact/              # Contact form
+│   │   ├── privacy/              # Legal pages
+│   │   ├── terms/
+│   │   └── refund/
+│   │
+│   ├── auth/                     # Authentication pages
+│   │   ├── signin/
+│   │   ├── signup/
+│   │   ├── confirm/
+│   │   └── callback/
+│   │
+│   ├── dashboard/                # User dashboard (auth required)
+│   │   ├── page.tsx
+│   │   ├── progress/
+│   │   ├── referrals/
+│   │   └── settings/
+│   │
+│   ├── library/                  # User's story library
+│   │   ├── page.tsx              # Library grid view
+│   │   └── [storyId]/            # Individual story viewer
+│   │
+│   ├── admin/                    # Admin panel (admin only)
+│   │   ├── page.tsx
+│   │   ├── gallery/
+│   │   └── components/
+│   │
+│   ├── api/                      # API routes (serverless functions)
+│   │   ├── stories/              # Story CRUD operations
+│   │   ├── orders/               # Order management
+│   │   ├── payments/             # Payment processing
+│   │   ├── admin/                # Admin-only endpoints
+│   │   ├── automation/           # n8n integration endpoints
+│   │   ├── email/                # Email triggers
+│   │   └── health/               # Health check
+│   │
+│   ├── components/               # Shared React components
+│   │   ├── auth-context.tsx     # Auth state management
+│   │   ├── cart-context.tsx     # Shopping cart state
+│   │   ├── language-context.tsx # i18n state
+│   │   ├── nav.tsx              # Navigation
+│   │   ├── footer.tsx           # Footer
+│   │   └── storybook-viewer.tsx # Story viewer
+│   │
+│   ├── layout.tsx                # Root layout (applies to all pages)
+│   └── global.css                # Global styles
+│
+├── lib/                          # Utility libraries
+│   ├── supabase.ts               # Supabase client + type definitions
+│   ├── storage.ts                # File upload utilities
+│   ├── resend.ts                 # Email utilities
+│   ├── countries.ts              # Country list
+│   ├── mouse.ts                  # Mouse tracking hook
+│   └── tasks/                    # Task system (file processing)
+│       └── story-file-tasks.ts
+│
+├── database/                     # Database scripts
+│   ├── live_supabase_database_for_reference.sql
+│   ├── migrations/               # SQL migration files
+│   └── scripts/                  # Utility scripts
+│
+├── docs/                         # Documentation
+│   ├── setup/                    # Setup guides
+│   ├── guides/                   # Feature guides
+│   ├── compliance docs/          # Legal documents
+│   └── agent-works/              # Development history
+│
+├── workers/                      # Background workers (Railway)
+│   ├── time-capsule-delivery.js  # Scheduled delivery worker
+│   ├── cron.js                   # Cron job scheduler
+│   └── pdf-extractor-worker.ts   # PDF processing (template)
+│
+├── public/                       # Static assets
+│   ├── ds-background-2.png       # Background image
+│   ├── ds-logo.svg               # Logo
+│   └── fonts/                    # Custom fonts
+│
+├── content/                      # MDX content
+│   └── projects/                 # Project showcase
+│
+├── next.config.mjs               # Next.js configuration
+├── tailwind.config.js            # Tailwind configuration
+├── tsconfig.json                 # TypeScript configuration
+├── package.json                  # Dependencies
+├── vercel.json                   # Vercel deployment config
+└── .env.local                    # Environment variables (gitignored)
+```
+
+---
+
+## Configuration Files
+
+### next.config.mjs
+```javascript
+import { withContentlayer } from "next-contentlayer";
+
+const nextConfig = {
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+  experimental: {
+    mdxRs: true,
+  },
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  },
+  typescript: {
+    ignoreBuildErrors: true,  // For rapid iteration
+  },
+  eslint: {
+    ignoreDuringBuilds: true,  // For rapid iteration
+  },
+};
+
+export default withContentlayer(nextConfig);
+```
+
+**Key Points**:
+- Contentlayer integration for MDX
+- Environment variables exposed to browser
+- Build error ignoring (acceptable for MVP, tighten for production)
+
+### tsconfig.json (Key Options)
+```json
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,  // Consider enabling for production
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+```
+
+---
+
+## Environment Variables
+
+### Required Variables
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...  # Public anon key
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGci...      # Server-only, admin access
+
+# App Configuration
+NEXT_PUBLIC_APP_URL=https://dearstory.com  # Your domain
+
+# Email (Resend)
+RESEND_API_KEY=re_...                      # Transactional emails
+
+# Automation (n8n integration)
+DEARSTORY_API_KEY=your_secret_key          # For automation endpoints
+```
+
+### Optional Variables
+```bash
+# Payment (Stripe - placeholder)
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+
+# SMTP (for time capsule delivery)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your@email.com
+SMTP_PASSWORD=your_password
+```
+
+---
+
+## Build & Development
+
+### Development
+```bash
+npm run dev       # Start dev server (localhost:3000)
+npm run build     # Build for production
+npm run start     # Start production server
+npm run lint      # Run linter
+npm run format    # Format code
+```
+
+### Development Server Features
+- **Hot Module Replacement**: Instant updates without page refresh
+- **Error Overlay**: Detailed error messages in browser
+- **Port**: Default 3000, configurable with `-p` flag
+
+---
+
+## Deployment Architecture
+
+### Frontend (Vercel)
+- **Platform**: Vercel (Next.js creators)
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Environment**: Production environment variables
+- **Features**: 
+  - Automatic deployments on git push
+  - Preview deployments for PRs
+  - Edge functions for API routes
+  - Global CDN for static assets
+
+### Workers (Railway)
+- **Platform**: Railway
+- **Type**: Background cron jobs
+- **Configuration**: `workers/railway.json`
+- **Schedule**: Configurable cron expressions
+- **Cost**: Free tier available
+
+### Database (Supabase)
+- **Type**: Managed PostgreSQL
+- **Backup**: Automatic daily backups
+- **Scaling**: Vertical scaling available
+- **Cost**: Free tier (50GB, 500MB database)
+
+---
+
+## Performance Optimizations
+
+### Next.js Optimizations
+1. **Image Optimization**: Automatic via `next/image`
+2. **Code Splitting**: Automatic route-based splitting
+3. **Server Components**: Used for non-interactive content
+4. **Static Generation**: Used for public pages where possible
+
+### Tailwind Optimizations
+1. **PurgeCSS**: Unused styles removed in production
+2. **JIT Mode**: Just-in-time compilation for faster builds
+3. **Custom Utilities**: Reusable design tokens
+
+### Supabase Optimizations
+1. **Row Level Security**: Database-level access control (no backend needed)
+2. **Connection Pooling**: Efficient database connections
+3. **Signed URLs**: Temporary access to private files
+4. **Caching**: HTTP caching headers on storage files
+
+---
+
+## Security Considerations
+
+### Client-Side Security
+- **Environment Variables**: Only `NEXT_PUBLIC_*` exposed to browser
+- **Token Storage**: Session tokens in httpOnly cookies (Supabase handles this)
+- **CSRF Protection**: Built into Next.js API routes
+
+### Server-Side Security
+- **Service Role Key**: Never exposed to client
+- **RLS Policies**: All database access controlled by RLS
+- **API Routes**: Authentication checks on every request
+- **Input Validation**: Type checking + manual validation
+
+### Storage Security
+- **Private Buckets**: Files not publicly accessible by default
+- **Signed URLs**: Temporary access (1 hour expiration)
+- **File Type Validation**: Server-side validation of uploads
+
+---
+
+## Common Pitfalls & Solutions
+
+### 1. **Supabase Client Initialization**
+**Problem**: Creating too many Supabase clients  
+**Solution**: Single client instance in `lib/supabase.ts`, imported everywhere
+
+### 2. **Environment Variables**
+**Problem**: Variables undefined in browser  
+**Solution**: Use `NEXT_PUBLIC_` prefix for client-side variables
+
+### 3. **API Route Authentication**
+**Problem**: Auth token not passed to API routes  
+**Solution**: Extract token from headers, use `verifyAuth` helper function
+
+### 4. **Storage CORS Errors**
+**Problem**: Can't access private storage files from browser  
+**Solution**: Use proxy API routes (`/api/stories/[id]/pages/image`)
+
+### 5. **TypeScript Build Errors**
+**Problem**: Build fails on type errors  
+**Solution**: Either fix types OR set `ignoreBuildErrors: true` in next.config.mjs
+
+---
+
+## Scalability Considerations
+
+### Current Architecture Limits
+- **Supabase Free Tier**: 500MB database, 1GB storage, 2GB bandwidth/month
+- **Vercel Free Tier**: 100GB bandwidth/month, 100GB-hrs compute
+- **Railway Free Tier**: 500 hours/month for workers
+
+### Scaling Strategy
+1. **Phase 1 (0-1000 users)**: Free tiers sufficient
+2. **Phase 2 (1000-10000 users)**: Upgrade Supabase to Pro ($25/month)
+3. **Phase 3 (10000+ users)**: Upgrade Vercel to Pro ($20/month), consider CDN for storage
+
+### Bottlenecks to Watch
+- **Database connections**: Monitor connection pool usage
+- **Storage bandwidth**: Consider CDN for frequently accessed files
+- **API route cold starts**: Edge functions help, but monitor response times
+
+---
+
+## Alternative Architectures Considered
+
+### Why Not...
+
+**1. Traditional Backend (Express/NestJS)?**
+- More boilerplate code
+- Need to manage server infrastructure
+- Slower development velocity
+
+**2. Firebase Instead of Supabase?**
+- NoSQL limitations for complex queries
+- Higher costs at scale
+- Less SQL flexibility
+
+**3. Self-Hosted PostgreSQL?**
+- Need to manage database backups
+- Security responsibilities
+- No built-in auth/storage
+
+**4. WordPress/No-Code?**
+- Limited customization
+- Performance issues
+- Vendor lock-in concerns
+
+---
+
+## Future Architecture Improvements
+
+### Short Term (Next 3 Months)
+1. **Add Redis Caching**: Cache frequently accessed data (user profiles, product info)
+2. **Implement CDN**: Use Cloudflare for storage assets
+3. **Add Monitoring**: Sentry for error tracking, PostHog for analytics
+
+### Long Term (Next 6-12 Months)
+1. **Microservices**: Split heavy operations (PDF processing) into separate services
+2. **Queue System**: BullMQ or similar for background job processing
+3. **GraphQL Layer**: Consider for complex data fetching patterns
+4. **Mobile Apps**: React Native apps using same Supabase backend
+
+---
+
+## Tech Stack Summary Table
+
+| Layer | Technology | Justification | Cost |
+|-------|-----------|--------------|------|
+| Frontend | Next.js 14 | SSR, SEO, performance | Free tier |
+| Language | TypeScript | Type safety | Free |
+| Database | PostgreSQL (Supabase) | Relational, RLS, scalable | Free-$25/mo |
+| Auth | Supabase Auth | Built-in, OAuth support | Included |
+| Storage | Supabase Storage | S3-compatible, integrated | Included |
+| Styling | Tailwind CSS | Rapid development | Free |
+| Hosting | Vercel | Optimized for Next.js | Free-$20/mo |
+| Workers | Railway | Simple cron jobs | Free-$5/mo |
+| Email | Resend | Developer-friendly | Free-$10/mo |
+
+**Total Monthly Cost**: $0-$60/month depending on scale
+
+---
+
+## Key Takeaways
+
+1. **Serverless-First**: No traditional backend servers to manage
+2. **Type-Safe**: TypeScript throughout for fewer bugs
+3. **Scalable**: Can grow from 0 to 100K users on this stack
+4. **Cost-Effective**: Free tier covers MVP and early growth
+5. **Developer Experience**: Fast iteration, hot reloading, great tooling
+6. **Production-Ready**: Battle-tested technologies, not experimental
+
+---
+
+**Use this architecture as your starting point for any modern web application. It's proven, scalable, and cost-effective.**
+

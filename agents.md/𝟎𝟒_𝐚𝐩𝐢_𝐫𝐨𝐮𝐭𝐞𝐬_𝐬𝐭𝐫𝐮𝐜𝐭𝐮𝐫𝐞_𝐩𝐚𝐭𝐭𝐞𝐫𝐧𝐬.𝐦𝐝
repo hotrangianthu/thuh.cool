@@ -1,0 +1,744 @@
+# 04 - API Routes Structure & Patterns
+
+## Overview
+
+DearStory uses Next.js 14 App Router API routes (serverless functions) for all backend operations. This document covers the complete API architecture, authentication patterns, and best practices.
+
+---
+
+## API Architecture
+
+### Route Structure
+```
+app/api/
+├── stories/                    # Story CRUD operations
+│   ├── create/route.ts
+│   ├── [id]/route.ts          # GET, PATCH, DELETE
+│   ├── [id]/public/route.ts   # Public access control
+│   └── [id]/pages/
+│       ├── image/route.ts     # Image proxy with signed URLs
+│       └── audio/route.ts     # Audio proxy with signed URLs
+│
+├── admin/                      # Admin-only operations
+│   └── stories/
+│       ├── upload/route.ts    # File upload
+│       ├── extract-pages/route.ts
+│       ├── pdf-proxy/route.ts
+│       ├── image-proxy/route.ts
+│       ├── pages/route.ts     # Page management
+│       └── files/route.ts     # File listing/deletion
+│
+├── automation/                 # n8n integration (API key auth)
+│   └── stories/
+│       ├── create/route.ts
+│       ├── [id]/upload-pdf/route.ts
+│       └── [id]/upload-images/route.ts
+│
+├── orders/route.ts            # Order management
+├── payments/                   # Payment processing
+│   ├── paypal/route.ts
+│   └── confirm/route.ts
+│
+├── email/                      # Email triggers
+│   └── welcome/route.ts
+│
+├── notifications/route.ts      # User notifications
+├── testimonials/route.ts       # Testimonials CRUD
+├── portfolio/route.ts          # Portfolio CRUD
+├── contact/route.ts            # Contact form
+└── health/route.ts             # Health check
+```
+
+---
+
+## Authentication Patterns
+
+### 1. User Authentication (Bearer Token)
+
+#### Standard Pattern
+```typescript
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+/**
+ * Verify user authentication from request headers
+ * Returns user object or null
+ */
+async function verifyAuth(request: NextRequest) {
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return null;
+  }
+
+  const token = authHeader.substring(7);
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+
+  if (error || !user) {
+    return null;
+  }
+
+  return user;
+}
+
+export async function GET(request: NextRequest) {
+  // Verify authentication
+  const user = await verifyAuth(request);
+  if (!user) {
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
+  // User is authenticated - proceed with operation
+  // ...
+}
+```
+
+#### Client-Side Usage
+```typescript
+// In React component
+const fetchData = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  const response = await fetch('/api/stories', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${session?.access_token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch');
+  }
+
+  return response.json();
+};
+```
+
+### 2. Admin Authorization
+
+```typescript
+/**
+ * Verify user is admin
+ * Requires service role key for secure verification
+ */
+async function verifyAdmin(userId: string): Promise<boolean> {
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseServiceKey) {
+    console.error('SUPABASE_SERVICE_ROLE_KEY not configured');
+    return false;
+  }
+
+  const supabaseAdmin = createClient(
+    supabaseUrl,
+    supabaseServiceKey,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    }
+  );
+
+  const { data, error } = await supabaseAdmin
+    .from('user_profiles')
+    .select('is_admin')
+    .eq('id', userId)
+    .single();
+
+  if (error) {
+    console.error('Error verifying admin:', error);
+    return false;
+  }
+
+  return data?.is_admin === true;
+}
+
+// Usage in admin API route
+export async function POST(request: NextRequest) {
+  // First verify user is authenticated
+  const user = await verifyAuth(request);
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // Then verify user is admin
+  const isAdmin = await verifyAdmin(user.id);
+  if (!isAdmin) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  // Admin operation here
+  // ...
+}
+```
+
+### 3. API Key Authentication (Automation)
+
+```typescript
+/**
+ * Verify API key for automation/webhook access
+ * Used for n8n, Zapier, etc.
+ */
+function verifyApiKey(request: NextRequest): boolean {
+  const apiKey = request.headers.get('x-api-key') || 
+                 request.headers.get('authorization')?.replace('Bearer ', '');
+  const expectedApiKey = process.env.DEARSTORY_API_KEY;
+  
+  if (!expectedApiKey) {
+    console.warn('DEARSTORY_API_KEY not configured');
+    return false;
+  }
+  
+  return apiKey === expectedApiKey;
+}
+
+// Usage in automation API route
+export async function POST(request: NextRequest) {
+  if (!verifyApiKey(request)) {
+    return NextResponse.json(
+      { error: 'Invalid API key' },
+      { status: 401 }
+    );
+  }
+
+  // Automation operation here (uses service role for database access)
+  // ...
+}
+```
+
+---
+
+## Complete API Route Examples
+
+### 1. User Story Creation (`api/stories/create/route.ts`)
+
+```typescript
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { title, storyType, storyData, status } = body;
+
+    // Validate required fields
+    if (!title || !storyType || !storyData) {
+      return NextResponse.json(
+        { error: 'Missing required fields: title, storyType, storyData' },
+        { status: 400 }
+      );
+    }
+
+    // Verify authentication
+    const user = await verifyAuth(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Create Supabase client with user's token
+    const authHeader = request.headers.get('authorization')!;
+    const token = authHeader.substring(7);
+    
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    });
+    
+    // Insert story (RLS will enforce user_id = auth.uid())
+    const { data, error } = await supabase
+      .from('stories')
+      .insert({
+        user_id: user.id,
+        title,
+        story_type: storyType,
+        story_data: storyData,
+        status: status || 'draft',
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating story:', error);
+      return NextResponse.json(
+        { error: 'Failed to create story' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ story: data }, { status: 201 });
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+### 2. Admin File Upload (`api/admin/stories/upload/route.ts`)
+
+```typescript
+export async function POST(request: NextRequest) {
+  try {
+    // Verify authentication
+    const user = await verifyAuth(request);
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Verify admin
+    const isAdmin = await verifyAdmin(user.id);
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Parse form data
+    const formData = await request.formData();
+    const storyId = formData.get('storyId') as string;
+    const file = formData.get('file') as File;
+    const fileType = formData.get('fileType') as 'pdf' | 'image' | 'audio';
+
+    if (!storyId || !file || !fileType) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Upload to Supabase Storage
+    const timestamp = Date.now();
+    const filePath = `${storyId}/original/${fileType}-${timestamp}.${file.name.split('.').pop()}`;
+    
+    const supabaseAdmin = createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+
+    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+      .from('story-files')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: true,
+      });
+
+    if (uploadError) {
+      return NextResponse.json(
+        { error: `Upload failed: ${uploadError.message}` },
+        { status: 500 }
+      );
+    }
+
+    // Get public URL
+    const { data: urlData } = supabaseAdmin.storage
+      .from('story-files')
+      .getPublicUrl(filePath);
+
+    // Update story record
+    const updateData: Record<string, any> = {};
+    if (fileType === 'pdf') {
+      updateData.pdf_url = urlData.publicUrl;
+    } else if (fileType === 'image') {
+      updateData.cover_image_url = urlData.publicUrl;
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      await supabaseAdmin
+        .from('stories')
+        .update(updateData)
+        .eq('id', storyId);
+    }
+
+    return NextResponse.json({
+      success: true,
+      url: urlData.publicUrl,
+      path: filePath,
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+### 3. Image Proxy with Signed URLs (`api/stories/[id]/pages/image/route.ts`)
+
+```typescript
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const searchParams = request.nextUrl.searchParams;
+    const path = searchParams.get('path');
+    const pageNumber = searchParams.get('page');
+
+    if (!path && !pageNumber) {
+      return NextResponse.json(
+        { error: 'Missing path or page parameter' },
+        { status: 400 }
+      );
+    }
+
+    // Verify user authentication
+    const user = await verifyAuth(request);
+    
+    // Check if user is admin OR owns the story
+    const isAdmin = user ? await verifyAdmin(user.id) : false;
+    
+    if (!isAdmin && user) {
+      // Verify user owns the story
+      const { data: story } = await supabase
+        .from('stories')
+        .select('user_id')
+        .eq('id', params.id)
+        .single();
+
+      if (!story || story.user_id !== user.id) {
+        return NextResponse.json(
+          { error: 'Forbidden' },
+          { status: 403 }
+        );
+      }
+    }
+
+    // Generate signed URL
+    const supabaseAdmin = createClient(
+      supabaseUrl,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    );
+
+    const filePath = path || `${params.id}/pages/page-${pageNumber}.jpg`;
+
+    const { data: signedData, error: signedError } = await supabaseAdmin.storage
+      .from('story-files')
+      .createSignedUrl(filePath, 3600); // 1 hour expiry
+
+    if (signedError || !signedData) {
+      return NextResponse.json(
+        { error: 'Failed to generate signed URL' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ url: signedData.signedUrl });
+  } catch (error) {
+    console.error('Image proxy error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+### 4. Automation Story Creation (`api/automation/stories/create/route.ts`)
+
+```typescript
+/**
+ * Create story via automation (n8n, Zapier, etc.)
+ * Requires API key authentication
+ */
+export async function POST(request: NextRequest) {
+  try {
+    // Verify API key
+    if (!verifyApiKey(request)) {
+      return NextResponse.json(
+        { error: 'Invalid API key' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { userId, title, storyType, storyData } = body;
+
+    if (!userId || !title || !storyType) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Use service role to bypass RLS
+    const supabaseAdmin = createClient(
+      supabaseUrl,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    );
+
+    const { data, error } = await supabaseAdmin
+      .from('stories')
+      .insert({
+        user_id: userId,
+        title,
+        story_type: storyType,
+        story_data: storyData || {},
+        status: 'submitted',
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json(
+        { error: `Failed to create story: ${error.message}` },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ story: data }, { status: 201 });
+  } catch (error) {
+    console.error('Automation error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+---
+
+## Error Handling Pattern
+
+### Standard Error Response Format
+```typescript
+interface ErrorResponse {
+  error: string;           // Human-readable error message
+  code?: string;           // Machine-readable error code
+  details?: any;           // Additional error details
+}
+```
+
+### Error Handling Wrapper
+```typescript
+/**
+ * Wrap API route handler with standard error handling
+ */
+function withErrorHandling(handler: Function) {
+  return async (request: NextRequest, ...args: any[]) => {
+    try {
+      return await handler(request, ...args);
+    } catch (error) {
+      console.error('API Error:', error);
+      
+      if (error instanceof Error) {
+        return NextResponse.json(
+          {
+            error: error.message,
+            code: 'INTERNAL_ERROR',
+          },
+          { status: 500 }
+        );
+      }
+      
+      return NextResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      );
+    }
+  };
+}
+
+// Usage
+export const POST = withErrorHandling(async (request: NextRequest) => {
+  // Handler code
+});
+```
+
+---
+
+## Input Validation Pattern
+
+### Using TypeScript Interfaces
+```typescript
+interface CreateStoryRequest {
+  title: string;
+  storyType: 'romance' | 'children' | 'family' | 'milestone' | 'memorial' | 'other';
+  storyData: Record<string, any>;
+  status?: 'draft' | 'submitted';
+}
+
+function validateCreateStoryRequest(body: any): body is CreateStoryRequest {
+  return (
+    typeof body.title === 'string' &&
+    body.title.length > 0 &&
+    ['romance', 'children', 'family', 'milestone', 'memorial', 'other'].includes(body.storyType) &&
+    typeof body.storyData === 'object' &&
+    body.storyData !== null
+  );
+}
+
+// Usage
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  
+  if (!validateCreateStoryRequest(body)) {
+    return NextResponse.json(
+      { error: 'Invalid request body' },
+      { status: 400 }
+    );
+  }
+  
+  // Body is now typed as CreateStoryRequest
+  const { title, storyType, storyData } = body;
+}
+```
+
+---
+
+## CORS Handling
+
+### Enable CORS for Specific Routes
+```typescript
+export async function GET(request: NextRequest) {
+  const response = NextResponse.json({ data: 'example' });
+  
+  // Add CORS headers
+  response.headers.set('Access-Control-Allow-Origin', '*');
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  return response;
+}
+
+export async function OPTIONS(request: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
+}
+```
+
+---
+
+## Rate Limiting Pattern
+
+### Simple In-Memory Rate Limiter
+```typescript
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function rateLimit(identifier: string, maxRequests: number, windowMs: number): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(identifier);
+  
+  if (!record || now > record.resetAt) {
+    rateLimitMap.set(identifier, {
+      count: 1,
+      resetAt: now + windowMs,
+    });
+    return true;
+  }
+  
+  if (record.count >= maxRequests) {
+    return false;
+  }
+  
+  record.count++;
+  return true;
+}
+
+// Usage
+export async function POST(request: NextRequest) {
+  const user = await verifyAuth(request);
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  
+  // 10 requests per minute per user
+  if (!rateLimit(user.id, 10, 60000)) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429 }
+    );
+  }
+  
+  // Continue with request
+}
+```
+
+---
+
+## Testing API Routes
+
+### Testing with curl
+```bash
+# Authentication required
+curl -X GET http://localhost:3000/api/stories \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+
+# Admin endpoint
+curl -X POST http://localhost:3000/api/admin/stories/upload \
+  -H "Authorization: Bearer ADMIN_ACCESS_TOKEN" \
+  -F "storyId=123" \
+  -F "file=@story.pdf" \
+  -F "fileType=pdf"
+
+# Automation with API key
+curl -X POST http://localhost:3000/api/automation/stories/create \
+  -H "X-Api-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"userId":"123","title":"Test","storyType":"romance"}'
+```
+
+### Testing with Postman/Insomnia
+1. Set environment variable for base URL
+2. Create collection with auth token
+3. Test all endpoints with different user roles
+
+---
+
+## Common Pitfalls & Solutions
+
+### 1. **Missing Authorization Header**
+**Problem**: API returns 401 even though user is logged in  
+**Solution**: Ensure Authorization header is sent with every request
+
+### 2. **RLS Blocking Queries**
+**Problem**: API returns empty results or errors  
+**Solution**: Use service role key for admin operations, regular token for user operations
+
+### 3. **CORS Errors**
+**Problem**: Browser blocks requests from different origin  
+**Solution**: Add CORS headers to API routes (see CORS pattern above)
+
+### 4. **File Upload Size Limit**
+**Problem**: Large file uploads fail  
+**Solution**: Configure Next.js body size limit in next.config.mjs
+
+### 5. **Timeout on Long Operations**
+**Problem**: Vercel times out after 10 seconds  
+**Solution**: Move long operations to background workers (Railway)
+
+---
+
+## Key Takeaways
+
+1. **Authentication First**: Always verify auth before operations
+2. **Service Role for Admin**: Use service role key only for admin operations
+3. **RLS Defense in Depth**: Don't rely only on API auth, use RLS too
+4. **Validate Input**: Never trust client input, always validate
+5. **Standard Error Format**: Consistent error responses across all routes
+6. **Log Everything**: Console.log for debugging, consider proper logging in production
+
+---
+
+**These API patterns are production-tested and secure. Use them as templates for your own API routes.**
+

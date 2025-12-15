@@ -1,0 +1,34 @@
+---
+alwaysApply: true
+---
+
+# Cursor Agent / Ask Principles (single canonical doc)
+*Location: `.cursor/PRINCIPLES.md` — one consolidated file. Agents MUST read & confirm before heavy work.*
+
+## Purpose
+This document defines required behaviors for Ask / Agent / Auto sessions that may edit code or consume premium model credits. It balances developer speed with cost control and safety.
+
+## High-level rules (must be followed)
+1. Default mode: **Ask / Auto** for planning, discussion, and iterative changes.
+2. **Agent mode**: Allowed only after: a) planning in Ask mode, b) explicit owner approval, c) ticket/PR link provided.
+3. **No automatic git push**: Agents may not run `git push` to `main` or `prod` without the `agent:allow-push` label and release-owner approval.
+4. DO NOT CREATE GUIDE DOCS (only create when I told you to)
+**No per-change .md proliferation**: Do not create a new `.md` file for every agent run. Produce one consolidated sprint-level doc when the sprint completes, or when explicitly requested.
+5. **No “immediate fix” quick hacks**: Agents should produce production-quality fixes, not throwaway patches. Small experimental patches may be approved only by dev lead.
+6. **Max mode / background agents**: Disabled by default. Background/YOLO allowed only in scheduled windows and with cost owner consent.
+7. Before starting new works, set time to read thru previou 'daily agent works' where I put export chat information between human/owner me and you agents. '/docs/daily agent works' - Top file would be the one starting with date_label closest indicating the latest workday.
+8. Context awareness and multi-window workflows: Your context window will be automatically compacted as it approaches its limit. Never stop tasks early due to token budget concerns. Always complete tasks fully, even if the end of your budget is approaching.
+
+"Cursor principles (to input at the start of any agent chat)
+- As a fresh dev, I need your view critics on suggestions or questions that I have - do not be submissive and just flow with the idea from my side - Be critical and insightful, correct, comprehensive - to be  a real productive Tech partner of me.
+- Always be cost-effective, yet balancing for high pristine quality in the least possible requests/token usage as possible.
+- DO NOT create a guide doc .md file at every query every step of the way - only create one for general holistic summarization at the end of one dev sprint for example AND ONLY WHEN I tell you to. This is to avoid the .md slowing down the whole dev process by a lot. Pleaase be mindful of this - not create .md files.
+Remind again NOT create multiple .md doc file in a single run please (if to summarize a whole big building section, merge all intol 1 guide documentation - or only create when I tell you to).
+For the summarized .md doc that really needs created, naming it by format [Date_created,ddmmm]_Doc name, example "19Oct_Outline_visualizer_summary" in the folder route /docs/guide/...
+
+- Do not always run git add commit push as this will auto deloy all cloud platforms, and may impact the current running testing flow of mind. - Only run the git when I tell you to.  Also commjitting these every single code modification also slowing down the whole process by a lot. Usually please complete all the to-do lists first then commit by the end to save time and resource.
+
+- Do not suggest any 'Immediate fix' (just for the sake of testing thru) any further! What's the point! I want fixes to be permanent and stable, best optimal for production later on - very mindful of this"
+
+- Reference prompting best practices from .cursor\rules\prompting_best_practice.mdc 
+- DO NOT run localhost or testing links in Cursor browser view, and do not run automatically this is not asked.

@@ -1,0 +1,674 @@
+# 03 - Authentication & Authorization System
+
+## Overview
+
+DearStory implements a complete authentication system using Supabase Auth with email/password and Google OAuth, combined with role-based access control (RBAC) for admin features.
+
+---
+
+## Authentication Architecture
+
+### Client-Side Auth Flow
+
+```
+User → Auth Provider (React Context) → Supabase Auth → Database
+                ↓
+          Session State
+                ↓
+    Protected Routes/Components
+```
+
+### Technologies
+- **Supabase Auth**: Backend authentication service
+- **React Context**: Client-side state management
+- **Next.js Middleware**: Route protection (optional, not used in DearStory)
+- **RLS Policies**: Database-level authorization
+
+---
+
+## React Auth Context
+
+### Implementation (`app/components/auth-context.tsx`)
+
+```typescript
+interface AuthContextType {
+  user: User | null;                    // Supabase user object
+  profile: UserProfile | null;          // Custom user profile
+  loading: boolean;                     // Initial load state
+  isEmailConfirmed: boolean;            // Email verification status
+  signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, fullName?: string) => Promise<{ error: any }>;
+  signInWithGoogle: () => Promise<{ error: any }>;
+  signOut: () => Promise<void>;
+  updateProfile: (updates: Partial<UserProfile>) => Promise<{ error: any }>;
+}
+```
+
+### Key Features
+
+1. **Automatic Session Sync**
+```typescript
+useEffect(() => {
+  // Get initial session
+  const getInitialSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    setUser(session?.user ?? null);
+    if (session?.user) {
+      await fetchProfile(session.user.id);
+    }
+    setLoading(false);
+  };
+
+  getInitialSession();
+
+  // Listen for auth state changes
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    async (event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        await fetchProfile(session.user.id);
+      } else {
+        setProfile(null);
+      }
+      setLoading(false);
+    }
+  );
+
+  return () => subscription.unsubscribe();
+}, []);
+```
+
+2. **Profile Fetching**
+```typescript
+const fetchProfile = async (userId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (error) {
+      // PGRST116 = no rows returned (profile doesn't exist yet)
+      if (error.code === 'PGRST116') {
+        return; // Profile will be created separately
+      }
+      console.error('Error fetching profile:', error);
+      return;
+    }
+
+    setProfile(data);
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+  }
+};
+```
+
+---
+
+## Authentication Methods
+
+### 1. Email/Password Sign Up
+
+```typescript
+const signUp = async (email: string, password: string, fullName?: string) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${window.location.origin}/auth/confirm?confirmed=true`,
+    },
+  });
+
+  if (!error && data.user) {
+    // Create user profile
+    if (fullName) {
+      await supabase.from('user_profiles').insert({
+        id: data.user.id,
+        email: data.user.email!,
+        full_name: fullName,
+      });
+    }
+  }
+
+  return { error };
+};
+```
+
+**Flow**:
+1. User submits sign up form
+2. Supabase creates auth user
+3. Supabase sends confirmation email
+4. Profile created in `user_profiles` table
+5. User clicks confirmation link
+6. Redirected to `/auth/confirm?confirmed=true`
+
+### 2. Email/Password Sign In
+
+```typescript
+const signIn = async (email: string, password: string) => {
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return { error };
+};
+```
+
+**Flow**:
+1. User submits sign in form
+2. Supabase verifies credentials
+3. Session token created (stored in httpOnly cookie)
+4. User redirected to dashboard
+
+### 3. Google OAuth
+
+```typescript
+const signInWithGoogle = async (redirectPath?: string) => {
+  let redirectTo = `${window.location.origin}/auth/callback`;
+  
+  if (redirectPath) {
+    redirectTo += `?redirect=${encodeURIComponent(redirectPath)}`;
+  }
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
+    },
+  });
+  return { error };
+};
+```
+
+**Flow**:
+1. User clicks "Sign in with Google"
+2. Redirect to Google OAuth consent screen
+3. User approves
+4. Google redirects to `/auth/callback`
+5. Callback handler processes OAuth code
+6. Profile created if new user
+7. Welcome email sent
+8. Redirect to dashboard or original destination
+
+### OAuth Callback Handler (`app/auth/callback/page.tsx`)
+
+```typescript
+export default function AuthCallback() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const handleCallback = async () => {
+      // Exchange code for session
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        console.error('Auth callback error:', error);
+        router.push('/auth/signin?error=callback_failed');
+        return;
+      }
+
+      if (session) {
+        const user = session.user;
+        
+        // Check if user profile exists
+        const { data: existingProfile } = await supabase
+          .from('user_profiles')
+          .select('id')
+          .eq('id', user.id)
+          .single();
+
+        if (!existingProfile) {
+          // New user - create profile
+          await supabase.from('user_profiles').insert({
+            id: user.id,
+            email: user.email!,
+            full_name: user.user_metadata.full_name,
+            avatar_url: user.user_metadata.avatar_url,
+          });
+
+          // Send welcome email
+          await fetch('/api/email/welcome', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.user_metadata.full_name,
+            }),
+          });
+        }
+
+        // Redirect to original destination or dashboard
+        const redirect = searchParams.get('redirect') || '/dashboard';
+        router.push(redirect);
+      }
+    };
+
+    handleCallback();
+  }, [router, searchParams]);
+
+  return <div>Processing authentication...</div>;
+}
+```
+
+---
+
+## Email Confirmation Flow
+
+### Confirmation Page (`app/auth/confirm/page.tsx`)
+
+```typescript
+export default function ConfirmEmail() {
+  const [status, setStatus] = useState<'pending' | 'checking' | 'confirmed' | 'error'>('pending');
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Check if user came from confirmation link
+    if (searchParams.get('confirmed') === 'true') {
+      checkConfirmation();
+    }
+  }, [searchParams]);
+
+  const checkConfirmation = async () => {
+    setStatus('checking');
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (session?.user?.email_confirmed_at) {
+      setStatus('confirmed');
+      setTimeout(() => router.push('/dashboard'), 2000);
+    } else {
+      setStatus('error');
+    }
+  };
+
+  const resendConfirmation = async () => {
+    const email = searchParams.get('email');
+    if (!email) return;
+
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+    });
+
+    if (error) {
+      alert('Failed to resend confirmation email');
+    } else {
+      alert('Confirmation email sent!');
+    }
+  };
+
+  return (
+    <div>
+      {status === 'pending' && (
+        <>
+          <h1>Check Your Email</h1>
+          <p>We sent a confirmation link to your email.</p>
+          <button onClick={resendConfirmation}>Resend Email</button>
+        </>
+      )}
+      {status === 'confirmed' && (
+        <>
+          <h1>Email Confirmed!</h1>
+          <p>Redirecting to dashboard...</p>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## Authorization (Role-Based Access Control)
+
+### Admin Role Pattern
+
+#### Database Column
+```sql
+ALTER TABLE user_profiles
+  ADD COLUMN is_admin boolean DEFAULT false;
+```
+
+#### Manual Admin Assignment Script
+```sql
+-- database/scripts/assign-admin-simple.sql
+UPDATE user_profiles
+SET is_admin = true
+WHERE email = 'admin@dearstory.com';
+```
+
+#### Client-Side Check
+```typescript
+const { profile } = useAuth();
+
+if (profile?.is_admin) {
+  // Show admin features
+}
+```
+
+#### Server-Side Verification (API Routes)
+
+```typescript
+// Pattern used in all admin API routes
+async function verifyAdmin(userId: string): Promise<boolean> {
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseServiceKey) {
+    return false;
+  }
+
+  const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
+
+  const { data, error } = await supabaseAdmin
+    .from('user_profiles')
+    .select('is_admin')
+    .eq('id', userId)
+    .single();
+
+  return !error && data?.is_admin === true;
+}
+
+// Usage in API route
+export async function POST(request: NextRequest) {
+  const user = await verifyAuth(request);
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const isAdmin = await verifyAdmin(user.id);
+  if (!isAdmin) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  // Admin operation here
+}
+```
+
+---
+
+## API Route Authentication
+
+### Standard Auth Verification Pattern
+
+```typescript
+// Used in ALL authenticated API routes
+async function verifyAuth(request: NextRequest) {
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader?.startsWith('Bearer ')) {
+    return null;
+  }
+
+  const token = authHeader.substring(7);
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+
+  if (error || !user) {
+    return null;
+  }
+
+  return user;
+}
+
+// Usage
+export async function GET(request: NextRequest) {
+  const user = await verifyAuth(request);
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // Authenticated operation here
+}
+```
+
+### Client-Side API Calls with Auth
+
+```typescript
+const { user } = useAuth();
+
+const fetchData = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  const response = await fetch('/api/stories', {
+    headers: {
+      'Authorization': `Bearer ${session?.access_token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return response.json();
+};
+```
+
+---
+
+## Protected Routes Pattern
+
+### Client-Side Route Protection
+
+```typescript
+// Component wrapper
+function ProtectedPage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/auth/signin?redirect=/dashboard');
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return null; // Will redirect
+  }
+
+  return <ActualPageContent />;
+}
+```
+
+### Admin-Only Route Protection
+
+```typescript
+function AdminPage() {
+  const { user, profile, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && (!user || !profile?.is_admin)) {
+      router.push('/dashboard');
+    }
+  }, [user, profile, loading, router]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!user || !profile?.is_admin) return null;
+
+  return <AdminPageContent />;
+}
+```
+
+---
+
+## Session Management
+
+### Session Storage
+- **Type**: HttpOnly cookie (managed by Supabase)
+- **Expiry**: 1 hour (access token), 7 days (refresh token)
+- **Refresh**: Automatic via Supabase client
+
+### Session Refresh
+```typescript
+// Automatic refresh (handled by Supabase)
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Supabase will automatically refresh expired tokens
+
+// Manual refresh (rarely needed)
+const { data, error } = await supabase.auth.refreshSession();
+```
+
+### Sign Out
+
+```typescript
+const signOut = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error('Error signing out:', error);
+  }
+  setUser(null);
+  setProfile(null);
+  router.push('/');
+};
+```
+
+---
+
+## Security Best Practices
+
+### 1. **Never Expose Service Role Key**
+```typescript
+// ❌ WRONG - Never use service role on client
+const supabaseClient = createClient(url, serviceRoleKey);
+
+// ✅ CORRECT - Only use anon key on client
+const supabaseClient = createClient(url, anonKey);
+
+// ✅ CORRECT - Service role only on server
+const supabaseAdmin = createClient(url, serviceRoleKey);
+```
+
+### 2. **Always Verify Tokens Server-Side**
+```typescript
+// ❌ WRONG - Trusting client-sent user ID
+const userId = request.headers.get('x-user-id');
+
+// ✅ CORRECT - Verify token and extract user
+const user = await verifyAuth(request);
+const userId = user.id;
+```
+
+### 3. **Use RLS Policies**
+```sql
+-- ❌ WRONG - No RLS, rely on API layer
+CREATE TABLE stories (...);
+
+-- ✅ CORRECT - RLS enabled, defense in depth
+CREATE TABLE stories (...);
+ALTER TABLE stories ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own stories"
+  ON stories FOR SELECT
+  USING (auth.uid() = user_id);
+```
+
+### 4. **Email Confirmation Enforcement**
+```typescript
+const { isEmailConfirmed, user } = useAuth();
+
+if (user && !isEmailConfirmed) {
+  return <div>Please confirm your email before continuing.</div>;
+}
+```
+
+---
+
+## Common Pitfalls & Solutions
+
+### 1. **Profile Not Created After Sign Up**
+**Problem**: User signs up but profile doesn't exist  
+**Solution**: 
+```typescript
+// Create trigger in database
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.user_profiles (id, email, full_name)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    NEW.raw_user_meta_data->>'full_name'
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_new_user();
+```
+
+### 2. **OAuth Redirect URL Mismatch**
+**Problem**: Google OAuth fails with redirect_uri_mismatch  
+**Solution**: 
+- Add `http://localhost:3000/auth/callback` to Google Console
+- Add `https://yourdomain.com/auth/callback` to Google Console
+- Add both URLs in Supabase Auth settings
+
+### 3. **Session Lost After Page Refresh**
+**Problem**: User logged out after refreshing page  
+**Solution**: Ensure `getSession()` is called on initial load (already handled in AuthContext)
+
+### 4. **Admin Check Bypassed**
+**Problem**: User modifies `is_admin` in local storage  
+**Solution**: Always verify admin status server-side (never trust client)
+
+---
+
+## Testing Authentication
+
+### Test Scenarios
+
+1. **Sign Up Flow**
+   - [ ] Sign up with email/password
+   - [ ] Confirmation email sent
+   - [ ] Click confirmation link
+   - [ ] Profile created
+   - [ ] Redirected to dashboard
+
+2. **Sign In Flow**
+   - [ ] Sign in with valid credentials
+   - [ ] Sign in with invalid credentials (should fail)
+   - [ ] Session persists after page refresh
+
+3. **OAuth Flow**
+   - [ ] Sign in with Google
+   - [ ] New user: profile created
+   - [ ] Existing user: logged in
+   - [ ] Redirect to original destination
+
+4. **Admin Access**
+   - [ ] Non-admin cannot access `/admin`
+   - [ ] Admin can access `/admin`
+   - [ ] Admin API routes require admin role
+
+5. **Session Management**
+   - [ ] Session expires after 1 hour (auto-refresh should handle)
+   - [ ] Sign out clears session
+   - [ ] Concurrent sessions work (multiple devices)
+
+---
+
+## Key Takeaways
+
+1. **Supabase Auth is Powerful**: Built-in email/OAuth, no backend needed
+2. **React Context for State**: Centralized auth state management
+3. **RLS for Authorization**: Database-level security, not just API layer
+4. **Service Role for Admin**: Only use server-side for admin operations
+5. **Always Verify Server-Side**: Never trust client-side auth checks
+6. **Email Confirmation Matters**: Enforce it before allowing key actions
+
+---
+
+**This authentication system is production-ready and secure. Copy it for your next project and customize as needed.**
+

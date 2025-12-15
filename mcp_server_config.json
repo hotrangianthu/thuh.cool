@@ -1,0 +1,26 @@
+{
+    "mcp_servers": [
+        {
+            "name": "mcp-analytics",
+            "description": "Allow users to run presto queries and firing APIs to internal services",
+            "transport_type": "stdio",
+            "stdio": {
+                "command": "uvx",
+                "args": [
+                    "--refresh",
+                    "--from",
+                    "git+ssh://git@gitlab.myteksi.net/grab/ti/aip/ai-framework/mcp-servers/mcp-analytics.git",
+                    "mcp-analytics"
+                ]
+            },
+            "env_variables":{
+                "JC_USERNAME": "gianthu.ho",
+                "JC_PASSWORD": "Maithao1$0402thu3",
+                "GLEAN_API_TOKEN": "<API_TOKEN>",
+                "GOOGLE_CLIENT_SECRET_FILE": "<path_to_your_GOOGLE_CLIENT_SECRET_FILE>/gapi_keys.json",
+                "GOOGLE_TOKEN_FILE": "<path_to_your_GOOGLE_TOKEN_FILE>/gapi_token.json"
+
+            }
+        }
+    ]
+}

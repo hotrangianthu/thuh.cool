@@ -1,0 +1,580 @@
+# 05 - File Storage & Management Patterns
+
+## Overview
+
+DearStory implements a comprehensive file storage system using Supabase Storage with signed URLs, proxy endpoints, and optimized upload/download patterns.
+
+---
+
+## Storage Architecture
+
+### Storage Bucket Structure
+```
+story-files/ (Main bucket - Private)
+├── {story_id}/
+│   ├── original/              # Original uploads
+│   │   ├── story.pdf          # PDF file
+│   │   ├── cover.jpg          # Cover image
+│   │   └── audio/             # Audio files
+│   │       ├── background-{timestamp}.mp3
+│   │       └── narration-{timestamp}.mp3
+│   │
+│   └── pages/                 # Extracted pages
+│       ├── page-1.jpg
+│       ├── page-2.jpg
+│       └── ...
+```
+
+### Key Concepts
+
+1. **Private Bucket**: Files not publicly accessible by default
+2. **Signed URLs**: Temporary access (1 hour expiry)
+3. **Proxy Endpoints**: Server-side access control
+4. **Path Convention**: Organized by story ID
+
+---
+
+## File Upload Patterns
+
+### 1. Client-Side Upload (Direct to Storage)
+
+```typescript
+import { uploadFile } from '../../lib/storage';
+
+async function handleFileUpload(file: File, storyId: string) {
+  try {
+    const result = await uploadFile(
+      storyId,
+      file,
+      'pdf', // or 'image', 'audio', 'cover'
+      undefined, // optional subfolder
+      undefined  // optional custom supabase client
+    );
+
+    console.log('Upload successful:', result.url);
+    return result;
+  } catch (error) {
+    console.error('Upload failed:', error);
+    throw error;
+  }
+}
+```
+
+### 2. Server-Side Upload (Admin Operations)
+
+```typescript
+// API Route: /api/admin/stories/upload
+export async function POST(request: NextRequest) {
+  // Verify admin
+  const user = await verifyAuth(request);
+  const isAdmin = await verifyAdmin(user.id);
+  
+  if (!isAdmin) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  // Parse form data
+  const formData = await request.formData();
+  const file = formData.get('file') as File;
+  const storyId = formData.get('storyId') as string;
+
+  // Upload to storage
+  const timestamp = Date.now();
+  const filePath = `${storyId}/original/${file.name}`;
+
+  const supabaseAdmin = createClient(
+    supabaseUrl,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+
+  const { data, error } = await supabaseAdmin.storage
+    .from('story-files')
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: true,
+    });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ path: data.path });
+}
+```
+
+---
+
+## File Access Patterns
+
+### 1. Signed URLs (Temporary Access)
+
+```typescript
+// Generate signed URL (server-side only)
+const { data, error } = await supabaseAdmin.storage
+  .from('story-files')
+  .createSignedUrl(filePath, 3600); // 1 hour expiry
+
+if (error) {
+  throw new Error('Failed to generate signed URL');
+}
+
+return data.signedUrl;
+```
+
+### 2. Proxy Endpoint Pattern
+
+#### Image Proxy (`/api/stories/[id]/pages/image`)
+```typescript
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const searchParams = request.nextUrl.searchParams;
+  const path = searchParams.get('path');
+
+  // Verify user owns story or is admin
+  const user = await verifyAuth(request);
+  const isAdmin = user ? await verifyAdmin(user.id) : false;
+
+  if (!isAdmin) {
+    const { data: story } = await supabase
+      .from('stories')
+      .select('user_id')
+      .eq('id', params.id)
+      .single();
+
+    if (!story || story.user_id !== user?.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+  }
+
+  // Generate signed URL
+  const { data: signedData, error } = await supabaseAdmin.storage
+    .from('story-files')
+    .createSignedUrl(path, 3600);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ url: signedData.signedUrl });
+}
+```
+
+#### Client-Side Usage
+```typescript
+// Component: StoryPageViewer
+const [imageUrl, setImageUrl] = useState<string>('');
+
+useEffect(() => {
+  const loadImage = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    const response = await fetch(
+      `/api/stories/${storyId}/pages/image?path=${encodeURIComponent(imagePath)}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${session?.access_token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const { url } = await response.json();
+      setImageUrl(url);
+    }
+  };
+
+  loadImage();
+}, [storyId, imagePath]);
+
+return <img src={imageUrl} alt="Page" />;
+```
+
+---
+
+## PDF Processing Pattern
+
+### Client-Side PDF Extraction
+
+```typescript
+import { pdfjs } from 'react-pdf';
+
+// Configure PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+async function extractPdfPages(pdfUrl: string, storyId: string) {
+  try {
+    // Load PDF
+    const pdf = await pdfjs.getDocument(pdfUrl).promise;
+    const numPages = pdf.numPages;
+
+    // Extract each page
+    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      
+      // Render to canvas
+      const viewport = page.getViewport({ scale: 2.0 });
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d')!;
+      
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      await page.render({
+        canvasContext: context,
+        viewport: viewport,
+      }).promise;
+
+      // Convert to blob
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((blob) => resolve(blob!), 'image/jpeg', 0.95);
+      });
+
+      // Upload to storage
+      await uploadPageImage(storyId, blob, pageNum, 'jpg');
+    }
+
+    console.log(`Extracted ${numPages} pages`);
+  } catch (error) {
+    console.error('PDF extraction failed:', error);
+    throw error;
+  }
+}
+```
+
+### Server-Side Page Upload
+
+```typescript
+// lib/storage.ts
+export async function uploadPageImage(
+  storyId: string,
+  imageBlob: Blob,
+  pageNumber: number,
+  format: 'jpg' | 'png' = 'jpg',
+  supabaseClient?: SupabaseClient
+): Promise<UploadResult> {
+  const client = supabaseClient || defaultSupabase;
+  const filePath = `${storyId}/pages/page-${pageNumber}.${format}`;
+
+  // Remove existing file
+  try {
+    await client.storage.from('story-files').remove([filePath]);
+  } catch (error) {
+    // Ignore - file might not exist
+  }
+
+  // Upload new file
+  const { data, error } = await client.storage
+    .from('story-files')
+    .upload(filePath, imageBlob, {
+      cacheControl: '3600',
+      upsert: true,
+      contentType: format === 'jpg' ? 'image/jpeg' : 'image/png',
+    });
+
+  if (error) {
+    throw new Error(`Upload failed: ${error.message}`);
+  }
+
+  // Get public URL (will be proxied for private buckets)
+  const { data: urlData } = client.storage
+    .from('story-files')
+    .getPublicUrl(data.path);
+
+  return {
+    url: urlData.publicUrl,
+    path: data.path,
+    size: imageBlob.size,
+  };
+}
+```
+
+---
+
+## Audio File Management
+
+### Upload Audio
+```typescript
+async function uploadAudio(
+  storyId: string,
+  audioFile: File,
+  audioType: 'background' | 'narration'
+) {
+  const result = await uploadFile(
+    storyId,
+    audioFile,
+    'audio',
+    audioType // subfolder
+  );
+
+  return result.url;
+}
+```
+
+### Audio Proxy Endpoint
+```typescript
+// /api/stories/[id]/pages/audio/route.ts
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const searchParams = request.nextUrl.searchParams;
+  const path = searchParams.get('path');
+
+  // Same auth checks as image proxy
+  const user = await verifyAuth(request);
+  // ... verify ownership ...
+
+  // Generate signed URL for audio file
+  const { data, error } = await supabaseAdmin.storage
+    .from('story-files')
+    .createSignedUrl(path, 3600);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ url: data.signedUrl });
+}
+```
+
+### Client-Side Audio Playback
+```typescript
+const [audioUrl, setAudioUrl] = useState<string>('');
+
+const getSignedAudioUrl = async (audioPath: string) => {
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  const response = await fetch(
+    `/api/stories/${storyId}/pages/audio?path=${encodeURIComponent(audioPath)}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${session?.access_token}`,
+      },
+    }
+  );
+
+  if (response.ok) {
+    const { url } = await response.json();
+    setAudioUrl(url);
+  }
+};
+
+// Use with Howler.js
+const sound = new Howl({
+  src: [audioUrl],
+  html5: true,
+});
+sound.play();
+```
+
+---
+
+## File Validation
+
+### File Type Validation
+```typescript
+export const ALLOWED_FILE_TYPES = {
+  pdf: ['application/pdf'],
+  image: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+  audio: ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/m4a'],
+};
+
+function validateFileType(file: File, type: 'pdf' | 'image' | 'audio'): boolean {
+  const allowedTypes = ALLOWED_FILE_TYPES[type];
+  return allowedTypes.includes(file.type);
+}
+```
+
+### File Size Validation
+```typescript
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+
+function validateFileSize(file: File): boolean {
+  return file.size <= MAX_FILE_SIZE;
+}
+```
+
+### Complete Validation
+```typescript
+export async function uploadFile(
+  storyId: string,
+  file: File,
+  fileType: 'pdf' | 'image' | 'audio' | 'cover'
+) {
+  // Validate size
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error(`File size exceeds maximum of ${MAX_FILE_SIZE / 1024 / 1024}MB`);
+  }
+
+  // Validate type
+  const allowedTypes = ALLOWED_FILE_TYPES[fileType];
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error(`Invalid file type. Allowed: ${allowedTypes.join(', ')}`);
+  }
+
+  // Proceed with upload
+  // ...
+}
+```
+
+---
+
+## Storage Optimization
+
+### 1. Image Compression
+```typescript
+// Compress image before upload
+async function compressImage(file: File, maxWidth: number = 1920): Promise<Blob> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d')!;
+
+        // Calculate new dimensions
+        let width = img.width;
+        let height = img.height;
+        
+        if (width > maxWidth) {
+          height = (height * maxWidth) / width;
+          width = maxWidth;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => resolve(blob!), 'image/jpeg', 0.85);
+      };
+      img.src = e.target!.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+```
+
+### 2. Caching Strategy
+```typescript
+// Set cache headers on upload
+const { data, error } = await supabase.storage
+  .from('story-files')
+  .upload(filePath, file, {
+    cacheControl: '3600',  // 1 hour
+    upsert: true,
+  });
+```
+
+### 3. Lazy Loading
+```typescript
+// Component
+function StoryPageImage({ imagePath }: { imagePath: string }) {
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadImage = async () => {
+      const url = await getSignedImageUrl(imagePath);
+      if (isMounted) {
+        setImageUrl(url);
+        setIsLoading(false);
+      }
+    };
+
+    loadImage();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [imagePath]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <img
+      src={imageUrl}
+      alt="Page"
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
+```
+
+---
+
+## Common Pitfalls & Solutions
+
+### 1. **CORS Errors with Storage**
+**Problem**: Browser blocks storage requests  
+**Solution**: Use proxy endpoints instead of direct storage URLs
+
+### 2. **Expired Signed URLs**
+**Problem**: Images fail to load after 1 hour  
+**Solution**: Regenerate signed URLs when needed, or use proxy endpoints
+
+### 3. **Large File Uploads Timeout**
+**Problem**: Upload fails for large files  
+**Solution**: 
+- Increase timeout settings
+- Use chunked uploads for very large files
+- Move to background worker if > 10MB
+
+### 4. **Storage Bucket Not Found**
+**Problem**: Upload fails with "bucket not found"  
+**Solution**: Create bucket in Supabase dashboard first
+
+### 5. **RLS Blocking Storage Access**
+**Problem**: Authenticated user can't access their files  
+**Solution**: 
+- Use service role key for admin operations
+- Use proxy endpoints for user access
+- Configure RLS policies on storage buckets
+
+---
+
+## Security Best Practices
+
+### 1. **Always Validate Files**
+- Check file type and size before upload
+- Scan for malware if possible (use external service)
+- Never trust file extensions alone
+
+### 2. **Use Signed URLs**
+- Never expose permanent URLs for private files
+- Set appropriate expiry times (1-2 hours)
+- Rotate URLs for sensitive content
+
+### 3. **Implement Access Control**
+- Verify user owns the story before granting access
+- Admin verification for sensitive operations
+- Log all file access attempts
+
+### 4. **Sanitize File Names**
+```typescript
+const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+```
+
+---
+
+## Key Takeaways
+
+1. **Private Buckets + Proxy**: Don't expose files directly
+2. **Signed URLs**: Temporary access for security
+3. **Client-Side Validation**: Fast feedback, but always validate server-side too
+4. **Compression**: Reduce storage costs and improve performance
+5. **Lazy Loading**: Load images only when needed
+6. **Error Handling**: Graceful fallbacks for failed loads
+
+---
+
+**This storage system is production-ready and secure. Use these patterns to build robust file management in your apps.**
+
