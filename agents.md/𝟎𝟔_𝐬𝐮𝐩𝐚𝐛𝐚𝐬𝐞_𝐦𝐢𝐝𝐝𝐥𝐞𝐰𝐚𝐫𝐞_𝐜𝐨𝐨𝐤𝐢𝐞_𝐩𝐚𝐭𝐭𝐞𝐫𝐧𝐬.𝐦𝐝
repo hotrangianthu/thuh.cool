@@ -1,0 +1,76 @@
+# Supabase SSR Middleware Cookie Patterns
+
+## The Problem
+
+In Next.js middleware with Supabase SSR, **each `NextResponse` is an independent object**. When Supabase auth methods set cookies via `setAll`, they're set on `supabaseResponse`. If you return a different response (like `NextResponse.redirect()`), those cookies are lost.
+
+## The Bug Pattern
+
+```typescript
+// ❌ WRONG - cookies are lost
+const { error } = await supabase.auth.exchangeCodeForSession(code)
+if (!error) {
+  return NextResponse.redirect(new URL('/admin', request.url)) // Fresh response, no cookies!
+}
+```
+
+## The Fix Pattern
+
+```typescript
+// ✅ CORRECT - copy cookies to redirect response
+const { error } = await supabase.auth.exchangeCodeForSession(code)
+if (!error) {
+  const redirectUrl = new URL('/admin', request.url)
+  const redirectResponse = NextResponse.redirect(redirectUrl)
+  
+  // Copy auth cookies from supabaseResponse
+  supabaseResponse.cookies.getAll().forEach((cookie) => {
+    redirectResponse.cookies.set(cookie.name, cookie.value, cookie)
+  })
+  
+  return redirectResponse
+}
+```
+
+## Helper Function
+
+Use this for any redirect after Supabase auth operations:
+
+```typescript
+function redirectWithCookies(url: URL, sourceResponse: NextResponse): NextResponse {
+  const redirect = NextResponse.redirect(url)
+  sourceResponse.cookies.getAll().forEach((cookie) => {
+    redirect.cookies.set(cookie.name, cookie.value, cookie)
+  })
+  return redirect
+}
+```
+
+## Rules
+
+1. **After any Supabase auth method in middleware**, either:
+   - Return `supabaseResponse` directly, OR
+   - Copy cookies to your new response
+
+2. **Auth methods that set cookies**:
+   - `exchangeCodeForSession()`
+   - `signInWithPassword()`
+   - `signOut()`
+   - `refreshSession()`
+   - Any method that modifies the session
+
+3. **Test the full OAuth flow** end-to-end, not just individual steps
+
+## Why It's Hard to Debug
+
+- OAuth appears to complete (no errors)
+- Session is created server-side
+- Cookies are silently dropped
+- User gets redirected to login (looks like "auth failed")
+
+## Related Files
+
+- `src/middleware.ts` - Main middleware with Supabase SSR
+- `src/lib/supabase-server.ts` - Server-side Supabase client
+- `src/app/auth/callback/route.ts` - OAuth callback handler
+

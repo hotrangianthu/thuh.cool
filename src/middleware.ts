@@ -8,6 +8,15 @@ export async function middleware(request: NextRequest) {
     request,
   })
 
+  // Helper: redirect while preserving Supabase auth cookies
+  const redirectWithCookies = (url: URL) => {
+    const response = NextResponse.redirect(url)
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      response.cookies.set(cookie.name, cookie.value, cookie)
+    })
+    return response
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -39,14 +48,13 @@ export async function middleware(request: NextRequest) {
     
     if (!error) {
       // Successfully authenticated - redirect to admin (remove code from URL)
-      const redirectUrl = new URL('/admin', request.url)
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(new URL('/admin', request.url))
     } else {
       console.error('OAuth code exchange failed:', error)
       // Redirect to login with error
       const redirectUrl = new URL('/admin/login', request.url)
       redirectUrl.searchParams.set('error', 'auth_failed')
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 
@@ -63,7 +71,7 @@ export async function middleware(request: NextRequest) {
       if (user) {
         const isAdmin = await verifyAdmin(user.id)
         if (isAdmin) {
-          return NextResponse.redirect(new URL('/admin', request.url))
+          return redirectWithCookies(new URL('/admin', request.url))
         }
       }
       return supabaseResponse
@@ -74,7 +82,7 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/admin/login'
       redirectUrl.searchParams.set('redirect', request.nextUrl.pathname)
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
 
     // Verify admin status
@@ -83,7 +91,7 @@ export async function middleware(request: NextRequest) {
       // Redirect non-admin users to homepage with error message
       const redirectUrl = new URL('/', request.url)
       redirectUrl.searchParams.set('error', 'admin_access_denied')
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 

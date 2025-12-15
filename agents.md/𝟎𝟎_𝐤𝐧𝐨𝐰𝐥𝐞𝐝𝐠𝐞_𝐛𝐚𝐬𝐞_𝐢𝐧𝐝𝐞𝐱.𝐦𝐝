@@ -79,6 +79,16 @@
 
 ---
 
+### Debugging & Troubleshooting
+
+6. **`06_supabase_middleware_cookie_patterns.md`** ⚠️ Critical
+   - NextResponse cookie handling in middleware
+   - OAuth callback cookie preservation
+   - Common auth redirect bugs
+   - Helper functions for cookie-preserving redirects
+
+---
+
 ## 🎓 How to Use This Knowledge Base
 
 ### For New Projects
