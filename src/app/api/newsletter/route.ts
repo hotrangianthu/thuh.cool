@@ -1,13 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limit'
+import { ApiErrors } from '@/lib/api-errors'
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: 3 requests per minute
+    const rateLimitResult = checkRateLimit(request, 3, 60 * 1000)
+    
+    // Add rate limit headers to all responses
+    const rateLimitHeaders = {
+      'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+      'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+      'X-RateLimit-Reset': rateLimitResult.resetAt.toString(),
+    }
+
+    if (!rateLimitResult.allowed) {
+      const response = ApiErrors.rateLimited('Too many requests. Please try again later.', rateLimitResult.resetAt)
+      Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+        response.headers.set(key, value)
+      })
+      return response
+    }
+
     const body = await request.json()
     const { email } = body
 
     if (!email || !email.includes('@')) {
-      return NextResponse.json({ error: 'Valid email is required' }, { status: 400 })
+      return ApiErrors.badRequest('Valid email is required')
     }
 
     const normalizedEmail = email.toLowerCase().trim()
@@ -24,7 +44,11 @@ export async function POST(request: NextRequest) {
 
       if (existing) {
         if (existing.is_active) {
-          return NextResponse.json({ success: true, message: 'Already subscribed' })
+          const response = NextResponse.json({ success: true, message: 'Already subscribed' })
+          Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+            response.headers.set(key, value)
+          })
+          return response
         }
         
         // Reactivate subscription
@@ -33,7 +57,11 @@ export async function POST(request: NextRequest) {
           .update({ is_active: true, unsubscribed_at: null })
           .eq('id', existing.id)
         
-        return NextResponse.json({ success: true, message: 'Subscription reactivated' })
+        const response = NextResponse.json({ success: true, message: 'Subscription reactivated' })
+        Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+          response.headers.set(key, value)
+        })
+        return response
       }
 
       // Create new subscription
@@ -43,15 +71,23 @@ export async function POST(request: NextRequest) {
 
       if (error) throw error
 
-      return NextResponse.json({ success: true, message: 'Successfully subscribed' }, { status: 201 })
+      const response = NextResponse.json({ success: true, message: 'Successfully subscribed' }, { status: 201 })
+      Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+        response.headers.set(key, value)
+      })
+      return response
     } catch (dbError) {
       // If Supabase is not configured, just log
       console.log('Newsletter signup (no DB):', normalizedEmail)
-      return NextResponse.json({ success: true, message: 'Email recorded' })
+      const response = NextResponse.json({ success: true, message: 'Email recorded' })
+      Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+        response.headers.set(key, value)
+      })
+      return response
     }
   } catch (error) {
     console.error('Error recording newsletter signup:', error)
-    return NextResponse.json({ error: 'Failed to record email' }, { status: 500 })
+    return ApiErrors.internalError('Failed to record email')
   }
 }
 

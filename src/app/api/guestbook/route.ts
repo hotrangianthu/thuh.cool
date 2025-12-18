@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
+import { checkRateLimit } from '@/lib/rate-limit'
+import { ApiErrors } from '@/lib/api-errors'
 
 // Revalidate cache every 60 seconds
 export const revalidate = 60
@@ -31,32 +33,41 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: 5 requests per minute
+    const rateLimitResult = checkRateLimit(request, 5, 60 * 1000)
+    
+    // Add rate limit headers to all responses
+    const rateLimitHeaders = {
+      'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+      'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+      'X-RateLimit-Reset': rateLimitResult.resetAt.toString(),
+    }
+
+    if (!rateLimitResult.allowed) {
+      const response = ApiErrors.rateLimited('Too many requests. Please try again later.', rateLimitResult.resetAt)
+      Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+        response.headers.set(key, value)
+      })
+      return response
+    }
+
     const body = await request.json()
     const { name, message } = body
 
     // Validation
     if (!name?.trim() || !message?.trim()) {
-      return NextResponse.json(
-        { error: 'Name and message are required' }, 
-        { status: 400 }
-      )
+      return ApiErrors.badRequest('Name and message are required')
     }
 
     const trimmedName = name.trim()
     const trimmedMessage = message.trim()
 
     if (trimmedName.length > 50) {
-      return NextResponse.json(
-        { error: 'Name must be 50 characters or less' }, 
-        { status: 400 }
-      )
+      return ApiErrors.badRequest('Name must be 50 characters or less')
     }
 
     if (trimmedMessage.length > 280) {
-      return NextResponse.json(
-        { error: 'Message must be 280 characters or less' }, 
-        { status: 400 }
-      )
+      return ApiErrors.badRequest('Message must be 280 characters or less')
     }
 
     const supabase = getSupabase()
@@ -68,13 +79,14 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error
 
-    return NextResponse.json(data, { status: 201 })
+    const response = NextResponse.json(data, { status: 201 })
+    Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+      response.headers.set(key, value)
+    })
+    return response
   } catch (error) {
     console.error('Error creating guestbook entry:', error)
-    return NextResponse.json(
-      { error: 'Failed to create message' }, 
-      { status: 500 }
-    )
+    return ApiErrors.internalError('Failed to create message')
   }
 }
 
