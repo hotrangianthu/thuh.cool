@@ -16,16 +16,41 @@ export default function ReadingPage() {
     const [activeModuleIndex, setActiveModuleIndex] = useState(0);
     const [completions, setCompletions] = useState<string[]>([]);
     const [isDataLoading, setIsDataLoading] = useState(true);
+    const [manualAdminCheck, setManualAdminCheck] = useState<boolean | null>(null);
     const { profile, loading: authLoading } = useAuth();
-    const isAdmin = profile?.is_admin === true;
+
+    // Primary admin check from context, fallback to manual check if needed
+    const isAdmin = profile?.is_admin === true || manualAdminCheck === true;
+
+    // Direct Supabase check for robust admin detection on new tabs
+    useEffect(() => {
+        const checkAuthDirectly = async () => {
+            try {
+                const { data: { session } } = await (await import('@/lib/supabase-client')).createClient().auth.getSession();
+                if (session?.user) {
+                    const { data: profile } = await (await import('@/lib/supabase-client')).createClient()
+                        .from('user_profiles')
+                        .select('is_admin')
+                        .eq('id', session.user.id)
+                        .single();
+                    setManualAdminCheck(profile?.is_admin || false);
+                } else {
+                    setManualAdminCheck(false);
+                }
+            } catch (e) {
+                console.error('Manual auth check failed:', e);
+            }
+        };
+        checkAuthDirectly();
+    }, []);
 
     // Load completions
     useEffect(() => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => {
             controller.abort();
-            setIsDataLoading(false); // Ensure loading state is cleared even on timeout
-        }, 5000); // 5 second timeout
+            setIsDataLoading(false);
+        }, 5000);
 
         async function fetchCompletions() {
             try {
@@ -41,15 +66,15 @@ export default function ReadingPage() {
                     console.error('Failed to fetch completions:', err);
                 }
             } finally {
-                clearTimeout(timeoutId); // Clear timeout regardless of success or failure
-                setIsDataLoading(false); // Ensure loading state is cleared
+                clearTimeout(timeoutId);
+                setIsDataLoading(false);
             }
         }
         fetchCompletions();
 
         return () => {
-            clearTimeout(timeoutId); // Clear timeout on unmount
-            controller.abort(); // Abort any pending fetch on unmount
+            clearTimeout(timeoutId);
+            controller.abort();
         };
     }, []);
 
@@ -74,7 +99,6 @@ export default function ReadingPage() {
             });
 
             if (!response.ok) {
-                // Rollback on error
                 setCompletions(completions);
                 console.error('Failed to update completion status');
             }
@@ -84,14 +108,6 @@ export default function ReadingPage() {
         }
     };
 
-    // Debug log for admin detection
-    useEffect(() => {
-        if (!authLoading) {
-            console.log('Auth check complete. Profile:', profile);
-            console.log('Is Admin:', isAdmin);
-        }
-    }, [authLoading, profile, isAdmin]);
-
     const handleSelectPersona = (index: number) => {
         setActivePersonaIndex(index);
         setActiveModuleIndex(0);
@@ -99,8 +115,16 @@ export default function ReadingPage() {
 
     return (
         <div className="min-h-screen bg-bg-dark text-zinc-100 font-sans selection:bg-zinc-100 selection:text-black flex flex-col">
-            {/* Background decoration - subtle gradient to match homepage vibe */}
+            {/* Background decoration */}
             <div className="fixed inset-0 bg-gradient-to-tr from-zinc-900/20 via-black to-zinc-900/20 -z-10" />
+
+            {/* Subtle Diagnostic Auth Status (Admin Only or Debugging) */}
+            <div className="fixed top-4 right-4 z-50 text-[10px] font-mono flex gap-3 items-center opacity-30 hover:opacity-100 transition-opacity">
+                <span className={isAdmin ? "text-green-500" : "text-zinc-500"}>
+                    ● {isAdmin ? 'ADMIN MODE' : profile ? 'LOGGED IN (NOT ADMIN)' : 'GUEST'}
+                </span>
+                {!isAdmin && <Link href="/admin/login" className="underline hover:text-white">Admin Login</Link>}
+            </div>
 
             <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20">
                 <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
