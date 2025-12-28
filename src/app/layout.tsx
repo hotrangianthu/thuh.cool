@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Mynerve, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/components/auth-context'
+import AuthStatusBadge from '@/components/AuthStatusBadge'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -53,6 +54,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${mynerve.variable} ${playfair.variable}`}>
       <body className={inter.className}>
         <AuthProvider>
+          <AuthStatusBadge />
           {children}
         </AuthProvider>
       </body>

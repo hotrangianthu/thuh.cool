@@ -122,39 +122,20 @@ export default function ReadingPage() {
         setActiveModuleIndex(0);
     };
 
-    const authStatus = manualAdminCheck === null ? 'Checking...' :
-        isAdmin ? 'Admin Mode' : 'Guest View';
+    // Safe status derivation that never gets stuck
+    const safeAuthStatus = () => {
+        if (manualAdminCheck === null && authLoading) return 'CHECKING...';
+        if (isAdmin) return 'ADMIN MODE';
+        if (profile) return 'LOGGED IN';
+        return 'GUEST';
+    };
+
+    const authStatus = safeAuthStatus();
 
     return (
         <div className="min-h-screen bg-bg-dark text-zinc-100 font-sans selection:bg-zinc-100 selection:text-black flex flex-col">
             {/* Background decoration */}
             <div className="fixed inset-0 bg-gradient-to-tr from-zinc-900/20 via-black to-zinc-900/20 -z-10" />
-
-            {/* Global Status Indicator */}
-            <div className="fixed top-6 right-8 z-50 flex items-center gap-4">
-                <div className={cn(
-                    "px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase border transition-all duration-500 flex items-center gap-2 backdrop-blur-md",
-                    manualAdminCheck === null ? "bg-white/5 border-white/10 text-zinc-400" :
-                        isAdmin ? "bg-green-500/10 border-green-500/30 text-green-500 shadow-[0_0_15px_rgba(34,197,94,0.1)]" :
-                            "bg-white/5 border-white/10 text-zinc-400"
-                )}>
-                    <div className={cn(
-                        "w-1.5 h-1.5 rounded-full",
-                        manualAdminCheck === null ? "bg-zinc-600 animate-pulse" :
-                            isAdmin ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-zinc-600"
-                    )} />
-                    {authStatus}
-                </div>
-
-                {!isAdmin && manualAdminCheck !== null && (
-                    <Link
-                        href="/admin/login"
-                        className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors border-b border-zinc-800 hover:border-white pb-0.5"
-                    >
-                        Admin Login
-                    </Link>
-                )}
-            </div>
 
             <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20">
                 <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">

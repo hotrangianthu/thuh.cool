@@ -65,6 +65,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+-- Function to check if a user is an admin without triggering recursion
+CREATE OR REPLACE FUNCTION public.check_is_admin()
+RETURNS boolean AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM user_profiles
+    WHERE id = auth.uid() AND is_admin = true
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 -- Admins can view all profiles
 CREATE POLICY "Admins can view all profiles" ON user_profiles
   FOR SELECT

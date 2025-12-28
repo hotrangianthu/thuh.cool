@@ -26,7 +26,7 @@ export default function AdminSidebar() {
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push('/admin/login')
+    window.location.href = '/' // Force full reload to clear all state
   }
 
   return (
@@ -46,11 +46,10 @@ export default function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
-                isActive
+              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${isActive
                   ? 'bg-zinc-800/70 text-white backdrop-blur-sm'
                   : 'text-zinc-300 hover:bg-zinc-800/50 hover:text-white'
-              }`}
+                }`}
             >
               <Icon size={18} />
               <span>{item.label}</span>
