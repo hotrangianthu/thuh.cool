@@ -16,7 +16,7 @@ export default function ReadingPage() {
     const [activeModuleIndex, setActiveModuleIndex] = useState(0);
     const [completions, setCompletions] = useState<string[]>([]);
     const [isDataLoading, setIsDataLoading] = useState(true);
-    const { profile } = useAuth();
+    const { profile, loading: authLoading } = useAuth();
     const isAdmin = profile?.is_admin === true;
 
     const activePersona = curriculumData[activePersonaIndex];
@@ -120,23 +120,31 @@ export default function ReadingPage() {
                         />
 
                         <div className="mt-8 flex-grow">
-                            {isDataLoading ? (
+                            {(isDataLoading || authLoading) ? (
                                 <div className="h-64 flex items-center justify-center text-zinc-600">
                                     <Loader2 className="animate-spin mr-2" /> Loading library...
                                 </div>
                             ) : (
-                                <BookGrid
-                                    title={activeModule.title}
-                                    desc={activeModule.desc}
-                                    books={activeModule.books}
-                                    personaId={activePersona.id}
-                                    moduleIndex={activeModuleIndex}
-                                    completions={completions}
-                                    isAdmin={isAdmin}
-                                    onToggleCompletion={handleToggleCompletion}
-                                    accentColor={activePersona.hex}
-                                    bgAccent={activePersona.bgHex}
-                                />
+                                <>
+                                    {isAdmin && (
+                                        <div className="mb-6 flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full w-fit">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                            <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Admin Mode Active</span>
+                                        </div>
+                                    )}
+                                    <BookGrid
+                                        title={activeModule.title}
+                                        desc={activeModule.desc}
+                                        books={activeModule.books}
+                                        personaId={activePersona.id}
+                                        moduleIndex={activeModuleIndex}
+                                        completions={completions}
+                                        isAdmin={isAdmin}
+                                        onToggleCompletion={handleToggleCompletion}
+                                        accentColor={activePersona.hex}
+                                        bgAccent={activePersona.bgHex}
+                                    />
+                                </>
                             )}
                         </div>
                     </div>
