@@ -25,12 +25,12 @@ function secureCompare(a: string, b: string): boolean {
  * Uses constant-time comparison to prevent timing attacks
  */
 export function verifyApiKey(request: NextRequest): boolean {
-  const apiKey = 
-    request.headers.get('x-api-key') || 
+  const apiKey =
+    request.headers.get('x-api-key') ||
     request.headers.get('authorization')?.replace('Bearer ', '')
-  
+
   const expectedApiKey = process.env.THUH_API_KEY
-  
+
   if (!expectedApiKey) {
     console.warn('THUH_API_KEY not configured')
     return false
@@ -39,7 +39,7 @@ export function verifyApiKey(request: NextRequest): boolean {
   if (!apiKey) {
     return false
   }
-  
+
   return secureCompare(apiKey, expectedApiKey)
 }
 
@@ -49,13 +49,13 @@ export function verifyApiKey(request: NextRequest): boolean {
  */
 export async function verifyBearerToken(request: NextRequest) {
   const authHeader = request.headers.get('authorization')
-  
+
   if (!authHeader?.startsWith('Bearer ')) {
     return null
   }
 
   const token = authHeader.substring(7)
-  
+
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error('Supabase environment variables not configured')
     return null
@@ -78,7 +78,7 @@ export async function verifyBearerToken(request: NextRequest) {
 export function getClientIp(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
   const realIp = request.headers.get('x-real-ip')
-  const ip = request.ip
+  const ip = (request as any).ip
 
   if (forwarded) {
     // x-forwarded-for can contain multiple IPs, take the first one

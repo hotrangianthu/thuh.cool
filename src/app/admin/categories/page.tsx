@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase-client'
 import { Category } from '@/types/admin'
 import { Plus, Edit, Trash2 } from 'lucide-react'
@@ -12,18 +12,18 @@ export default function CategoriesPage() {
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<Category | null>(null)
 
-  useEffect(() => {
-    loadCategories()
-  }, [])
-
-  async function loadCategories() {
+  const loadCategories = useCallback(async () => {
     const { data } = await supabase
       .from('categories')
       .select('*')
       .order('sort_order')
     if (data) setCategories(data)
     setLoading(false)
-  }
+  }, [supabase])
+
+  useEffect(() => {
+    loadCategories()
+  }, [loadCategories])
 
   async function handleDelete(id: string) {
     if (!confirm('Are you sure you want to delete this category?')) return
