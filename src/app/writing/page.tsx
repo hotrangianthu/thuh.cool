@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { getPublishedPosts, postToNote } from '@/lib/posts'
 import { Note } from '@/types'
+import Footer from '@/components/Footer'
 
 function NoteCard({ note }: { note: Note }) {
   return (
@@ -25,8 +26,8 @@ export default async function WritingPage() {
   const notes = posts.map(postToNote)
 
   return (
-    <div className="min-h-screen bg-bg-dark text-zinc-100">
-      <div className="max-w-3xl mx-auto px-6 py-12">
+    <div className="min-h-screen bg-bg-dark text-zinc-100 flex flex-col">
+      <div className="max-w-3xl mx-auto px-6 py-12 flex-grow w-full flex flex-col">
         <header className="mb-16 flex items-center justify-between">
           <Link
             href="/"
@@ -42,6 +43,8 @@ export default async function WritingPage() {
             <NoteCard key={note.id} note={note} />
           ))}
         </div>
+
+        <Footer subHeader="Digital Garden & Notes" />
       </div>
     </div>
   )

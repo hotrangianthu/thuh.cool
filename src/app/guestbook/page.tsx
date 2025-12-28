@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { GuestbookMessage } from '@/types'
 import GuestbookSkeleton from '@/components/GuestbookSkeleton'
+import Footer from '@/components/Footer'
 
 export default function GuestbookPage() {
   const [messages, setMessages] = useState<GuestbookMessage[]>([])
@@ -87,8 +88,8 @@ export default function GuestbookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-dark text-zinc-100">
-      <div className="max-w-4xl mx-auto px-6 py-12">
+    <div className="min-h-screen bg-bg-dark text-zinc-100 flex flex-col">
+      <div className="max-w-4xl mx-auto px-6 py-12 flex-grow w-full flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between mb-16">
           <div className="flex items-center gap-3">
@@ -184,6 +185,8 @@ export default function GuestbookPage() {
             )}
           </div>
         </div>
+
+        <Footer subHeader="Public Guestbook & Say Hi" />
       </div>
     </div>
   )

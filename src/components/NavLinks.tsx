@@ -21,6 +21,7 @@ export default function NavLinks() {
     <nav className="flex flex-col items-start gap-4 text-lg" aria-label="Main navigation">
       <NavLink href="/about">about</NavLink>
       <NavLink href="/writing">writing</NavLink>
+      <NavLink href="/reading">reading</NavLink>
       <NavLink href="/guestbook">guestbook</NavLink>
     </nav>
   )

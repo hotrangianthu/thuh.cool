@@ -1,16 +1,22 @@
 import type { Metadata } from 'next'
-import { Inter, Mynerve } from 'next/font/google'
+import { Inter, Mynerve, Playfair_Display } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/components/auth-context'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-const mynerve = Mynerve({ 
+const mynerve = Mynerve({
   weight: '400',
   subsets: ['latin'],
   variable: '--font-handwriting',
+})
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-serif',
 })
 
 export const metadata: Metadata = {
@@ -44,8 +50,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mynerve.variable}`}>
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${inter.variable} ${mynerve.variable} ${playfair.variable}`}>
+      <body className={inter.className}>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   )
 }
