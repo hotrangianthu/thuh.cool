@@ -28,7 +28,7 @@ export default function PersonaSidebar({ persona }: PersonaSidebarProps) {
                 </div>
 
                 <p className="text-sm font-medium text-zinc-400 italic border-l-4 pl-4 py-1" style={{ borderColor: persona.hex }}>
-                    "{persona.vibe}"
+                    &quot;{persona.vibe}&quot;
                 </p>
             </div>
 

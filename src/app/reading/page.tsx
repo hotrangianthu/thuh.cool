@@ -96,11 +96,7 @@ export default function ReadingPage() {
                         </p>
                     </div>
 
-                    <div className="hidden md:block text-right">
-                        <p className="text-xs text-zinc-600 italic">
-                            "A structured year of reading designed to shape a specific version of yourself."
-                        </p>
-                    </div>
+
                 </header>
 
                 <PersonaNav
