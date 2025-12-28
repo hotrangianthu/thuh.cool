@@ -10,6 +10,7 @@ import ModuleTabs from './components/ModuleTabs';
 import BookGrid from './components/BookGrid';
 import { useAuth } from '@/components/auth-context';
 import Footer from '@/components/Footer';
+import { cn } from '@/lib/utils';
 
 export default function ReadingPage() {
     const [activePersonaIndex, setActivePersonaIndex] = useState(0);
@@ -26,19 +27,27 @@ export default function ReadingPage() {
     useEffect(() => {
         const checkAuthDirectly = async () => {
             try {
-                const { data: { session } } = await (await import('@/lib/supabase-client')).createClient().auth.getSession();
+                const client = (await import('@/lib/supabase-client')).createClient();
+                const { data: { session } } = await client.auth.getSession();
+
+                console.log('DIRECT AUTH CHECK - User:', session?.user?.id);
+
                 if (session?.user) {
-                    const { data: profile } = await (await import('@/lib/supabase-client')).createClient()
+                    const { data: profile, error } = await client
                         .from('user_profiles')
                         .select('is_admin')
                         .eq('id', session.user.id)
                         .single();
+
+                    if (error) console.warn('Profile fetch error:', error.message);
+                    console.log('DIRECT AUTH CHECK - Is Admin:', profile?.is_admin);
                     setManualAdminCheck(profile?.is_admin || false);
                 } else {
                     setManualAdminCheck(false);
                 }
             } catch (e) {
                 console.error('Manual auth check failed:', e);
+                setManualAdminCheck(false);
             }
         };
         checkAuthDirectly();
@@ -113,17 +122,38 @@ export default function ReadingPage() {
         setActiveModuleIndex(0);
     };
 
+    const authStatus = manualAdminCheck === null ? 'Checking...' :
+        isAdmin ? 'Admin Mode' : 'Guest View';
+
     return (
         <div className="min-h-screen bg-bg-dark text-zinc-100 font-sans selection:bg-zinc-100 selection:text-black flex flex-col">
             {/* Background decoration */}
             <div className="fixed inset-0 bg-gradient-to-tr from-zinc-900/20 via-black to-zinc-900/20 -z-10" />
 
-            {/* Subtle Diagnostic Auth Status (Admin Only or Debugging) */}
-            <div className="fixed top-4 right-4 z-50 text-[10px] font-mono flex gap-3 items-center opacity-30 hover:opacity-100 transition-opacity">
-                <span className={isAdmin ? "text-green-500" : "text-zinc-500"}>
-                    ● {isAdmin ? 'ADMIN MODE' : profile ? 'LOGGED IN (NOT ADMIN)' : 'GUEST'}
-                </span>
-                {!isAdmin && <Link href="/admin/login" className="underline hover:text-white">Admin Login</Link>}
+            {/* Global Status Indicator */}
+            <div className="fixed top-6 right-8 z-50 flex items-center gap-4">
+                <div className={cn(
+                    "px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase border transition-all duration-500 flex items-center gap-2 backdrop-blur-md",
+                    manualAdminCheck === null ? "bg-white/5 border-white/10 text-zinc-400" :
+                        isAdmin ? "bg-green-500/10 border-green-500/30 text-green-500 shadow-[0_0_15px_rgba(34,197,94,0.1)]" :
+                            "bg-white/5 border-white/10 text-zinc-400"
+                )}>
+                    <div className={cn(
+                        "w-1.5 h-1.5 rounded-full",
+                        manualAdminCheck === null ? "bg-zinc-600 animate-pulse" :
+                            isAdmin ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-zinc-600"
+                    )} />
+                    {authStatus}
+                </div>
+
+                {!isAdmin && manualAdminCheck !== null && (
+                    <Link
+                        href="/admin/login"
+                        className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors border-b border-zinc-800 hover:border-white pb-0.5"
+                    >
+                        Admin Login
+                    </Link>
+                )}
             </div>
 
             <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20">
