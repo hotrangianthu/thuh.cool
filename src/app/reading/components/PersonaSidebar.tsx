@@ -9,6 +9,8 @@ interface PersonaSidebarProps {
 }
 
 export default function PersonaSidebar({ persona }: PersonaSidebarProps) {
+    if (!persona) return null;
+
     return (
         <aside className="flex flex-col gap-6 h-full">
             <div className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5 shadow-xl">

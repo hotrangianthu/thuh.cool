@@ -19,26 +19,42 @@ export default function ReadingPage() {
     const { profile, loading: authLoading } = useAuth();
     const isAdmin = profile?.is_admin === true;
 
-    const activePersona = curriculumData[activePersonaIndex];
-    const activeModule = activePersona.modules[activeModuleIndex];
-
     // Load completions
     useEffect(() => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+            controller.abort();
+            setIsDataLoading(false); // Ensure loading state is cleared even on timeout
+        }, 5000); // 5 second timeout
+
         async function fetchCompletions() {
             try {
-                const response = await fetch('/api/reading/complete');
+                const response = await fetch('/api/reading/complete', { signal: controller.signal });
                 if (response.ok) {
                     const data = await response.json();
                     setCompletions(data.completions || []);
                 }
             } catch (err) {
-                console.error('Failed to fetch completions:', err);
+                if (err instanceof Error && err.name === 'AbortError') {
+                    console.warn('Completions fetch timed out');
+                } else {
+                    console.error('Failed to fetch completions:', err);
+                }
             } finally {
-                setIsDataLoading(false);
+                clearTimeout(timeoutId); // Clear timeout regardless of success or failure
+                setIsDataLoading(false); // Ensure loading state is cleared
             }
         }
         fetchCompletions();
+
+        return () => {
+            clearTimeout(timeoutId); // Clear timeout on unmount
+            controller.abort(); // Abort any pending fetch on unmount
+        };
     }, []);
+
+    const activePersona = curriculumData[activePersonaIndex] || curriculumData[0];
+    const activeModule = activePersona?.modules?.[activeModuleIndex] || activePersona?.modules?.[0];
 
     const handleToggleCompletion = async (bookId: string) => {
         if (!isAdmin) return;
@@ -67,6 +83,14 @@ export default function ReadingPage() {
             console.error('Error toggling completion:', err);
         }
     };
+
+    // Debug log for admin detection
+    useEffect(() => {
+        if (!authLoading) {
+            console.log('Auth check complete. Profile:', profile);
+            console.log('Is Admin:', isAdmin);
+        }
+    }, [authLoading, profile, isAdmin]);
 
     const handleSelectPersona = (index: number) => {
         setActivePersonaIndex(index);
@@ -113,36 +137,36 @@ export default function ReadingPage() {
                     {/* Right: Content */}
                     <div className="lg:col-span-8 flex flex-col h-full bg-zinc-900/30 rounded-3xl border border-white/5 p-6 md:p-8 backdrop-blur-sm shadow-2xl min-h-[800px]">
                         <ModuleTabs
-                            modules={activePersona.modules}
+                            modules={activePersona?.modules || []}
                             activeModuleIndex={activeModuleIndex}
                             onSelectModule={setActiveModuleIndex}
-                            accentColor={activePersona.hex}
+                            accentColor={activePersona?.hex || "#ffffff"}
                         />
 
                         <div className="mt-8 flex-grow">
-                            {(isDataLoading || authLoading) ? (
+                            {isDataLoading ? (
                                 <div className="h-64 flex items-center justify-center text-zinc-600">
                                     <Loader2 className="animate-spin mr-2" /> Loading library...
                                 </div>
                             ) : (
                                 <>
-                                    {isAdmin && (
+                                    {!authLoading && isAdmin && (
                                         <div className="mb-6 flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full w-fit">
                                             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                                             <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Admin Mode Active</span>
                                         </div>
                                     )}
                                     <BookGrid
-                                        title={activeModule.title}
-                                        desc={activeModule.desc}
-                                        books={activeModule.books}
-                                        personaId={activePersona.id}
+                                        title={activeModule?.title || "Library"}
+                                        desc={activeModule?.desc || "Curated list of books"}
+                                        books={activeModule?.books || []}
+                                        personaId={activePersona?.id || "default"}
                                         moduleIndex={activeModuleIndex}
                                         completions={completions}
                                         isAdmin={isAdmin}
                                         onToggleCompletion={handleToggleCompletion}
-                                        accentColor={activePersona.hex}
-                                        bgAccent={activePersona.bgHex}
+                                        accentColor={activePersona?.hex || "#ffffff"}
+                                        bgAccent={activePersona?.bgHex || "#000000"}
                                     />
                                 </>
                             )}

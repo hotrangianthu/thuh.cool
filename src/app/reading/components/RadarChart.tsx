@@ -29,6 +29,8 @@ interface RadarChartProps {
 }
 
 export default function RadarChart({ stats, color, bgHex }: RadarChartProps) {
+    if (!stats || !Array.isArray(stats)) return null;
+
     const data = {
         labels: ['Power', 'Logic', 'Empathy', 'Vision', 'Influence'],
         datasets: [
