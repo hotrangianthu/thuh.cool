@@ -22,12 +22,16 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
       ]
     },
     "types": [
+      "node",
+      "react",
+      "react-dom",
       "markdown-it",
       "mdurl",
       "phoenix"

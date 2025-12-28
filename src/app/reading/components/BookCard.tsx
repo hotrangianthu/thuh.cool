@@ -67,7 +67,7 @@ export default function BookCard({
 
             <div className="mt-auto pt-4 border-t border-white/5">
                 <p className="text-sm text-zinc-400 leading-relaxed italic">
-                    "{why}"
+                    &quot;{why}&quot;
                 </p>
             </div>
 
