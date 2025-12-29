@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Activity, Hexagon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { MINDSPACE_TOPICS, MindspaceNode } from '@/data/mindspaceData';
 import MindspaceDetailPanel from './MindspaceDetailPanel';
 
@@ -57,49 +59,49 @@ const VoronoiMindspace = () => {
         setSites(newSites);
     }, [d3Loaded, dimensions]);
 
-    // 3. Animation Loop
-    const animate = () => {
-        if (selectedIndex !== null) return; // Pause dynamics when focused
-
-        setSites(prevSites => {
-            if (prevSites.length === 0) return prevSites;
-
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-
-            return prevSites.map(site => {
-                let newX = site.x + site.vx;
-                let newY = site.y + site.vy;
-
-                // Mouse Repulsion
-                const dx = newX - mousePosRef.current.x;
-                const dy = newY - mousePosRef.current.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const repulsionRadius = 250;
-
-                if (dist < repulsionRadius) {
-                    const force = (repulsionRadius - dist) / repulsionRadius;
-                    newX += (dx / dist) * force * 1.5;
-                    newY += (dy / dist) * force * 1.5;
-                }
-
-                // Wall Bounce
-                if (newX < 0 || newX > width) {
-                    site.vx *= -1;
-                    newX = Math.max(0, Math.min(width, newX));
-                }
-                if (newY < 0 || newY > height) {
-                    site.vy *= -1;
-                    newY = Math.max(0, Math.min(height, newY));
-                }
-
-                return { ...site, x: newX, y: newY };
-            });
-        });
-        requestRef.current = requestAnimationFrame(animate);
-    };
-
     useEffect(() => {
+        // 3. Animation Loop
+        const animate = () => {
+            if (selectedIndex !== null) return; // Pause dynamics when focused
+
+            setSites(prevSites => {
+                if (prevSites.length === 0) return prevSites;
+
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+
+                return prevSites.map(site => {
+                    let newX = site.x + site.vx;
+                    let newY = site.y + site.vy;
+
+                    // Mouse Repulsion
+                    const dx = newX - mousePosRef.current.x;
+                    const dy = newY - mousePosRef.current.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const repulsionRadius = 250;
+
+                    if (dist < repulsionRadius) {
+                        const force = (repulsionRadius - dist) / repulsionRadius;
+                        newX += (dx / dist) * force * 1.5;
+                        newY += (dy / dist) * force * 1.5;
+                    }
+
+                    // Wall Bounce
+                    if (newX < 0 || newX > width) {
+                        site.vx *= -1;
+                        newX = Math.max(0, Math.min(width, newX));
+                    }
+                    if (newY < 0 || newY > height) {
+                        site.vy *= -1;
+                        newY = Math.max(0, Math.min(height, newY));
+                    }
+
+                    return { ...site, x: newX, y: newY };
+                });
+            });
+            requestRef.current = requestAnimationFrame(animate);
+        };
+
         if (selectedIndex !== null) {
             if (requestRef.current) cancelAnimationFrame(requestRef.current);
             return;
@@ -159,12 +161,12 @@ const VoronoiMindspace = () => {
             return {
                 transform: `translate(${focusX}px, ${focusY}px) scale(${scale}) translate(${-targetNode.x}px, ${-targetNode.y}px)`,
                 transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)'
-            };
+            } as React.CSSProperties;
         }
         return {
             transform: 'translate(0px, 0px) scale(1)',
             transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)'
-        };
+        } as React.CSSProperties;
     }, [selectedIndex, voronoiData, dimensions]);
 
     if (!d3Loaded) {
@@ -288,11 +290,14 @@ const VoronoiMindspace = () => {
             {/* UI Overlay */}
             <div className={`absolute top-12 left-12 z-50 transition-all duration-1000 ${selectedIndex !== null ? 'opacity-20 blur-sm pointer-events-none' : 'opacity-100'}`}>
                 <h1 className="text-3xl font-extralight tracking-[0.2em] text-white flex items-center gap-3 mix-blend-difference">
-                    <img
-                        src="/favicon.png"
-                        alt="THUH Logo"
-                        className="w-8 h-8 object-contain brightness-100 contrast-125 select-none"
-                    />
+                    <div className="relative w-8 h-8">
+                        <Image
+                            src="/favicon.png"
+                            alt="THUH Logo"
+                            fill
+                            className="object-contain brightness-100 contrast-125 select-none"
+                        />
+                    </div>
                     THUH MINDSPACE
                 </h1>
                 <div className="w-48 h-px bg-white/20 mt-4 mb-2"></div>
@@ -300,13 +305,13 @@ const VoronoiMindspace = () => {
                     Cognitive Architecture • v2.0.4
                 </p>
 
-                <a
+                <Link
                     href="/"
                     className="text-[10px] text-cyan-400/60 hover:text-cyan-400 tracking-[0.3em] uppercase transition-colors flex items-center gap-2 group pointer-events-auto"
                 >
                     <div className="w-4 h-px bg-cyan-400/30 group-hover:w-8 transition-all"></div>
                     Return to Reality
-                </a>
+                </Link>
             </div>
 
             {/* Side Panel */}
