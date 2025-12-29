@@ -66,7 +66,7 @@ export default function RootLayout({
             className="object-cover scale-105 animate-slow-pan"
             style={{ objectPosition: 'center' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/40 via-purple-900/40 to-black/80" />
+          {/* No gradient overlay to keep it clean */}
         </div>
         <AuthProvider>
           <AuthStatusBadge />
