@@ -1,3 +1,4 @@
+// input all node topics and node content this file
 export interface MindspaceNode {
     id: number;
     topic: string;
