@@ -3,7 +3,7 @@ import Footer from '@/components/Footer'
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-bg-dark text-zinc-300 py-20 flex flex-col">
+    <div className="min-h-screen text-zinc-300 py-20 flex flex-col">
       <div className="max-w-3xl mx-auto px-6 flex-grow w-full flex flex-col">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-serif font-bold text-white mb-4">About ThuH</h1>

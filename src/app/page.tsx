@@ -2,26 +2,12 @@ import ActivityTicker from '@/components/ActivityTicker'
 import SocialIcons from '@/components/SocialIcons'
 import NewsletterForm from '@/components/NewsletterForm'
 import NavLinks from '@/components/NavLinks'
-import Image from 'next/image'
+
 
 export default function Home() {
   return (
     <main className="relative w-full h-screen overflow-hidden flex flex-col justify-center items-center">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/bg.png"
-          alt=""
-          fill
-          priority
-          quality={85}
-          sizes="100vw"
-          className="object-cover scale-105 animate-slow-pan"
-          style={{ objectPosition: 'center' }}
-        />
-      </div>
-      {/* Gradient Overlay for Readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/40 via-purple-900/40 to-black/80 z-10" />
+
 
       {/* Main Content */}
       <div className="relative z-20 w-full max-w-5xl px-6 md:px-12 flex flex-col h-full justify-between py-12 md:py-24">

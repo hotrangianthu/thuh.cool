@@ -88,7 +88,7 @@ export default function GuestbookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-dark text-zinc-100 flex flex-col">
+    <div className="min-h-screen text-zinc-100 flex flex-col">
       <div className="max-w-4xl mx-auto px-6 py-12 flex-grow w-full flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between mb-16">

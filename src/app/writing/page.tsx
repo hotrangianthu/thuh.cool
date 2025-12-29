@@ -26,7 +26,7 @@ export default async function WritingPage() {
   const notes = posts.map(postToNote)
 
   return (
-    <div className="min-h-screen bg-bg-dark text-zinc-100 flex flex-col">
+    <div className="min-h-screen text-zinc-100 flex flex-col">
       <div className="max-w-3xl mx-auto px-6 py-12 flex-grow w-full flex flex-col">
         <header className="mb-16 flex items-center justify-between">
           <Link

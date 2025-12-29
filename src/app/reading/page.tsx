@@ -133,9 +133,8 @@ export default function ReadingPage() {
     const authStatus = safeAuthStatus();
 
     return (
-        <div className="min-h-screen bg-bg-dark text-zinc-100 font-sans selection:bg-zinc-100 selection:text-black flex flex-col">
-            {/* Background decoration */}
-            <div className="fixed inset-0 bg-gradient-to-tr from-zinc-900/20 via-black to-zinc-900/20 -z-10" />
+        <div className="min-h-screen text-zinc-100 font-sans selection:bg-zinc-100 selection:text-black flex flex-col">
+
 
             <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20">
                 <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">

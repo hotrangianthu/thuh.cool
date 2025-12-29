@@ -45,6 +45,8 @@ export const metadata: Metadata = {
   },
 }
 
+import Image from 'next/image'
+
 export default function RootLayout({
   children,
 }: {
@@ -53,6 +55,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${mynerve.variable} ${playfair.variable}`}>
       <body className={inter.className}>
+        <div className="fixed inset-0 z-[-1]">
+          <Image
+            src="/bg.png"
+            alt=""
+            fill
+            priority
+            quality={85}
+            sizes="100vw"
+            className="object-cover scale-105 animate-slow-pan"
+            style={{ objectPosition: 'center' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/40 via-purple-900/40 to-black/80" />
+        </div>
         <AuthProvider>
           <AuthStatusBadge />
           {children}

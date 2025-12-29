@@ -23,7 +23,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
   const note = postToNote(post)
 
   return (
-    <div className="min-h-screen bg-bg-dark text-zinc-300 font-sans flex flex-col">
+    <div className="min-h-screen text-zinc-300 font-sans flex flex-col">
       <div className="max-w-2xl mx-auto px-6 py-12 flex-grow w-full flex flex-col">
         <Link
           href="/writing"
