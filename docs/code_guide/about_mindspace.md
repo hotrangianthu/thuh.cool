@@ -1,3 +1,4 @@
+// .tsx file
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Hexagon, Shield, X, Layers, Activity } from 'lucide-react';
 
