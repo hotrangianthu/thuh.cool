@@ -58,8 +58,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mynerve.variable} ${playfair.variable}`}>
-      <body className={inter.className}>
+    <html lang="en" className={`${inter.variable} ${mynerve.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
         <div className="fixed inset-0 z-[-1]">
           <Image
             src="/bg.png"

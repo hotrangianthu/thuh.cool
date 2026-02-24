@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { curriculumData } from '@/lib/reading-data';
 import { Crown, Rocket, BookOpen, Bot, Users } from 'lucide-react';
@@ -26,11 +27,13 @@ export default function PersonaNav({
         <nav className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-10">
             {curriculumData.map((p, i) => {
                 const isActive = i === activePersonaIndex;
+                const href = `/reading/${i + 1}`;
                 const Icon = iconMap[p.icon] || <div className="w-2 h-2 rounded-full bg-current" />;
 
                 return (
-                    <button
+                    <Link
                         key={p.id}
+                        href={href}
                         onClick={() => onSelectPersona(i)}
                         className={cn(
                             "flex items-center justify-center gap-3 p-4 rounded-xl border transition-all duration-300 text-sm font-bold shadow-sm",
@@ -50,7 +53,7 @@ export default function PersonaNav({
 
                         <span className="hidden sm:inline">{p.name.replace('The ', '')}</span>
                         <span className="sm:hidden">{p.name.split(' ').pop()}</span>
-                    </button>
+                    </Link>
                 );
             })}
         </nav>

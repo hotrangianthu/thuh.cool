@@ -4,15 +4,19 @@ import React from 'react';
 import BookCard from './BookCard';
 import { Book } from '@/lib/reading-data';
 
+export type CompletionEntry = { bookId: string; review?: string; rating?: number };
+
 interface BookGridProps {
     title: string;
     desc: string;
     books: Book[];
     personaId: string;
     moduleIndex: number;
-    completions: string[];
+    completions: CompletionEntry[];
     isAdmin: boolean;
-    onToggleCompletion: (bookId: string) => void;
+    onToggleCompletion: (bookId: string, review?: string, rating?: number) => void;
+    onSaveReview?: (bookId: string, review: string) => void;
+    onSaveRating?: (bookId: string, rating: number) => void;
     accentColor: string;
     bgAccent: string;
 }
@@ -26,6 +30,8 @@ export default function BookGrid({
     completions,
     isAdmin,
     onToggleCompletion,
+    onSaveReview,
+    onSaveRating,
     accentColor,
     bgAccent,
 }: BookGridProps) {
@@ -53,6 +59,8 @@ export default function BookGrid({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {books.map((book, i) => {
                     const bookId = `${personaId}_${moduleIndex}_${i}`;
+                    const entry = completions.find((c) => c.bookId === bookId);
+                    const isCompleted = !!entry;
                     return (
                         <BookCard
                             key={bookId}
@@ -60,9 +68,13 @@ export default function BookGrid({
                             title={book.t}
                             author={book.a}
                             why={book.w}
-                            isCompleted={completions.includes(bookId)}
+                            isCompleted={isCompleted}
+                            review={entry?.review}
+                            rating={entry?.rating}
                             isAdmin={isAdmin}
                             onToggle={() => onToggleCompletion(bookId)}
+                            onSaveReview={onSaveReview ? (r) => onSaveReview(bookId, r) : undefined}
+                            onSaveRating={onSaveRating ? (r) => onSaveRating(bookId, r) : undefined}
                             accentColor={accentColor}
                             bgAccent={bgAccent}
                         />
