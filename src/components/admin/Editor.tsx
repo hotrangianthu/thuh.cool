@@ -24,6 +24,7 @@ interface EditorProps {
 
 export default function Editor({ content, onChange, placeholder }: EditorProps) {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
       Image.configure({

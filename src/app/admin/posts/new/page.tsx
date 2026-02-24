@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Editor from '@/components/admin/Editor'
+import CategorySelectWithAdd from '@/components/admin/CategorySelectWithAdd'
 import { createClient } from '@/lib/supabase-client'
 import { Category } from '@/types/admin'
 
@@ -17,14 +18,16 @@ export default function NewPostPage() {
   const [status, setStatus] = useState<'draft' | 'published'>('draft')
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const loadCategories = useCallback(async () => {
+    const { data } = await supabase.from('categories').select('*').order('sort_order')
+    if (data) setCategories(data)
+  }, [supabase])
 
   useEffect(() => {
-    async function loadCategories() {
-      const { data } = await supabase.from('categories').select('*').order('sort_order')
-      if (data) setCategories(data)
-    }
     loadCategories()
-  }, [supabase])
+  }, [loadCategories])
 
   const generateSlug = (text: string) => {
     return text
@@ -45,39 +48,49 @@ export default function NewPostPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!title || !slug) {
-      alert('Title and slug are required')
+      setError('Title and slug are required')
       return
     }
 
+    setError(null)
     setLoading(true)
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 30000)
 
-      const postData: any = {
+    try {
+      const postData = {
         title,
         slug,
         content,
         excerpt: excerpt || null,
         category_id: categoryId || null,
         status,
-        author_id: user?.id || null,
       }
 
-      if (status === 'published') {
-        postData.published_at = new Date().toISOString()
+      const response = await fetch('/api/admin/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData),
+        signal: controller.signal,
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || `Request failed: ${response.status}`)
       }
-
-      const { error } = await supabase.from('posts').insert([postData])
-
-      if (error) throw error
 
       router.push('/admin/posts')
-    } catch (error) {
-      console.error('Error creating post:', error)
-      alert('Failed to create post')
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Request timed out. Please try again.')
+      } else {
+        const message = err instanceof Error ? err.message : 'Failed to create post'
+        setError(message)
+        console.error('Error creating post:', err)
+      }
     } finally {
+      clearTimeout(timeoutId)
       setLoading(false)
     }
   }
@@ -88,6 +101,23 @@ export default function NewPostPage() {
         <h1 className="text-3xl font-bold text-white mb-2">New Post</h1>
         <p className="text-zinc-300">Create a new blog post</p>
       </div>
+
+      {error && (
+        <div
+          role="alert"
+          className="mb-6 flex items-center justify-between gap-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-red-400"
+        >
+          <span>{error}</span>
+          <button
+            type="button"
+            onClick={() => setError(null)}
+            className="text-red-400 hover:text-red-300 transition-colors"
+            aria-label="Dismiss"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-zinc-900/70 backdrop-blur-md rounded-lg border border-zinc-800/50 p-6 space-y-6">
@@ -124,18 +154,12 @@ export default function NewPostPage() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Category
               </label>
-              <select
+              <CategorySelectWithAdd
                 value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent-purple"
-              >
-                <option value="">None</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
+                onChange={setCategoryId}
+                categories={categories}
+                onCategoriesChange={loadCategories}
+              />
             </div>
 
             <div>

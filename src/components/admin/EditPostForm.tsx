@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Editor from '@/components/admin/Editor'
+import CategorySelectWithAdd from '@/components/admin/CategorySelectWithAdd'
 import { createClient } from '@/lib/supabase-client'
 import { Post, Category } from '@/types/admin'
 
@@ -22,13 +23,14 @@ export default function EditPostForm({ post }: EditPostFormProps) {
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    async function loadCategories() {
-      const { data } = await supabase.from('categories').select('*').order('sort_order')
-      if (data) setCategories(data)
-    }
-    loadCategories()
+  const loadCategories = useCallback(async () => {
+    const { data } = await supabase.from('categories').select('*').order('sort_order')
+    if (data) setCategories(data)
   }, [supabase])
+
+  useEffect(() => {
+    loadCategories()
+  }, [loadCategories])
 
   const generateSlug = (text: string) => {
     return text
@@ -120,18 +122,12 @@ export default function EditPostForm({ post }: EditPostFormProps) {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Category
               </label>
-              <select
+              <CategorySelectWithAdd
                 value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent-purple"
-              >
-                <option value="">None</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
+                onChange={setCategoryId}
+                categories={categories}
+                onCategoriesChange={loadCategories}
+              />
             </div>
 
             <div>

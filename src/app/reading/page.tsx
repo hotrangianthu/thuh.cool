@@ -18,6 +18,7 @@ export default function ReadingPage() {
     const [completions, setCompletions] = useState<string[]>([]);
     const [isDataLoading, setIsDataLoading] = useState(true);
     const [manualAdminCheck, setManualAdminCheck] = useState<boolean | null>(null);
+    const [completionError, setCompletionError] = useState<string | null>(null);
     const { profile, loading: authLoading } = useAuth();
 
     // Primary admin check from context, fallback to manual check if needed
@@ -63,7 +64,10 @@ export default function ReadingPage() {
 
         async function fetchCompletions() {
             try {
-                const response = await fetch('/api/reading/complete', { signal: controller.signal });
+                const response = await fetch('/api/reading/complete', {
+                    signal: controller.signal,
+                    credentials: 'include',
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setCompletions(data.completions || []);
@@ -93,6 +97,7 @@ export default function ReadingPage() {
     const handleToggleCompletion = async (bookId: string) => {
         if (!isAdmin) return;
 
+        setCompletionError(null);
         const isCompleted = completions.includes(bookId);
         const newCompletions = isCompleted
             ? completions.filter(id => id !== bookId)
@@ -105,14 +110,19 @@ export default function ReadingPage() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ bookId, completed: !isCompleted }),
+                credentials: 'include',
             });
 
             if (!response.ok) {
                 setCompletions(completions);
-                console.error('Failed to update completion status');
+                const errData = await response.json().catch(() => ({}));
+                const msg = errData?.error || `Request failed (${response.status})`;
+                setCompletionError(msg);
+                console.error('Failed to update completion status:', response.status, errData);
             }
         } catch (err) {
             setCompletions(completions);
+            setCompletionError(err instanceof Error ? err.message : 'Failed to update. Try signing in at /admin/login.');
             console.error('Error toggling completion:', err);
         }
     };
@@ -185,9 +195,27 @@ export default function ReadingPage() {
                             ) : (
                                 <>
                                     {!authLoading && isAdmin && (
-                                        <div className="mb-6 flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full w-fit">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                            <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Admin Mode Active</span>
+                                        <div className="mb-6 flex flex-col gap-3">
+                                            <div className="flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full w-fit">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                                <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Admin Mode Active</span>
+                                            </div>
+                                            {completionError && (
+                                                <div
+                                                    role="alert"
+                                                    className="flex items-center justify-between gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-400"
+                                                >
+                                                    <span>{completionError}</span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setCompletionError(null)}
+                                                        className="text-red-400 hover:text-red-300"
+                                                        aria-label="Dismiss"
+                                                    >
+                                                        ×
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     <BookGrid
