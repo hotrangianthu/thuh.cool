@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase-client'
+import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   FileText,
@@ -21,13 +20,9 @@ const navItems = [
 
 export default function AdminSidebar() {
   const pathname = usePathname()
-  const router = useRouter()
 
-  const handleLogout = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    window.location.href = '/' // Force full reload to clear all state
-  }
+  // Use server-side logout route to properly clear Supabase auth cookies
+  const logoutHref = '/auth/logout?next=/'
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-zinc-900/70 backdrop-blur-md border-r border-zinc-800/50 flex flex-col z-30">
@@ -67,13 +62,13 @@ export default function AdminSidebar() {
           <Home size={18} />
           <span>View Site</span>
         </Link>
-        <button
-          onClick={handleLogout}
+        <Link
+          href={logoutHref}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-zinc-300 hover:bg-zinc-800/50 hover:text-red-400 transition-colors"
         >
           <LogOut size={18} />
           <span>Logout</span>
-        </button>
+        </Link>
       </div>
     </aside>
   )

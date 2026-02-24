@@ -25,7 +25,10 @@ export async function POST(request: NextRequest) {
         if (completed) {
             const { error } = await supabase
                 .from('book_completions')
-                .upsert({ user_id: user.id, book_id: bookId });
+                .upsert(
+                    { user_id: user.id, book_id: bookId },
+                    { onConflict: 'user_id,book_id' }
+                );
 
             if (error) throw error;
         } else {
