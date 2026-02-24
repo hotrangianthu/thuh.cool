@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import Editor from '@/components/admin/Editor'
 import CategorySelectWithAdd from '@/components/admin/CategorySelectWithAdd'
+
+const Editor = dynamic(() => import('@/components/admin/Editor'), { ssr: false })
 import { createClient } from '@/lib/supabase-client'
 import { Category } from '@/types/admin'
 

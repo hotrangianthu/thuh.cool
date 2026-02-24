@@ -1,4 +1,6 @@
 import { Metadata } from 'next';
+import { AuthProvider } from '@/components/auth-context';
+import AuthStatusBadge from '@/components/AuthStatusBadge';
 
 export const metadata: Metadata = {
     title: '2026 Identity Roadmap | ThuH',
@@ -15,5 +17,10 @@ export default function ReadingLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return <>{children}</>;
+    return (
+        <AuthProvider>
+            <AuthStatusBadge />
+            {children}
+        </AuthProvider>
+    );
 }

@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase-server'
 import AdminSidebar from '@/components/admin/AdminSidebar'
-
+import AuthStatusBadge from '@/components/AuthStatusBadge'
 
 export default async function AdminLayout({
   children,
@@ -16,8 +16,7 @@ export default async function AdminLayout({
 
   return (
     <div className="relative min-h-screen text-zinc-100 overflow-hidden">
-
-
+      <AuthStatusBadge />
       <div className="relative z-20 flex">
         {user && <AdminSidebar />}
         <main className={user ? 'flex-1 ml-64 p-8' : 'flex-1 p-8'}>
