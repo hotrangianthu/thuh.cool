@@ -1,22 +1,23 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase-client'
 import { Category } from '@/types/admin'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 
 export default function CategoriesPage() {
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<Category | null>(null)
 
   const loadCategories = useCallback(async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('categories')
       .select('*')
       .order('sort_order')
+    if (error) console.error('Failed to load categories:', error)
     if (data) setCategories(data)
     setLoading(false)
   }, [supabase])
