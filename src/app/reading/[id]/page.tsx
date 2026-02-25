@@ -42,6 +42,7 @@ export default function ReadingPersonaPage() {
     const [activePersonaIndex, setActivePersonaIndex] = useState(personaIndex);
     const [activeModuleIndex, setActiveModuleIndex] = useState(0);
     const [completions, setCompletions] = useState<CompletionEntry[]>([]);
+    const [dbBooks, setDbBooks] = useState<any[]>([]);
     const [isDataLoading, setIsDataLoading] = useState(true);
     const [completionsLoadError, setCompletionsLoadError] = useState<string | null>(null);
     const [manualAdminCheck, setManualAdminCheck] = useState<boolean | null>(null);
@@ -94,24 +95,31 @@ export default function ReadingPersonaPage() {
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 25000);
 
-                    const response = await fetch('/api/reading/complete', {
-                        signal: controller.signal,
-                        credentials: 'include',
-                        cache: 'no-store',
-                    });
+                    const [compRes, booksRes] = await Promise.all([
+                        fetch('/api/reading/complete', {
+                            signal: controller.signal,
+                            credentials: 'include',
+                            cache: 'no-store',
+                        }),
+                        fetch('/api/admin/books', {
+                            signal: controller.signal,
+                            cache: 'no-store'
+                        })
+                    ]);
 
                     clearTimeout(timeoutId);
                     if (cancelled) return;
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        setCompletions(normalizeCompletions(data.completions || []));
+                    if (compRes.ok && booksRes.ok) {
+                        const compData = await compRes.json();
+                        const booksData = await booksRes.json();
+                        setCompletions(normalizeCompletions(compData.completions || []));
+                        setDbBooks(booksData || []);
                         setIsDataLoading(false);
                         return;
                     }
 
-                    const errData = await response.json().catch(() => ({}));
-                    setCompletionsLoadError(errData?.error || `Failed (${response.status})`);
+                    setCompletionsLoadError('Failed to fetch data from server.');
                     break;
                 } catch (err) {
                     if (cancelled) return;
@@ -121,7 +129,7 @@ export default function ReadingPersonaPage() {
                         continue;
                     }
                     setCompletionsLoadError(
-                        isRetryable ? 'Timed out. Refresh to retry.' : 'Could not load completions.'
+                        isRetryable ? 'Timed out. Refresh to retry.' : 'Could not load library.'
                     );
                 } finally {
                     if (!cancelled) setIsDataLoading(false);
@@ -136,9 +144,35 @@ export default function ReadingPersonaPage() {
         };
     }, []);
 
-    const activePersona = curriculumData[activePersonaIndex] || curriculumData[0];
+    // Build rich persona data by merging DB books into static structure
+    const enrichedCurriculum = curriculumData.map(persona => {
+        const personaDbBooks = dbBooks.filter(b => b.persona_id === persona.id);
+        const enrichedModules = persona.modules.map((mod, mIdx) => {
+            const moduleDbBooks = personaDbBooks
+                .filter(b => b.module_index === mIdx)
+                .sort((a, b) => a.order_index - b.order_index)
+                .map(b => ({ t: b.title, a: b.author, w: b.why, id: b.id }));
+
+            // If we have books in DB for this module, use them. 
+            // Otherwise fall back to static data if DB is empty for this module.
+            // (During migration period it helps)
+            return {
+                ...mod,
+                books: moduleDbBooks.length > 0 ? moduleDbBooks : mod.books
+            };
+        });
+        return { ...persona, modules: enrichedModules };
+    });
+
+    const activePersona = enrichedCurriculum[activePersonaIndex] || enrichedCurriculum[0];
     const activeModule = activePersona?.modules?.[activeModuleIndex] || activePersona?.modules?.[0];
-    const totalBooks = getTotalBookCount();
+
+    // Total count based on enriched data
+    const totalBooks = enrichedCurriculum.reduce(
+        (sum, p) => sum + (p.modules?.reduce((m, mod) => m + (mod.books?.length ?? 0), 0) ?? 0),
+        0
+    );
+
     const completedCount = completions.length;
     const percentComplete = totalBooks > 0 ? Math.round((completedCount / totalBooks) * 100) : 0;
 

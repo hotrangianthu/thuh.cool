@@ -58,7 +58,7 @@ export default function BookGrid({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {books.map((book, i) => {
-                    const bookId = `${personaId}_${moduleIndex}_${i}`;
+                    const bookId = (book as any).id || `${personaId}_${moduleIndex}_${i}`;
                     const entry = completions.find((c) => c.bookId === bookId);
                     const isCompleted = !!entry;
                     return (

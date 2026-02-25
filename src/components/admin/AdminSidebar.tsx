@@ -15,6 +15,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/posts', label: 'Posts', icon: FileText },
   { href: '/admin/posts/new', label: 'New Post', icon: Plus },
+  { href: '/admin/books', label: 'Books', icon: FileText },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
 ]
 
@@ -42,8 +43,8 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${isActive
-                  ? 'bg-zinc-800/70 text-white backdrop-blur-sm'
-                  : 'text-zinc-300 hover:bg-zinc-800/50 hover:text-white'
+                ? 'bg-zinc-800/70 text-white backdrop-blur-sm'
+                : 'text-zinc-300 hover:bg-zinc-800/50 hover:text-white'
                 }`}
             >
               <Icon size={18} />
