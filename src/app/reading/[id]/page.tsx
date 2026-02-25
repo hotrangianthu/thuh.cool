@@ -27,6 +27,13 @@ function parsePersonaIndex(id: string | string[] | undefined): number {
     return n - 1;
 }
 
+function getTotalBookCount(): number {
+    return curriculumData.reduce(
+        (sum, p) => sum + (p.modules?.reduce((m, mod) => m + (mod.books?.length ?? 0), 0) ?? 0),
+        0
+    );
+}
+
 export default function ReadingPersonaPage() {
     const params = useParams();
     const id = params?.id as string | undefined;
@@ -131,6 +138,9 @@ export default function ReadingPersonaPage() {
 
     const activePersona = curriculumData[activePersonaIndex] || curriculumData[0];
     const activeModule = activePersona?.modules?.[activeModuleIndex] || activePersona?.modules?.[0];
+    const totalBooks = getTotalBookCount();
+    const completedCount = completions.length;
+    const percentComplete = totalBooks > 0 ? Math.round((completedCount / totalBooks) * 100) : 0;
 
     const handleToggleCompletion = async (bookId: string, review?: string) => {
         if (!isAdmin) return;
@@ -242,7 +252,7 @@ export default function ReadingPersonaPage() {
     return (
         <div className="min-h-screen text-zinc-100 font-sans selection:bg-zinc-100 selection:text-black flex flex-col">
             <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20">
-                <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <header className="mb-12 flex flex-col md:flex-row md:items-start justify-between gap-6">
                     <div className="space-y-4">
                         <Link
                             href="/"
@@ -257,6 +267,21 @@ export default function ReadingPersonaPage() {
                         <p className="text-zinc-500 text-sm font-medium uppercase tracking-[0.3em]">
                             Curated Book Lists / 300 Books
                         </p>
+                    </div>
+                    <div
+                        className="flex shrink-0 items-center gap-3 rounded-xl border border-white/10 bg-zinc-900/60 px-4 py-2.5 backdrop-blur-sm"
+                        style={{ borderColor: activePersona?.hex ? `${activePersona.hex}40` : undefined }}
+                    >
+                        <span className="text-lg font-bold tabular-nums text-white">
+                            {completedCount}/{totalBooks}
+                        </span>
+                        <span className="text-zinc-500 text-sm">books</span>
+                        <span
+                            className="text-sm font-semibold tabular-nums"
+                            style={{ color: activePersona?.hex || '#ffffff' }}
+                        >
+                            {percentComplete}%
+                        </span>
                     </div>
                 </header>
 
