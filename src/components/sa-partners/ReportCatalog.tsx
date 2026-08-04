@@ -39,9 +39,12 @@ export default function ReportCatalog({ reports }: { reports: SaPartnersReport[]
       <div className="sa-section-heading">
         <div>
           <span className="sa-eyebrow">Research library</span>
-          <h2 id="library-title">Explore the full fleet</h2>
+          <h2 id="library-title">Browse the research catalog</h2>
         </div>
-        <span className="sa-result-count" aria-live="polite">{filtered.length} reports</span>
+        <div className="sa-library-summary">
+          <span className="sa-result-count" aria-live="polite">{filtered.length} reports</span>
+          <span>Decision-grade briefings · 26 slides each</span>
+        </div>
       </div>
 
       <div className="sa-catalog-controls">
@@ -70,9 +73,12 @@ export default function ReportCatalog({ reports }: { reports: SaPartnersReport[]
       {filtered.length > 0 ? (
         <div className="sa-report-grid">
           {filtered.map((report) => (
-            <article className="sa-report-card" key={report.slug}>
+            <article className={`sa-report-card sa-series-${report.category.toLowerCase()}`} key={report.slug}>
               <Link href={`/sa-partners/reports/${report.slug}`} className="sa-card-cover" aria-label={`View ${report.title}`}>
-                <Image src={getReportSlideUrl(report, 1)} alt="" fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" />
+                <span className="sa-card-image">
+                  <Image src={getReportSlideUrl(report, 1)} alt="" fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" />
+                </span>
+                <span className="sa-card-edition" aria-hidden="true"><b>{report.code}</b> Research briefing</span>
                 <span className={`sa-access-badge ${report.access}`}>
                   {report.access === 'public' ? 'Open report' : <><LockKeyhole size={11} /> Qualified access</>}
                 </span>
@@ -87,7 +93,7 @@ export default function ReportCatalog({ reports }: { reports: SaPartnersReport[]
                 <p>{report.teaser}</p>
                 <div className="sa-card-tags">{report.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}</div>
                 <Link href={`/sa-partners/reports/${report.slug}`} className="sa-card-link">
-                  {report.access === 'public' ? 'Read report' : 'Preview report'} <ArrowRight size={15} />
+                  {report.access === 'public' ? 'Open full report' : 'Preview & request access'} <ArrowRight size={15} />
                 </Link>
               </div>
             </article>

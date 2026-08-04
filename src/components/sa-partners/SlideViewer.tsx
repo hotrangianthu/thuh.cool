@@ -28,14 +28,20 @@ export default function SlideViewer({ report, count }: { report: SaPartnersRepor
 
   return (
     <div className="sa-slide-viewer" aria-label={`${report.title} slide viewer`}>
-      <div className="sa-slide-stage">
-        <Image
-          src={getReportSlideUrl(report, slide)}
-          alt={`${report.title}, slide ${slide} of ${report.slideCount}`}
-          fill
-          priority={slide === 1}
-          sizes="(max-width: 1120px) 100vw, 1080px"
-        />
+      <div className="sa-slide-chrome" aria-hidden="true">
+        <span>Sa. Reader / {report.code}</span>
+        <span>Market intelligence · Web edition</span>
+      </div>
+      <div className="sa-slide-mat">
+        <div className="sa-slide-stage">
+          <Image
+            src={getReportSlideUrl(report, slide)}
+            alt={`${report.title}, slide ${slide} of ${report.slideCount}`}
+            fill
+            priority={slide === 1}
+            sizes="(max-width: 1120px) 100vw, 1080px"
+          />
+        </div>
       </div>
       <div className="sa-slide-toolbar">
         <button type="button" onClick={previous} disabled={slide === 1} aria-label="Previous slide"><ChevronLeft size={17} /></button>

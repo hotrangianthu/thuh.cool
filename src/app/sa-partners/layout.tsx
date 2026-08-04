@@ -19,14 +19,14 @@ export default function SaPartnersLayout({ children }: { children: React.ReactNo
           <Link href="/" className="sa-monogram" aria-label="Back to thuh.cool">Sa.</Link>
           <Link href="/sa-partners" className="sa-wordmark">Sa. Partners</Link>
           <a className="sa-header-contact" href="mailto:thulaneinc@gmail.com?subject=Sa.%20Partners%20research%20inquiry">
-            Contact <ArrowUpRight size={14} aria-hidden="true" />
+            Research desk <ArrowUpRight size={14} aria-hidden="true" />
           </a>
         </div>
         <nav className="sa-nav" aria-label="Sa. Partners navigation">
           <Link href="/sa-partners">Discover</Link>
-          <Link href="/sa-partners#research-areas">Research areas</Link>
-          <Link href="/sa-partners#about">About</Link>
-          <Link href="/sa-partners#contact">Contact</Link>
+          <Link href="/sa-partners#library">Research catalog</Link>
+          <Link href="/sa-partners#access">Access & licensing</Link>
+          <Link href="/sa-partners#about">Agency</Link>
         </nav>
       </header>
       <main>{children}</main>
