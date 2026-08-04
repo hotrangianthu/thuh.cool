@@ -97,7 +97,7 @@
 }
 .sa-nav a:hover { color: var(--sa-ivory); }
 
-.sa-shell { max-width: 1120px; margin: 0 auto; padding: 0 2rem 6rem; }
+.sa-shell { width: 100%; max-width: none; margin: 0; padding: 0 clamp(1.25rem, 2vw, 2.5rem) 6rem; }
 .sa-eyebrow { display: block; color: var(--sa-gold); font-size: .66rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
 
 .sa-hero {
@@ -230,13 +230,6 @@
 .sa-contact-band p { max-width: 640px; margin: 0; color: rgba(4, 27, 17, .7); font-size: .78rem; line-height: 1.6; }
 .sa-lock-note { grid-column: 1 / -1; display: flex; gap: .4rem; align-items: center; font-size: .63rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; opacity: .7; }
 
-.sa-footer { padding: 3.5rem max(2rem, calc((100vw - 1120px) / 2)); display: grid; grid-template-columns: 1fr auto; gap: 2.5rem; border-top: 1px solid var(--sa-border); background: var(--sa-forest-950); }
-.sa-footer-mark { color: var(--sa-gold); font-family: var(--font-serif), Georgia, serif; font-size: 1.4rem; font-style: italic; }
-.sa-footer p { margin: .5rem 0 0; color: rgba(246, 241, 223, .45); font-size: .68rem; }
-.sa-footer-links { display: flex; gap: 1.3rem; color: var(--sa-sage); font-size: .68rem; }
-.sa-footer-links a:hover { color: var(--sa-gold-soft); }
-.sa-footer-copy { grid-column: 1 / -1; padding-top: 1.2rem; border-top: 1px solid var(--sa-border); text-transform: uppercase; letter-spacing: .07em; }
-
 /* Report detail */
 .sa-report-shell { max-width: 1120px; margin: 0 auto; padding: 0 2rem 6rem; }
 .sa-report-back { padding: 1.5rem 0; display: inline-flex; align-items: center; gap: .4rem; color: var(--sa-sage) !important; font-size: .68rem; }
@@ -332,8 +325,6 @@
   .sa-about { grid-template-columns: 1fr; gap: 2rem; padding: 3.5rem 0; }
   .sa-contact-band { padding: 2rem 1.35rem; grid-template-columns: 1fr; }
   .sa-contact-band .sa-button { width: 100%; overflow-wrap: anywhere; }
-  .sa-footer { grid-template-columns: 1fr; padding: 3rem 1.25rem; }
-  .sa-footer-links { flex-direction: column; gap: .7rem; }
   .sa-report-header { padding-top: 2.5rem; }
   .sa-report-header h1 { font-size: 2.5rem; }
   .sa-report-facts { grid-template-columns: 1fr; gap: 0; }

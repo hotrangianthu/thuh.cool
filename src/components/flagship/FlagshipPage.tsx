@@ -28,7 +28,7 @@ export default function FlagshipPage({ locale }: { locale: FlagshipLocale }) {
       <DocumentLanguage locale={locale} />
       <header className="flagship-header">
         <nav className="flagship-shell flagship-nav" aria-label={locale === 'vi' ? 'Điều hướng dự án' : 'Project navigation'}>
-          <Link className="flagship-brand" href={locale === 'vi' ? '/public-policy' : '/public-policy'}>
+          <Link className="flagship-brand" href="/">
             <small>thuh.cool / flagship</small>
             <strong>{t.title}</strong>
           </Link>
@@ -169,12 +169,6 @@ export default function FlagshipPage({ locale }: { locale: FlagshipLocale }) {
         </section>
       </main>
 
-      <footer className="flagship-footer">
-        <div className="flagship-shell flagship-footer-grid">
-          <div><strong>{t.title}</strong><p>{t.subtitle}. {locale === 'vi' ? 'Một dự án nghiên cứu và học tập công ích độc lập của Ho Tran Gian Thu.' : 'An independent public-interest research and learning initiative by Ho Tran Gian Thu.'}</p></div>
-          <div style={{ display: 'flex', gap: 18 }}><Link href="/public-policy">Public policy</Link><Link href="/">thuh.cool</Link></div>
-        </div>
-      </footer>
     </>
   )
 }

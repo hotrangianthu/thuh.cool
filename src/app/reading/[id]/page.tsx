@@ -10,7 +10,6 @@ import PersonaSidebar from '../components/PersonaSidebar';
 import ModuleTabs from '../components/ModuleTabs';
 import BookGrid, { type CompletionEntry } from '../components/BookGrid';
 import { useAuth } from '@/components/auth-context';
-import Footer from '@/components/Footer';
 
 function normalizeCompletions(raw: unknown): CompletionEntry[] {
     if (!Array.isArray(raw)) return [];
@@ -412,8 +411,6 @@ export default function ReadingPersonaPage() {
                         </div>
                     </div>
                 </div>
-
-                <Footer subHeader="2026 Reading Roadmap" />
             </div>
         </div>
     );

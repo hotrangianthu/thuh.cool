@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Nav from '@policy/components/layout/nav'
-import Footer from '@policy/components/layout/footer'
 import './policy.css'
 
 export const metadata: Metadata = {
@@ -18,7 +17,6 @@ export default function PublicPolicyLayout({ children }: { children: React.React
     <section className="policy-site">
       <Nav />
       <main style={{ flex: 1 }}>{children}</main>
-      <Footer />
     </section>
   )
 }

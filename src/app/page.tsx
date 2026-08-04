@@ -1,6 +1,4 @@
 import ActivityTicker from '@/components/ActivityTicker'
-import SocialIcons from '@/components/SocialIcons'
-import NewsletterForm from '@/components/NewsletterForm'
 import NavLinks from '@/components/NavLinks'
 
 
@@ -21,19 +19,12 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Footer Navigation Area */}
-        <footer className="mt-auto grid w-full grid-cols-1 items-stretch gap-10 md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] md:gap-8">
-          {/* Left Column: Links */}
-          <div className="flex min-h-0 flex-col">
+        {/* Primary navigation */}
+        <section className="mt-auto grid w-full grid-cols-1 md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] md:gap-x-8" aria-label="Site destinations">
+          <div className="min-w-0 md:col-start-1">
             <NavLinks />
-            <div className="mt-auto pt-8">
-              <SocialIcons />
-            </div>
           </div>
-
-          {/* Right Column: Newsletter */}
-          <NewsletterForm />
-        </footer>
+        </section>
       </div>
     </main>
   )

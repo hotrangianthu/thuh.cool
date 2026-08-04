@@ -47,6 +47,7 @@ export const metadata: Metadata = {
 }
 
 import Image from 'next/image'
+import Footer from '@/components/Footer'
 
 // Base64 blur placeholder for LCP bg (dark cloudy sky tone) - avoids layout shift
 const BG_BLUR =
@@ -77,8 +78,8 @@ export default function RootLayout({
           {/* No gradient overlay to keep it clean */}
         </div>
         {children}
+        <Footer />
       </body>
     </html>
   )
 }
-

@@ -150,11 +150,6 @@
 .form-status.error { background: #f8deda; color: #792f24; }
 .honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
 
-.flagship-footer { padding: 50px 0; background: #102c25; color: rgba(255,255,255,.78); }
-.flagship-footer-grid { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; }
-.flagship-footer strong { display: block; margin-bottom: 10px; color: white; font-family: var(--font-serif); font-size: 25px; }
-.flagship-footer p { max-width: 620px; margin: 0; font-size: 13px; line-height: 1.6; }
-.flagship-footer a { color: white; font-size: 13px; }
 
 @media (max-width: 860px) {
   .flagship-navlinks a:not(.flagship-language) { display: none; }
@@ -191,7 +186,6 @@
   .method-card { padding: 24px 18px; }
   .form-grid { grid-template-columns: 1fr; }
   .form-field.full { grid-column: auto; }
-  .flagship-footer-grid { align-items: flex-start; flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {

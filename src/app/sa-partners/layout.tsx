@@ -30,17 +30,6 @@ export default function SaPartnersLayout({ children }: { children: React.ReactNo
         </nav>
       </header>
       <main>{children}</main>
-      <footer className="sa-footer">
-        <div>
-          <span className="sa-footer-mark">Sa.</span>
-          <p>Qualified market intelligence for consequential decisions.</p>
-        </div>
-        <div className="sa-footer-links">
-          <a href="mailto:thulaneinc@gmail.com">thulaneinc@gmail.com</a>
-          <Link href="/">thuh.cool</Link>
-        </div>
-        <p className="sa-footer-copy">Independent research · Vietnam & Southeast Asia</p>
-      </footer>
     </section>
   )
 }

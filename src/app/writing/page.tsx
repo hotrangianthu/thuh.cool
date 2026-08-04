@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { getPublishedPosts, postToNote } from '@/lib/posts'
 import { Note } from '@/types'
-import Footer from '@/components/Footer'
 
 function NoteCard({ note }: { note: Note }) {
   return (
@@ -43,10 +42,7 @@ export default async function WritingPage() {
             <NoteCard key={note.id} note={note} />
           ))}
         </div>
-
-        <Footer subHeader="Digital Garden & Notes" />
       </div>
     </div>
   )
 }
-

@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { GuestbookMessage } from '@/types'
 import GuestbookSkeleton from '@/components/GuestbookSkeleton'
-import Footer from '@/components/Footer'
 
 export default function GuestbookPage() {
   const [messages, setMessages] = useState<GuestbookMessage[]>([])
@@ -185,10 +184,7 @@ export default function GuestbookPage() {
             )}
           </div>
         </div>
-
-        <Footer subHeader="Public Guestbook & Say Hi" />
       </div>
     </div>
   )
 }
-

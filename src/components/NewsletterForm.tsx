@@ -32,23 +32,23 @@ export default function NewsletterForm() {
   }
 
   return (
-    <div className="flex flex-col items-start md:items-end justify-end space-y-4">
-      <span className="text-sm font-medium text-zinc-400">newsletter</span>
+    <div className="site-footer__newsletter flex flex-col items-start justify-end space-y-4 md:items-end">
+      <span className="site-footer__newsletter-label text-sm font-medium">newsletter</span>
       <div className="w-full max-w-md">
         <form onSubmit={handleSubmit}>
-          <div className="flex border-b border-zinc-500 focus-within:border-white transition-colors pb-2">
+          <div className="site-footer__newsletter-field flex border-b pb-2 transition-colors">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="bg-transparent border-none outline-none text-white placeholder-zinc-500 w-full"
+              className="site-footer__newsletter-input w-full border-none bg-transparent outline-none"
               disabled={status === 'loading'}
             />
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="text-zinc-400 hover:text-white transition-colors uppercase text-xs font-bold tracking-wider flex items-center gap-1 disabled:opacity-50"
+              className="site-footer__newsletter-button flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
             >
               {status === 'loading' ? '...' : status === 'success' ? '✓' : 'Join'}
               {status === 'idle' && <ArrowRight size={14} />}
@@ -56,13 +56,12 @@ export default function NewsletterForm() {
           </div>
         </form>
         {status === 'success' && (
-          <p className="text-xs text-green-400 mt-2">Thanks for subscribing!</p>
+          <p className="site-footer__success mt-2 text-xs">Thanks for subscribing!</p>
         )}
         {status === 'error' && (
-          <p className="text-xs text-red-400 mt-2">Something went wrong. Try again.</p>
+          <p className="site-footer__error mt-2 text-xs">Something went wrong. Try again.</p>
         )}
       </div>
     </div>
   )
 }
-

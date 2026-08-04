@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react'
 import { getPostBySlug, getPublishedPostsStatic, postToNote } from '@/lib/posts'
 import { notFound } from 'next/navigation'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
-import Footer from '@/components/Footer'
 
 export async function generateStaticParams() {
   const posts = await getPublishedPostsStatic()
@@ -52,10 +51,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
           <p>Thanks for reading.</p>
           <ScrollToTopButton />
         </div>
-
-        <Footer subHeader="Personal digital vault" />
       </div>
     </div>
   )
 }
-
