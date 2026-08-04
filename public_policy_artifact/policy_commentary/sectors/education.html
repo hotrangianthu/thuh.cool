@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vietnam Education Budget — primary, secondary, tertiary education and vocational training expenditure data." />
+  <title>Education — Vietnam Budget Infographics</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="header-brand">
+        <span class="header-star" aria-hidden="true">&#9733;</span>
+        <div>
+          <div class="header-title">Vietnam Budget Infographics</div>
+          <div class="header-subtitle">Fiscal Policy &amp; Public Expenditure</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="sector-header">
+    <div class="container">
+      <a class="back-link" href="../index.html">&#8592; All Sectors</a>
+      <div class="sector-header-icon" aria-hidden="true">&#127891;</div>
+      <div class="sector-header-name-vn">Giao duc</div>
+      <h1 class="sector-header-name-en">Education &amp; Training</h1>
+      <p class="sector-header-desc">
+        Budget allocations across primary, secondary, and tertiary education levels,
+        plus vocational training and teacher development programs.
+      </p>
+    </div>
+  </section>
+
+  <main class="sector-main">
+    <div class="container">
+
+      <!-- Key Metrics -->
+      <div class="section-label">Key Metrics — 2025 Budget</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Education Expenditure (% GDP)</div>
+          <div class="metric-value">4.7%</div>
+          <div class="metric-note">Source: MOET Annual Report 2025</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Primary Enrollment Rate</div>
+          <div class="metric-value">99.2%</div>
+          <div class="metric-note">Source: GSO Education Statistics</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Secondary Enrollment Rate</div>
+          <div class="metric-value">92.5%</div>
+          <div class="metric-note">Source: MOET Statistics</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Tertiary Enrollment Rate</div>
+          <div class="metric-value">28.6%</div>
+          <div class="metric-note">Source: UNESCO / MOET</div>
+        </div>
+      </div>
+
+      <!-- Budget Breakdown Chart -->
+      <div class="sector-charts">
+        <div class="sector-chart-card">
+          <div class="sector-chart-title">Education Budget Breakdown — 318.5 Trillion VND</div>
+          <div id="chart-breakdown" class="chart-container-wide"></div>
+        </div>
+      </div>
+
+      <!-- Enrollment Trends -->
+      <div class="sector-chart-card">
+        <div class="sector-chart-title">Student Enrollment by Level (millions)</div>
+        <div id="chart-enrollment" class="chart-container"></div>
+      </div>
+
+      <!-- Official Source -->
+      <div class="content-placeholder" style="margin-top: 24px;">
+        <strong>Data Sources</strong>
+        Ministry of Education and Training (MOET), General Statistics Office (GSO), UNESCO.
+        <br /><br />
+        Official source: <a href="https://moet.gov.vn" target="_blank" rel="noopener" style="color:var(--vn-red);">moet.gov.vn</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <a href="../index.html" style="color:var(--neutral-500);">&#8592; Back to all sectors</a>
+        <span>Official source: <a href="https://moet.gov.vn" target="_blank" rel="noopener" style="color:var(--vn-yellow);">moet.gov.vn</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/charts.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Education breakdown chart
+      const breakdownData = {
+        breakdown: [
+          { item: 'Primary Education', amount: 98.7 },
+          { item: 'Secondary Education', amount: 82.8 },
+          { item: 'Higher Education', amount: 63.7 },
+          { item: 'Vocational Training', amount: 41.4 },
+          { item: 'Teacher Salaries & Training', amount: 31.9 }
+        ]
+      };
+
+      if (window.VNBudgetCharts && document.getElementById('chart-breakdown')) {
+        window.VNBudgetCharts.renderSectorBreakdownChart('chart-breakdown', breakdownData);
+      }
+
+      // Enrollment pie chart
+      if (document.getElementById('chart-enrollment')) {
+        const chart = echarts.init(document.getElementById('chart-enrollment'));
+        chart.setOption({
+          tooltip: { trigger: 'item', formatter: '{b}: {c}M students ({d}%)' },
+          legend: { bottom: 10 },
+          series: [{
+            type: 'pie',
+            radius: ['35%', '65%'],
+            data: [
+              { value: 8.5, name: 'Primary', itemStyle: { color: '#3498db' } },
+              { value: 5.8, name: 'Lower Secondary', itemStyle: { color: '#27ae60' } },
+              { value: 2.9, name: 'Upper Secondary', itemStyle: { color: '#9b59b6' } },
+              { value: 2.1, name: 'Tertiary', itemStyle: { color: '#e67e22' } },
+              { value: 0.8, name: 'Vocational', itemStyle: { color: '#DA251D' } }
+            ],
+            label: { show: true, formatter: '{b}\n{d}%' }
+          }]
+        });
+        window.addEventListener('resize', () => chart.resize());
+      }
+    });
+  </script>
+</body>
+</html>

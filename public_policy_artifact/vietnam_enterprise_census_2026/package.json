@@ -1,0 +1,11 @@
+{
+  "name": "vietnam-enterprise-census-2026-deck",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node deck.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}

@@ -21,7 +21,7 @@ const VoronoiMindspace = () => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 }); // We still need state for some things, but let's use a ref for the animation loop
     const mousePosRef = useRef({ x: 0, y: 0 });
     const containerRef = useRef<HTMLDivElement>(null);
-    const requestRef = useRef<number>();
+    const requestRef = useRef<number | undefined>(undefined);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const isAnimatingOut = useRef(false);
 

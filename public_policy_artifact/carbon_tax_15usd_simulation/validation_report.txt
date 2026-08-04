@@ -1,0 +1,21 @@
+Workbook: vietnam_carbon_tax_15usd_impact_model_v1_20260714.xlsx
+Validation date: 2026-07-14
+
+Model-specific validation
+- Sheets: 13
+- Named ranges: 346
+- Formula cells: 870
+- Scenario probability sum: 100%
+- $15 tax-only emissions reduction: 2.9%
+- Cached Excel errors: 0
+- Errors: 0
+- Warnings: 0
+- Result: PASS
+
+Recalculation and rendering
+- Microsoft Excel full calculation rebuild: PASS
+- Executive PDF export: PASS
+- Sheets exported: Cover, Executive Summary, Scenario Comparison, Decision Matrix
+
+Bundled generic validator note
+- The impact-sizing-sheet bundled validator stopped on an internal openpyxl RGB color-type compatibility error before producing a report. The workbook-specific validator covers named-range resolution, cached formula errors, formula count, scenario probability integrity, sheet order, file size, and exact thesis replication.

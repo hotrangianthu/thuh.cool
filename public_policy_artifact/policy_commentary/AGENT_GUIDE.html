@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vietnam Budget Infographics — Agent Development Guide</title>
+  <style>
+    :root {
+      --vn-red: #DA251D;
+      --vn-yellow: #FFCD00;
+      --code-bg: #1e1e1e;
+      --code-text: #d4d4d4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    h1 { color: var(--vn-red); border-bottom: 4px solid var(--vn-yellow); padding-bottom: 12px; margin-bottom: 24px; }
+    h2 { color: var(--vn-red); margin: 32px 0 16px; border-left: 4px solid var(--vn-yellow); padding-left: 12px; }
+    h3 { margin: 24px 0 12px; color: #555; }
+    p, li { margin-bottom: 8px; }
+    ul, ol { padding-left: 24px; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 14px; }
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
+    th { background: var(--vn-red); color: white; }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .status-done { color: #27ae60; font-weight: 600; }
+    .status-pending { color: #e67e22; font-weight: 600; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    .badge-red { background: #fdeaea; color: var(--vn-red); }
+    .badge-yellow { background: #fff8e6; color: #b8860b; }
+    .badge-green { background: #e8f5e9; color: #2e7d32; }
+    .file-tree { font-family: monospace; background: #f8f8f8; padding: 16px; border-radius: 8px; }
+    .file-tree ul { list-style: none; }
+    .file-tree li { padding: 2px 0; }
+    .file-tree li::before { content: ""; }
+    .callout { background: #fff8e6; border-left: 4px solid var(--vn-yellow); padding: 16px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+    .callout-title { font-weight: 700; color: #b8860b; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<h1>Vietnam Budget Infographics — Agent Guide</h1>
+
+<p><strong>Project Path:</strong> <code>C:\Users\gianthu.ho\Documents\strategize\linkedin_audit\policy_commentary\</code></p>
+<p><strong>Created:</strong> 2026-06-01 | <strong>Last Updated:</strong> 2026-06-01</p>
+
+<div class="callout">
+  <div class="callout-title">Purpose</div>
+  A public-facing web portal displaying Vietnam's state budget data as interactive infographics, inspired by Singapore's <a href="https://www.singaporebudget.gov.sg/infographics">singaporebudget.gov.sg</a>. Designed for public comprehension with ECharts visualizations.
+</div>
+
+<h2>1. Project Structure</h2>
+
+<div class="file-tree">
+<pre>
+policy_commentary/
+|-- index.html              # Main dashboard page
+|-- AGENT_GUIDE.html        # This file
+|-- content-roadmap.md      # Update workflow + publication options
+|
+|-- css/
+|   |-- styles.css          # Main stylesheet (Vietnam branding)
+|
+|-- js/
+|   |-- main.js             # Sector card rendering, navigation
+|   |-- charts.js           # ECharts visualization library
+|
+|-- data/
+|   |-- sectors.json        # 9 sector definitions (id, name, metrics)
+|   |-- budget-2025.json    # Budget data (revenue, expenditure, trends)
+|
+|-- sectors/                # Individual sector pages
+|   |-- healthcare.html     # [COMPLETE] With charts
+|   |-- education.html      # [COMPLETE] With charts
+|   |-- infrastructure.html # [COMPLETE] With charts
+|   |-- defense.html        # [TEMPLATE] Needs charts
+|   |-- agriculture.html    # [TEMPLATE] Needs charts
+|   |-- environment.html    # [TEMPLATE] Needs charts
+|   |-- technology.html     # [TEMPLATE] Needs charts
+|   |-- social-protection.html  # [TEMPLATE] Needs charts
+|   |-- debt-management.html    # [TEMPLATE] Needs charts
+|
+|-- assets/
+    |-- icons/              # Placeholder for sector SVG icons
+</pre>
+</div>
+
+<h2>2. Tech Stack</h2>
+
+<table>
+  <tr><th>Component</th><th>Technology</th><th>CDN/Source</th></tr>
+  <tr><td>Charts</td><td>ECharts 5.5.0</td><td><code>cdn.jsdelivr.net/npm/echarts@5.5.0</code></td></tr>
+  <tr><td>Styling</td><td>Vanilla CSS</td><td>Custom (<code>css/styles.css</code>)</td></tr>
+  <tr><td>JavaScript</td><td>Vanilla JS (ES6+)</td><td><code>js/main.js</code>, <code>js/charts.js</code></td></tr>
+  <tr><td>Data</td><td>Static JSON</td><td><code>data/*.json</code></td></tr>
+  <tr><td>Hosting</td><td>Static (GitLab/GitHub Pages)</td><td>No backend required</td></tr>
+</table>
+
+<h2>3. Design System</h2>
+
+<h3>Color Palette (Vietnam Flag)</h3>
+<table>
+  <tr><th>Variable</th><th>Hex</th><th>Usage</th></tr>
+  <tr><td><code>--vn-red</code></td><td>#DA251D</td><td>Headers, primary accent, chart bars</td></tr>
+  <tr><td><code>--vn-red-dark</code></td><td>#B01E17</td><td>Hover states</td></tr>
+  <tr><td><code>--vn-yellow</code></td><td>#FFCD00</td><td>Star icon, secondary accent, borders</td></tr>
+  <tr><td><code>--neutral-900</code></td><td>#1a1a1a</td><td>Body text</td></tr>
+  <tr><td><code>--neutral-100</code></td><td>#f4f4f4</td><td>Background</td></tr>
+</table>
+
+<h3>Typography</h3>
+<p>System font stack: <code>-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif</code></p>
+
+<h2>4. Key Files Reference</h2>
+
+<h3>4.1 <code>data/budget-2025.json</code> — Budget Data Schema</h3>
+<pre>
+{
+  "fiscal_year": 2025,
+  "currency": "VND",
+  "unit": "trillion",
+
+  "overview": {
+    "total_revenue": 1873.3,
+    "total_expenditure": 2119.4,
+    "deficit": -246.1,
+    "deficit_gdp_pct": 3.6
+  },
+
+  "expenditure_by_sector": [
+    { "id": "education", "name": "Education", "amount": 318.5, "pct": 15.0, "color": "#3498db" },
+    // ... 9 more sectors
+  ],
+
+  "trend_data": {
+    "years": [2020, 2021, 2022, 2023, 2024, 2025],
+    "revenue": [1510.6, 1368.5, ...],
+    "expenditure": [1780.8, 1852.2, ...]
+  },
+
+  "sector_details": {
+    "healthcare": {
+      "total_budget": 148.4,
+      "breakdown": [
+        { "item": "Hospital Operations", "amount": 58.2, "pct": 39.2 }
+      ],
+      "kpis": { "insurance_coverage_pct": 93.2 }
+    }
+  }
+}
+</pre>
+
+<h3>4.2 <code>js/charts.js</code> — Available Chart Functions</h3>
+<pre>
+// Exposed via window.VNBudgetCharts
+
+renderBudgetPieChart(containerId, data)      // Donut chart for sector allocation
+renderTrendChart(containerId, trendData)     // Line chart for revenue/expenditure trends
+renderSectorBreakdownChart(containerId, data) // Horizontal bar chart for sector breakdown
+renderGaugeChart(containerId, value, title)  // Semi-circle gauge for KPIs
+renderRevenueTreemap(containerId, data)      // Treemap for revenue sources
+initDashboardCharts()                        // Auto-init all dashboard charts
+initSectorCharts(sectorId)                   // Auto-init sector page charts
+</pre>
+
+<h3>4.3 <code>data/sectors.json</code> — Sector Definition Schema</h3>
+<pre>
+[
+  {
+    "id": "healthcare",           // URL slug, used in sectors/*.html
+    "name": "Y te",               // Vietnamese name
+    "name_en": "Healthcare",      // English name
+    "icon": "assets/icons/healthcare.svg",
+    "description": "Public health expenditure...",
+    "official_source": "https://moh.gov.vn",
+    "key_metrics": [
+      "Health expenditure as % of GDP",
+      "Health Insurance Fund balance"
+    ]
+  }
+]
+</pre>
+
+<h2>5. Sector Page Completion Status</h2>
+
+<table>
+  <tr><th>Sector</th><th>Status</th><th>Charts</th><th>Data Source</th></tr>
+  <tr><td>Healthcare</td><td class="status-done">COMPLETE</td><td>Breakdown bar, ASEAN comparison</td><td>moh.gov.vn</td></tr>
+  <tr><td>Education</td><td class="status-done">COMPLETE</td><td>Breakdown bar, Enrollment pie</td><td>moet.gov.vn</td></tr>
+  <tr><td>Infrastructure</td><td class="status-done">COMPLETE</td><td>Breakdown bar, Disbursement trend</td><td>mpi.gov.vn</td></tr>
+  <tr><td>Defense</td><td class="status-pending">TEMPLATE</td><td>Needs charts</td><td>mod.gov.vn</td></tr>
+  <tr><td>Agriculture</td><td class="status-pending">TEMPLATE</td><td>Needs charts</td><td>mard.gov.vn</td></tr>
+  <tr><td>Environment</td><td class="status-pending">TEMPLATE</td><td>Needs charts</td><td>monre.gov.vn</td></tr>
+  <tr><td>Technology</td><td class="status-pending">TEMPLATE</td><td>Needs charts</td><td>mic.gov.vn</td></tr>
+  <tr><td>Social Protection</td><td class="status-pending">TEMPLATE</td><td>Needs charts</td><td>molisa.gov.vn</td></tr>
+  <tr><td>Debt Management</td><td class="status-pending">TEMPLATE</td><td>Needs charts</td><td>mof.gov.vn</td></tr>
+</table>
+
+<h2>6. How to Add a New Sector Page with Charts</h2>
+
+<h3>Step 1: Add sector data to <code>budget-2025.json</code></h3>
+<pre>
+"sector_details": {
+  "defense": {
+    "total_budget": 275.5,
+    "breakdown": [
+      { "item": "Personnel", "amount": 120.0, "pct": 43.6 },
+      { "item": "Equipment", "amount": 85.0, "pct": 30.8 },
+      { "item": "Operations", "amount": 70.5, "pct": 25.6 }
+    ],
+    "kpis": {
+      "defense_gdp_pct": 2.3,
+      "yoy_growth_pct": 5.2
+    }
+  }
+}
+</pre>
+
+<h3>Step 2: Update sector HTML page</h3>
+<pre>
+&lt;!-- Add ECharts CDN in head --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Add chart container --&gt;
+&lt;div class="sector-chart-card"&gt;
+  &lt;div class="sector-chart-title"&gt;Defense Budget Breakdown&lt;/div&gt;
+  &lt;div id="chart-breakdown" class="chart-container-wide"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Initialize chart --&gt;
+&lt;script src="../js/charts.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  document.addEventListener('DOMContentLoaded', () =&gt; {
+    const breakdownData = {
+      breakdown: [
+        { item: 'Personnel', amount: 120.0 },
+        { item: 'Equipment', amount: 85.0 },
+        { item: 'Operations', amount: 70.5 }
+      ]
+    };
+    window.VNBudgetCharts.renderSectorBreakdownChart('chart-breakdown', breakdownData);
+  });
+&lt;/script&gt;
+</pre>
+
+<h2>7. Running Locally</h2>
+
+<pre>
+cd C:\Users\gianthu.ho\Documents\strategize\linkedin_audit\policy_commentary
+python -m http.server 8080
+
+# Open browser: http://localhost:8080
+</pre>
+
+<div class="callout">
+  <div class="callout-title">Important</div>
+  The app requires HTTP server due to <code>fetch()</code> for JSON data. Opening <code>index.html</code> directly via <code>file://</code> will not load charts.
+</div>
+
+<h2>8. Deployment</h2>
+
+<h3>Option A: GitLab Pages</h3>
+<pre>
+# .gitlab-ci.yml
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+</pre>
+
+<h3>Option B: GitHub Pages</h3>
+<p>Settings &gt; Pages &gt; Deploy from <code>main</code> branch</p>
+
+<h2>9. Official Data Sources</h2>
+
+<table>
+  <tr><th>Ministry</th><th>URL</th><th>Key Data</th></tr>
+  <tr><td>Ministry of Finance</td><td>mof.gov.vn</td><td>State budget, debt bulletins</td></tr>
+  <tr><td>Ministry of Planning</td><td>mpi.gov.vn</td><td>Public investment, 5-year plans</td></tr>
+  <tr><td>General Statistics Office</td><td>gso.gov.vn</td><td>GDP, sector shares</td></tr>
+  <tr><td>National Assembly</td><td>quochoi.vn</td><td>Budget resolutions</td></tr>
+  <tr><td>World Bank Vietnam</td><td>worldbank.org/en/country/vietnam</td><td>Cross-check data</td></tr>
+</table>
+
+<h2>10. Remaining Tasks</h2>
+
+<ol>
+  <li><span class="badge badge-yellow">HIGH</span> Complete 6 remaining sector pages with charts</li>
+  <li><span class="badge badge-yellow">HIGH</span> Add real 2025/2026 data from ministry reports</li>
+  <li><span class="badge badge-green">MEDIUM</span> Create SVG icons for each sector</li>
+  <li><span class="badge badge-green">MEDIUM</span> Add Vietnamese language toggle</li>
+  <li><span class="badge badge-green">MEDIUM</span> Deploy to GitLab/GitHub Pages</li>
+  <li><span class="badge badge-red">LOW</span> Add PDF export for infographics</li>
+  <li><span class="badge badge-red">LOW</span> Add social sharing meta tags (OG, Twitter cards)</li>
+</ol>
+
+<hr style="margin: 40px 0; border: none; border-top: 2px solid #eee;">
+<p style="color: #888; font-size: 13px;">
+  <strong>Agent Guide Version:</strong> 1.0 |
+  <strong>Created by:</strong> Claude Opus 4.5 |
+  <strong>For:</strong> Future AI agents continuing development
+</p>
+
+</body>
+</html>

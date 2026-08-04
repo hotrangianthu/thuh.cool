@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vietnam Healthcare Budget — public health expenditure, insurance coverage, and hospital infrastructure data." />
+  <title>Healthcare — Vietnam Budget Infographics</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="header-brand">
+        <span class="header-star" aria-hidden="true">&#9733;</span>
+        <div>
+          <div class="header-title">Vietnam Budget Infographics</div>
+          <div class="header-subtitle">Fiscal Policy &amp; Public Expenditure</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="sector-header">
+    <div class="container">
+      <a class="back-link" href="../index.html">&#8592; All Sectors</a>
+      <div class="sector-header-icon" aria-hidden="true">&#127973;</div>
+      <div class="sector-header-name-vn">Y te</div>
+      <h1 class="sector-header-name-en">Healthcare</h1>
+      <p class="sector-header-desc">
+        Public health expenditure, hospital infrastructure, health insurance coverage,
+        and preventive care programs funded through the state budget.
+      </p>
+    </div>
+  </section>
+
+  <main class="sector-main">
+    <div class="container">
+
+      <!-- Key Metrics -->
+      <div class="section-label">Key Metrics — 2025 Budget</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Health Expenditure (% GDP)</div>
+          <div class="metric-value">2.2%</div>
+          <div class="metric-note">Source: MOH Annual Report 2025</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Public vs. Private Split</div>
+          <div class="metric-value">55:45</div>
+          <div class="metric-note">Source: WHO Vietnam Health Accounts</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Health Insurance Coverage</div>
+          <div class="metric-value">93.2%</div>
+          <div class="metric-note">Source: VSS / BHYT Annual Report</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Hospital Beds per 1,000</div>
+          <div class="metric-value">3.1</div>
+          <div class="metric-note">Source: MOH Statistics Yearbook</div>
+        </div>
+      </div>
+
+      <!-- Budget Breakdown Chart -->
+      <div class="sector-charts">
+        <div class="sector-chart-card">
+          <div class="sector-chart-title">Healthcare Budget Breakdown — 148.4 Trillion VND</div>
+          <div id="chart-breakdown" class="chart-container-wide"></div>
+        </div>
+      </div>
+
+      <!-- Comparison with ASEAN -->
+      <div class="sector-chart-card">
+        <div class="sector-chart-title">Health Expenditure — Vietnam vs ASEAN Average</div>
+        <div id="chart-comparison" class="chart-container"></div>
+      </div>
+
+      <!-- Official Source -->
+      <div class="content-placeholder" style="margin-top: 24px;">
+        <strong>Data Sources</strong>
+        Ministry of Health (MOH), Vietnam Social Security (VSS), WHO Vietnam Health Accounts.
+        <br /><br />
+        Official source: <a href="https://moh.gov.vn" target="_blank" rel="noopener" style="color:var(--vn-red);">moh.gov.vn</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <a href="../index.html" style="color:var(--neutral-500);">&#8592; Back to all sectors</a>
+        <span>Official source: <a href="https://moh.gov.vn" target="_blank" rel="noopener" style="color:var(--vn-yellow);">moh.gov.vn</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/charts.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Healthcare breakdown chart
+      const breakdownData = {
+        breakdown: [
+          { item: 'Hospital Operations', amount: 58.2 },
+          { item: 'Health Insurance Subsidy', amount: 42.1 },
+          { item: 'Preventive Care Programs', amount: 22.3 },
+          { item: 'Medical Equipment', amount: 15.8 },
+          { item: 'Health Workforce Training', amount: 10.0 }
+        ]
+      };
+
+      if (window.VNBudgetCharts && document.getElementById('chart-breakdown')) {
+        window.VNBudgetCharts.renderSectorBreakdownChart('chart-breakdown', breakdownData);
+      }
+
+      // ASEAN comparison chart
+      if (document.getElementById('chart-comparison')) {
+        const chart = echarts.init(document.getElementById('chart-comparison'));
+        chart.setOption({
+          tooltip: { trigger: 'axis' },
+          legend: { data: ['Health Exp. (% GDP)', 'Gov Health Exp. (% Total)'] },
+          xAxis: {
+            type: 'category',
+            data: ['Vietnam', 'Thailand', 'Malaysia', 'Indonesia', 'Philippines', 'ASEAN Avg']
+          },
+          yAxis: { type: 'value', max: 8 },
+          series: [
+            {
+              name: 'Health Exp. (% GDP)',
+              type: 'bar',
+              data: [5.5, 4.4, 4.1, 3.1, 5.1, 4.4],
+              itemStyle: { color: '#DA251D' }
+            },
+            {
+              name: 'Gov Health Exp. (% Total)',
+              type: 'bar',
+              data: [2.2, 2.9, 2.0, 1.4, 1.6, 2.0],
+              itemStyle: { color: '#FFCD00' }
+            }
+          ]
+        });
+        window.addEventListener('resize', () => chart.resize());
+      }
+    });
+  </script>
+</body>
+</html>

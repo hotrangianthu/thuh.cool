@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vietnam Provincial Fiscal Map — Sa. Partners</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: auto;
+      min-height: 0;
+    }
+
+    body {
+      background: #162B20;
+      font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .card {
+      width: 480px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    /* ── HEADER BAND ── */
+    .header {
+      background: #00B14F;
+      padding: 18px 20px 16px;
+    }
+    .header-brand {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 12px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: 0.02em;
+    }
+    .logo sub { font-size: 9px; font-weight: 400; opacity: 0.7; }
+    .cat-tag {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.75);
+      background: rgba(0,0,0,0.15);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.2;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+    .header h1 .hl { color: rgba(255,255,255,0.75); }
+    .header-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .header-sub strong { color: #FFFFFF; }
+    .header-meta {
+      font-size: 9px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      background: #F5F4EF;
+      display: flex;
+      border-bottom: 2px solid #E0DDD5;
+    }
+    .stat-block {
+      flex: 1;
+      padding: 14px 12px 12px;
+      position: relative;
+    }
+    .stat-block + .stat-block::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 14px; bottom: 14px;
+      width: 1px;
+      background: #D4D0C8;
+    }
+    .stat-label {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #162B20;
+      opacity: 0.55;
+      margin-bottom: 3px;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #162B20;
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .stat-value .unit {
+      font-size: 14px;
+      font-weight: 600;
+      vertical-align: super;
+    }
+    .stat-context {
+      font-size: 10px;
+      color: #162B20;
+      opacity: 0.55;
+      line-height: 1.3;
+    }
+    .stat-context .up { color: #00B14F; font-weight: 600; opacity: 1; }
+    .stat-context .down { color: #C0392B; font-weight: 600; opacity: 1; }
+
+    /* ── COMPARISON ── */
+    .comparison {
+      display: flex;
+    }
+    .col-left {
+      flex: 1;
+      background: #E8E5DE;
+      padding: 14px;
+    }
+    .col-right {
+      flex: 1;
+      background: #162B20;
+      padding: 14px;
+    }
+    .col-heading {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+    }
+    .col-left .col-heading {
+      color: #162B20;
+      border-bottom: 1.5px solid rgba(22,43,32,0.2);
+    }
+    .col-right .col-heading {
+      color: #C9A84C;
+      border-bottom: 1.5px solid rgba(201,168,76,0.25);
+    }
+    .col-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .col-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .col-left .col-dot { background: rgba(22,43,32,0.35); }
+    .col-right .col-dot { background: #00B14F; }
+    .col-item span {
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .col-left .col-item span { color: rgba(22,43,32,0.75); }
+    .col-left .col-item span strong { color: #162B20; }
+    .col-right .col-item span { color: rgba(255,255,255,0.7); }
+    .col-right .col-item span strong { color: #FFFFFF; }
+
+    /* ── THESIS LINE ── */
+    .thesis-line {
+      background: #F5F4EF;
+      padding: 12px 20px;
+      border-top: 1.5px solid #D4D0C8;
+      border-bottom: 1.5px solid #D4D0C8;
+      text-align: center;
+    }
+    .thesis-line p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 13px;
+      font-weight: 700;
+      color: #162B20;
+      line-height: 1.45;
+    }
+
+    /* ── OPERATOR NOTE ── */
+    .operator-note {
+      background: #1C3328;
+      padding: 12px 16px;
+      border-left: 3px solid #E8634B;
+    }
+    .operator-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #E8634B;
+      margin-bottom: 5px;
+    }
+    .operator-note p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.5;
+    }
+    .operator-note p strong { color: #FFFFFF; }
+    .operator-note p .hl { color: #00B14F; }
+
+    /* ── TAKEAWAY BAR ── */
+    .takeaway-bar {
+      background: #C9A84C;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .takeaway-label {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(22,43,32,0.6);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .takeaway-verdict {
+      font-size: 12px;
+      font-weight: 700;
+      color: #162B20;
+      line-height: 1.35;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #162B20;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #2A4A38;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: #C9A84C;
+    }
+    .footer-brand sub { font-size: 7px; font-weight: 400; opacity: 0.7; }
+    .footer-meta {
+      font-size: 8.5px;
+      color: rgba(255,255,255,0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- HEADER BAND -->
+    <div class="header">
+      <div class="header-brand">
+        <span class="logo">Sa.<sub>Partners</sub></span>
+        <span class="cat-tag">Fiscal Policy | Vietnam</span>
+      </div>
+      <h1>5 Provinces Fund 47<br><span class="hl">Vietnam's Fiscal Architecture Problem</span></h1>
+      <div class="header-sub">Budget transfers flow down — <strong>but institutional capacity doesn't follow.</strong></div>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="stats-row">
+      <div class="stat-block">
+        <div class="stat-label">Net Contributors</div>
+        <div class="stat-value">16<span class="unit">/63</span></div>
+        <div class="stat-context"><span class="down">Top 5</span> = 55% of national budget</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-label">HCM Retention Rate</div>
+        <div class="stat-value">18-21<span class="unit">%</span></div>
+        <div class="stat-context"><span class="down">vs Beijing 50%</span> Shanghai 40%</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-label">Capex Disbursement</div>
+        <div class="stat-value">60<span class="unit">%</span></div>
+        <div class="stat-context"><span class="down">Falling</span> from 65% — 35% stranded</div>
+      </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div class="comparison">
+      <div class="col-left">
+        <div class="col-heading">The Transfer Narrative</div>
+        <div class="col-item"><div class="col-dot"></div><span><strong>Budget transfers</strong> reach 47 provinces — fiscal redistribution is working by design</span></div>
+        <div class="col-item"><div class="col-dot"></div><span><strong>Infrastructure spend</strong> approved centrally, allocated to all regions annually</span></div>
+        <div class="col-item"><div class="col-dot"></div><span><strong>Northern highlands</strong> receive 85–95% of budgets as transfers from richer provinces</span></div>
+      </div>
+      <div class="col-right">
+        <div class="col-heading">The Capacity Reality</div>
+        <div class="col-item"><div class="col-dot"></div><span><strong>40% of capex sits stranded</strong> — provinces lack procurement and execution capacity to spend it</span></div>
+        <div class="col-item"><div class="col-dot"></div><span><strong>No digital procurement backbone</strong> — contractor discovery and payment happen on paper</span></div>
+        <div class="col-item"><div class="col-dot"></div><span><strong>Trapped provinces atrophy further</strong> — weak infra → low FDI → weak tax base → repeat</span></div>
+      </div>
+    </div>
+
+    <!-- THESIS LINE -->
+    <div class="thesis-line">
+      <p>"Vietnam's fiscal transfers redistribute money efficiently — but redistribute capacity not at all."</p>
+    </div>
+
+    <!-- OPERATOR NOTE -->
+    <div class="operator-note">
+      <div class="operator-label">Operator View</div>
+      <p><strong>Stranded capex is stranded working capital.</strong> Contractors can't bid without financing; provinces can't execute without contractors. <span class="hl">The disbursement pipeline gap is a fintech product gap.</span></p>
+    </div>
+
+    <!-- TAKEAWAY BAR -->
+    <div class="takeaway-bar">
+      <div class="takeaway-label">Key<br>Takeaway</div>
+      <div class="takeaway-verdict">Vietnam's infrastructure budget exists — the product that unlocks it (e-procurement rails + contractor finance) doesn't.</div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <span class="footer-brand">Sa.<sub>Partners</sub></span>
+      <span class="footer-meta">Vietnam &nbsp;·&nbsp; Intelligence Brief &nbsp;·&nbsp; June 2026</span>
+    </div>
+
+  </div>
+</body>
+</html>

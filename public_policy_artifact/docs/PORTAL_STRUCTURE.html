@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Policy Artifact - Portal Structure Guide</title>
+  <style>
+    :root {
+      --bg: #FAFAF8;
+      --text: #1A1A1A;
+      --accent: #1B3A5C;
+      --accent-red: #8B1A1A;
+      --border: #E2DDD5;
+      --muted: #718096;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    h1 { font-family: 'Playfair Display', Georgia, serif; color: var(--accent); margin-bottom: 0.5rem; }
+    h2 { font-family: 'Playfair Display', Georgia, serif; color: var(--accent); margin: 2rem 0 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+    h3 { color: var(--accent-red); margin: 1.5rem 0 0.75rem; }
+    p { margin-bottom: 1rem; }
+    code { background: #EBF0F7; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    pre { background: #1A1A1A; color: #E2DDD5; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+    pre code { background: none; padding: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid var(--border); padding: 0.75rem; text-align: left; }
+    th { background: var(--accent); color: white; }
+    tr:nth-child(even) { background: #F3EFE8; }
+    .tag { display: inline-block; background: #EBF0F7; color: var(--accent); padding: 0.2rem 0.5rem; border-radius: 999px; font-size: 0.75rem; margin-right: 0.25rem; }
+    .status-done { color: #1B5E20; font-weight: 600; }
+    .status-placeholder { color: var(--muted); }
+    .card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+    .card h4 { color: var(--accent); margin-bottom: 0.5rem; }
+    .updated { font-size: 0.85rem; color: var(--muted); margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  </style>
+</head>
+<body>
+
+<h1>Public Policy Artifact</h1>
+<p><strong>Long-term Public Policy Research Portfolio</strong> - Next.js 15 static site for GitLab Pages</p>
+
+<h2>Stack Overview</h2>
+<table>
+  <tr><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+  <tr><td>Next.js</td><td>15.5.18</td><td>App Router, static export (<code>output: "export"</code>)</td></tr>
+  <tr><td>TypeScript</td><td>5.x</td><td>Type safety</td></tr>
+  <tr><td>Chart.js</td><td>4.x</td><td>Data visualizations (radar, bar charts)</td></tr>
+  <tr><td>MDX</td><td>@next/mdx</td><td>Research papers with custom components</td></tr>
+  <tr><td>Fonts</td><td>Google Fonts</td><td>Playfair Display (serif) + Inter (sans)</td></tr>
+</table>
+
+<h2>Design System</h2>
+<table>
+  <tr><th>Token</th><th>Value</th><th>Usage</th></tr>
+  <tr><td><code>--color-accent</code></td><td>#1B3A5C</td><td>Oxford navy - headings, primary actions</td></tr>
+  <tr><td><code>--color-accent-red</code></td><td>#8B1A1A</td><td>Deep crimson - links, citations, alerts</td></tr>
+  <tr><td><code>--color-bg-primary</code></td><td>#FAFAF8</td><td>Warm near-white background</td></tr>
+  <tr><td><code>--color-bg-secondary</code></td><td>#F3EFE8</td><td>Slightly deeper warm white</td></tr>
+  <tr><td><code>--color-border</code></td><td>#E2DDD5</td><td>Warm dividers</td></tr>
+  <tr><td><code>--font-serif</code></td><td>Playfair Display</td><td>Headings, titles</td></tr>
+  <tr><td><code>--font-sans</code></td><td>Inter</td><td>Body text, UI</td></tr>
+</table>
+
+<h2>File Structure</h2>
+<pre><code>public_policy_artifact/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx              # Root layout with nav + footer
+│   │   ├── page.tsx                # Landing page (24KB)
+│   │   ├── globals.css             # Design tokens + typography
+│   │   ├── about/page.tsx          # Origin story
+│   │   ├── agenda/page.tsx         # Research agenda
+│   │   ├── learning/page.tsx       # Self-directed MPM journey
+│   │   ├── research/
+│   │   │   ├── page.tsx            # Research index
+│   │   │   └── [slug]/page.tsx     # Dynamic MDX paper route
+│   │   ├── voice/
+│   │   │   ├── page.tsx            # Voice index
+│   │   │   ├── hot-takes/page.tsx  # 6 policy takes
+│   │   │   └── if-i-were-dg/page.tsx # Essay
+│   │   ├── experiments/
+│   │   │   ├── page.tsx            # Experiments index
+│   │   │   ├── hypothesis-tracker/page.tsx
+│   │   │   ├── grab-experiments/page.tsx
+│   │   │   └── what-i-tried-at-grab/page.tsx
+│   │   ├── playgrounds/
+│   │   │   ├── page.tsx            # Playgrounds index
+│   │   │   ├── province-readiness-scorer/page.tsx
+│   │   │   ├── rural-fintech-calculator/page.tsx
+│   │   │   └── policy-simulator/page.tsx
+│   │   ├── prototypes/
+│   │   │   ├── page.tsx            # Prototypes index
+│   │   │   └── agent-banking-pilot/page.tsx
+│   │   └── field-notes/
+│   │       ├── page.tsx            # Field notes index
+│   │       ├── 72-hours-tay-ninh/page.tsx
+│   │       └── merchant-conversations/page.tsx
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── nav.tsx             # Top navigation
+│   │   │   └── footer.tsx
+│   │   ├── research/
+│   │   │   └── mdx-components.tsx  # DataFigure, PolicyNote, Citation
+│   │   └── data/
+│   │       ├── asean-comparison-table.tsx
+│   │       ├── knowledge-economy-chart.tsx
+│   │       ├── nation-brand-hexagon.tsx
+│   │       ├── soft-power-radar-chart.tsx
+│   │       ├── soft-power-framework.tsx
+│   │       └── strategic-position-matrix.tsx
+│   ├── content/
+│   │   └── research/
+│   │       ├── vietnam-nation-brand-soft-power.mdx
+│   │       └── vietnam-rural-digital-exclusion.mdx
+│   └── lib/
+│       ├── mdx.ts                  # MDX loader
+│       └── research.ts             # Research metadata helpers
+├── docs/
+│   ├── essays/policy-trajectory-essays.md
+│   └── PORTAL_STRUCTURE.html       # This file
+├── next.config.ts
+├── package.json
+└── tsconfig.json</code></pre>
+
+<h2>Route Map (26 Pages)</h2>
+
+<h3>Navigation Links</h3>
+<p>Defined in <code>src/components/layout/nav.tsx</code>:</p>
+<table>
+  <tr><th>Route</th><th>Label</th></tr>
+  <tr><td><code>/about</code></td><td>About</td></tr>
+  <tr><td><code>/research</code></td><td>Research</td></tr>
+  <tr><td><code>/playgrounds</code></td><td>Playgrounds</td></tr>
+  <tr><td><code>/prototypes</code></td><td>Prototypes</td></tr>
+  <tr><td><code>/experiments</code></td><td>Experiments</td></tr>
+  <tr><td><code>/voice</code></td><td>Voice</td></tr>
+</table>
+
+<h3>Research Section</h3>
+<div class="card">
+  <h4>/research</h4>
+  <p>Index page listing all research papers with abstracts and tags.</p>
+</div>
+<table>
+  <tr><th>Slug</th><th>Title</th><th>Word Count</th><th>Status</th></tr>
+  <tr>
+    <td><code>vietnam-nation-brand-soft-power</code></td>
+    <td>Vietnam's Nation Brand in the Regional Knowledge Economy: A Soft Power Audit</td>
+    <td>2,200</td>
+    <td class="status-done">Published</td>
+  </tr>
+  <tr>
+    <td><code>vietnam-rural-digital-exclusion</code></td>
+    <td>Vietnam's Rural Digital Exclusion: A Policy Gap in the 2025-2035 Plan</td>
+    <td>1,200</td>
+    <td class="status-done">Published</td>
+  </tr>
+</table>
+
+<h3>Voice Section</h3>
+<table>
+  <tr><th>Route</th><th>Content</th><th>Status</th></tr>
+  <tr><td><code>/voice</code></td><td>Index with featured takes + essay link</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/voice/hot-takes</code></td><td>6 policy takes with confidence meters</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/voice/if-i-were-dg</code></td><td>~1,000 word essay on digital economy leadership</td><td class="status-done">Done</td></tr>
+</table>
+
+<h3>Experiments Section</h3>
+<table>
+  <tr><th>Route</th><th>Content</th><th>Status</th></tr>
+  <tr><td><code>/experiments</code></td><td>Index with philosophy box + filter chips</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/experiments/hypothesis-tracker</code></td><td>12 timestamped hypotheses with status tracking</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/experiments/what-i-tried-at-grab</code></td><td>8 Grab experiments with full case structure</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/experiments/grab-experiments</code></td><td>Legacy route (same content)</td><td class="status-placeholder">Deprecated</td></tr>
+</table>
+
+<h3>Playgrounds Section</h3>
+<table>
+  <tr><th>Route</th><th>Content</th><th>Status</th></tr>
+  <tr><td><code>/playgrounds</code></td><td>Index with tool cards</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/playgrounds/province-readiness-scorer</code></td><td>Interactive province digital readiness calculator</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/playgrounds/rural-fintech-calculator</code></td><td>Fintech access gap calculator</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/playgrounds/policy-simulator</code></td><td>Policy impact simulator</td><td class="status-done">Done</td></tr>
+</table>
+
+<h3>Prototypes Section</h3>
+<table>
+  <tr><th>Route</th><th>Content</th><th>Status</th></tr>
+  <tr><td><code>/prototypes</code></td><td>Index with featured proposal + coming soon cards</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/prototypes/agent-banking-pilot</code></td><td>10-slide Tay Ninh pilot proposal (2.5B VND budget)</td><td class="status-done">Done</td></tr>
+</table>
+
+<h3>Field Notes Section</h3>
+<table>
+  <tr><th>Route</th><th>Content</th><th>Status</th></tr>
+  <tr><td><code>/field-notes</code></td><td>Index with 4 cards (2 published, 2 coming soon)</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/field-notes/72-hours-tay-ninh</code></td><td>Photo essay from rural field visit</td><td class="status-done">Done</td></tr>
+  <tr><td><code>/field-notes/merchant-conversations</code></td><td>Interview notes with rural merchants</td><td class="status-done">Done</td></tr>
+</table>
+
+<h2>Data Visualization Components</h2>
+<p>Located in <code>src/components/data/</code>:</p>
+<table>
+  <tr><th>Component</th><th>Type</th><th>Data Source</th></tr>
+  <tr><td><code>ASEANComparisonTable</code></td><td>Table</td><td>Brand Finance 2025, WIPO GII 2024</td></tr>
+  <tr><td><code>KeyInsightCards</code></td><td>Card grid</td><td>Vietnam soft power metrics</td></tr>
+  <tr><td><code>SoftPowerRadarChart</code></td><td>Chart.js radar</td><td>7-pillar Brand Finance methodology</td></tr>
+  <tr><td><code>NationBrandHexagon</code></td><td>Chart.js radar</td><td>Anholt 6-pillar framework</td></tr>
+  <tr><td><code>SoftPowerFramework</code></td><td>Visual diagram</td><td>Nye's 3 pillars</td></tr>
+  <tr><td><code>KnowledgeEconomyTable</code></td><td>Table</td><td>GII 2024, WIPO patents</td></tr>
+  <tr><td><code>StrategicPositionMatrix</code></td><td>2x2 quadrant</td><td>Asset prioritization</td></tr>
+</table>
+
+<h2>MDX Custom Components</h2>
+<p>Defined in <code>src/components/research/mdx-components.tsx</code>:</p>
+<pre><code>&lt;DataFigure caption="Figure 1: Title"&gt;
+  &lt;ComponentName /&gt;
+&lt;/DataFigure&gt;
+
+&lt;PolicyNote&gt;
+  Important callout text for policy implications.
+&lt;/PolicyNote&gt;
+
+&lt;Citation author="Author" year="2024" title="Title" source="Publisher" /&gt;</code></pre>
+
+<h2>Build Commands</h2>
+<pre><code># Development
+npm run dev          # localhost:3000
+
+# Production build (static export to /out)
+npm run build
+
+# Verify build
+# Should output: 26 static pages generated</code></pre>
+
+<h2>Deployment</h2>
+<p>GitLab Pages via <code>.gitlab-ci.yml</code>:</p>
+<pre><code>pages:
+  stage: deploy
+  script:
+    - npm ci
+    - npm run build
+    - mv out public
+  artifacts:
+    paths:
+      - public</code></pre>
+
+<h2>Future Work Suggestions</h2>
+<ul>
+  <li><strong>Field Notes:</strong> Add "Market Visit Log" and "Urban Tech Adoption, District 9" pages</li>
+  <li><strong>Prototypes:</strong> Add "Rural Fintech Product Wireframes" and "Policy Brief Template"</li>
+  <li><strong>Research:</strong> Add third paper on regional investment frameworks</li>
+  <li><strong>Animations:</strong> Consider framer-motion for scroll effects (Task #14 was deprioritized)</li>
+  <li><strong>SEO:</strong> Add OpenGraph meta tags for social sharing</li>
+</ul>
+
+<p class="updated">Last updated: 2026-06-01 | Build: 26 pages | Commit: 7b17355</p>
+
+</body>
+</html>

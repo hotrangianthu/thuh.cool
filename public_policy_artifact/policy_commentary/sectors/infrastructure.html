@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vietnam Infrastructure Budget — transport, urban development, energy, and public works investment data." />
+  <title>Infrastructure — Vietnam Budget Infographics</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="header-brand">
+        <span class="header-star" aria-hidden="true">&#9733;</span>
+        <div>
+          <div class="header-title">Vietnam Budget Infographics</div>
+          <div class="header-subtitle">Fiscal Policy &amp; Public Expenditure</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="sector-header">
+    <div class="container">
+      <a class="back-link" href="../index.html">&#8592; All Sectors</a>
+      <div class="sector-header-icon" aria-hidden="true">&#127959;</div>
+      <div class="sector-header-name-vn">Co so ha tang</div>
+      <h1 class="sector-header-name-en">Infrastructure &amp; Transport</h1>
+      <p class="sector-header-desc">
+        Public investment in transport networks, urban development, energy infrastructure,
+        ports, logistics, and water/sanitation systems.
+      </p>
+    </div>
+  </section>
+
+  <main class="sector-main">
+    <div class="container">
+
+      <!-- Key Metrics -->
+      <div class="section-label">Key Metrics — 2025 Budget</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Public Investment Disbursement</div>
+          <div class="metric-value">78.5%</div>
+          <div class="metric-note">Source: MPI Q4 2024 Report</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Expressway Network</div>
+          <div class="metric-value">2,082 km</div>
+          <div class="metric-note">Source: MOT Statistics 2025</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Urbanization Rate</div>
+          <div class="metric-value">42.6%</div>
+          <div class="metric-note">Source: GSO Census Data</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Infrastructure Budget</div>
+          <div class="metric-value">381.5T</div>
+          <div class="metric-note">18% of total state budget</div>
+        </div>
+      </div>
+
+      <!-- Budget Breakdown Chart -->
+      <div class="sector-charts">
+        <div class="sector-chart-card">
+          <div class="sector-chart-title">Infrastructure Budget Breakdown — 381.5 Trillion VND</div>
+          <div id="chart-breakdown" class="chart-container-wide"></div>
+        </div>
+      </div>
+
+      <!-- Investment Trend -->
+      <div class="sector-chart-card">
+        <div class="sector-chart-title">Public Investment Disbursement Rate (2020-2025)</div>
+        <div id="chart-trend" class="chart-container"></div>
+      </div>
+
+      <!-- Official Source -->
+      <div class="content-placeholder" style="margin-top: 24px;">
+        <strong>Data Sources</strong>
+        Ministry of Planning and Investment (MPI), Ministry of Transport (MOT), General Statistics Office.
+        <br /><br />
+        Official source: <a href="https://mpi.gov.vn" target="_blank" rel="noopener" style="color:var(--vn-red);">mpi.gov.vn</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <a href="../index.html" style="color:var(--neutral-500);">&#8592; Back to all sectors</a>
+        <span>Official source: <a href="https://mpi.gov.vn" target="_blank" rel="noopener" style="color:var(--vn-yellow);">mpi.gov.vn</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/charts.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Infrastructure breakdown chart
+      const breakdownData = {
+        breakdown: [
+          { item: 'Road & Highway', amount: 137.3 },
+          { item: 'Urban Development', amount: 76.3 },
+          { item: 'Ports & Logistics', amount: 57.2 },
+          { item: 'Energy Infrastructure', amount: 53.4 },
+          { item: 'Water & Sanitation', amount: 57.3 }
+        ]
+      };
+
+      if (window.VNBudgetCharts && document.getElementById('chart-breakdown')) {
+        window.VNBudgetCharts.renderSectorBreakdownChart('chart-breakdown', breakdownData);
+      }
+
+      // Disbursement trend
+      if (document.getElementById('chart-trend')) {
+        const chart = echarts.init(document.getElementById('chart-trend'));
+        chart.setOption({
+          tooltip: { trigger: 'axis' },
+          xAxis: { type: 'category', data: ['2020', '2021', '2022', '2023', '2024', '2025'] },
+          yAxis: { type: 'value', max: 100, axisLabel: { formatter: '{value}%' } },
+          series: [{
+            type: 'line',
+            data: [67.5, 72.3, 75.8, 77.2, 78.0, 78.5],
+            smooth: true,
+            lineStyle: { width: 3, color: '#DA251D' },
+            areaStyle: { color: 'rgba(218, 37, 29, 0.1)' },
+            markLine: {
+              data: [{ yAxis: 80, name: 'Target', lineStyle: { color: '#27ae60', type: 'dashed' } }]
+            }
+          }]
+        });
+        window.addEventListener('resize', () => chart.resize());
+      }
+    });
+  </script>
+</body>
+</html>

@@ -6,13 +6,13 @@ import NavLinks from '@/components/NavLinks'
 
 export default function Home() {
   return (
-    <main className="relative w-full h-screen overflow-hidden flex flex-col justify-center items-center">
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden">
 
 
       {/* Main Content */}
-      <div className="relative z-20 w-full max-w-5xl px-6 md:px-12 flex flex-col h-full justify-between py-12 md:py-24">
+      <div className="relative z-20 flex min-h-screen w-full max-w-5xl flex-col justify-between px-6 py-12 md:px-12 md:py-24">
         {/* Hero Text - positioned at ~1/3 from top */}
-        <header className="flex flex-col items-start justify-start mt-[15vh] md:mt-[20vh]">
+        <header className="mt-[8vh] flex flex-col items-start justify-start md:mt-[12vh]">
           <div className="flex flex-col -space-y-2 md:-space-y-4">
             <h1 className="text-6xl md:text-8xl font-bold text-white/90 tracking-tight drop-shadow-lg">
               ThuH is
@@ -36,4 +36,3 @@ export default function Home() {
     </main>
   )
 }
-

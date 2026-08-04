@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Keep Next.js from treating a lockfile in the home directory as the project root.
+  outputFileTracingRoot: __dirname,
   experimental: {
     inlineCss: true,
     optimizePackageImports: ['lucide-react'],
@@ -66,4 +68,3 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
-

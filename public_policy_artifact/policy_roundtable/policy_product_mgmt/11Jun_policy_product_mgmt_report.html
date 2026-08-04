@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy as Product — Sa. Partners Intelligence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg-dark: #162B20;
+    --bg-card: #1E3828;
+    --bg-surface: #243D2E;
+    --gold: #C9A84C;
+    --gold-muted: #9A7A38;
+    --green: #00B14F;
+    --green-dark: #007A37;
+    --coral: #E8634B;
+    --text-primary: #F0EDE6;
+    --text-secondary: #B8B0A0;
+    --text-muted: #7A7268;
+    --border: rgba(201,168,76,0.18);
+    --border-light: rgba(240,237,230,0.08);
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+    font-size: 8px;
+    line-height: 1.55;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px 12px;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+
+  .logo span {
+    color: var(--text-secondary);
+    font-weight: 400;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-left: 8px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .header-meta {
+    font-size: 6.5px;
+    color: var(--text-muted);
+    text-align: right;
+    letter-spacing: 0.06em;
+  }
+
+  .header-category {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .category-pill {
+    background: rgba(0,177,79,0.15);
+    border: 1px solid rgba(0,177,79,0.3);
+    color: var(--green);
+    font-size: 6px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  .category-sep {
+    color: var(--border);
+    font-size: 8px;
+  }
+
+  .domain-tag {
+    color: var(--text-muted);
+    font-size: 6.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .header-headline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1.15;
+    margin-bottom: 5px;
+    letter-spacing: -0.01em;
+  }
+
+  .header-headline em {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  .header-subtitle {
+    font-size: 8px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    padding: 0 20px 16px;
+  }
+
+  /* SECTION MARKERS */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+  }
+
+  .section-num {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    font-size: 8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 7px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* KPI CARDS */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 2px;
+  }
+
+  .kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-top: 2px solid var(--gold-muted);
+    padding: 8px 9px 7px;
+    border-radius: 2px;
+  }
+
+  .kpi-value {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .kpi-value .unit {
+    font-size: 9px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .kpi-label {
+    font-size: 6.5px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 2px;
+  }
+
+  .kpi-note {
+    font-size: 6px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* VIZ CONTAINERS */
+  .viz-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 10px 12px;
+    margin-bottom: 2px;
+  }
+
+  .viz-title {
+    font-size: 7.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .viz-subtitle {
+    font-size: 6.5px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  /* CONTRAST BLOCK */
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .contrast-col {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 9px 10px;
+  }
+
+  .contrast-col.consensus {
+    border-top: 2px solid var(--coral);
+  }
+
+  .contrast-col.real {
+    border-top: 2px solid var(--green);
+  }
+
+  .contrast-label {
+    font-size: 6.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+
+  .contrast-label.coral { color: var(--coral); }
+  .contrast-label.green { color: var(--green); }
+
+  .contrast-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    margin-bottom: 5px;
+    font-size: 7px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  .contrast-item::before {
+    content: '—';
+    color: var(--text-muted);
+    flex-shrink: 0;
+    margin-top: 0.5px;
+  }
+
+  /* THESIS LINE */
+  .thesis-block {
+    background: var(--bg-surface);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    margin-top: 14px;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .thesis-label {
+    font-size: 6px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+    margin-bottom: 4px;
+  }
+
+  .thesis-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  /* OPERATOR INSIGHT */
+  .insight-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 9px 10px;
+  }
+
+  .insight-item {
+    display: flex;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .insight-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .insight-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(0,177,79,0.15);
+    border: 1px solid rgba(0,177,79,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .insight-icon svg {
+    width: 8px;
+    height: 8px;
+  }
+
+  .insight-body { flex: 1; }
+
+  .insight-claim {
+    font-size: 7.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    line-height: 1.35;
+  }
+
+  .insight-detail {
+    font-size: 6.5px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* OPPORTUNITY MAP */
+  .opp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .opp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 8px 9px;
+  }
+
+  .opp-scenario {
+    font-size: 6px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .opp-prob {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .opp-title {
+    font-size: 7px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+
+  .opp-body {
+    font-size: 6.5px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  .opp-signal {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border-light);
+    font-size: 6px;
+    color: var(--text-muted);
+  }
+
+  .opp-signal strong {
+    color: var(--gold-muted);
+    font-weight: 600;
+  }
+
+  /* CTA */
+  .cta-block {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+  }
+
+  .cta-left { flex: 1; }
+
+  .cta-headline {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+
+  .cta-body {
+    font-size: 6.5px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    max-width: 380px;
+  }
+
+  .cta-tag {
+    background: rgba(0,177,79,0.12);
+    border: 1px solid rgba(0,177,79,0.25);
+    color: var(--green);
+    font-size: 6.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-left: 14px;
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 8px 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+  }
+
+  .footer-left {
+    font-size: 6px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .footer-right {
+    font-size: 6px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 8px;
+    color: var(--gold-muted);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">Sa. Partners<span>Intelligence Brief</span></div>
+    </div>
+    <div class="header-meta">
+      Southeast Asia · June 2026<br>
+      Regulatory Strategy &amp; GovTech
+    </div>
+  </div>
+  <div class="header-category">
+    <span class="category-pill">Policy x Product</span>
+    <span class="category-sep">|</span>
+    <span class="domain-tag">Regulatory Design · Fintech · Digital Governance</span>
+  </div>
+  <div class="header-headline">
+    Policy Is a <em>Product.</em><br>Would Yours Ship?
+  </div>
+  <div class="header-subtitle">
+    Applying product management thinking to government regulation — and what it reveals about Vietnam's five-year sandbox stall, Decree 13's 60-day compliance window, and why regulatory debt is compounding faster than it is being resolved.
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- 01 KEY METRICS -->
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title">The Evidence Base</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-value">1,400<span class="unit">yrs</span></div>
+      <div class="kpi-label">Citizen time saved annually</div>
+      <div class="kpi-note">Estonia digital infrastructure — X-Road API layer + digital identity as SSO</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">700<span class="unit">%</span></div>
+      <div class="kpi-label">US Regulatory Code growth</div>
+      <div class="kpi-note">22,877 pages (1960) → 185,000+ pages (2019). Regulatory debt compounds without version control.</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">73<span class="unit">+</span></div>
+      <div class="kpi-label">Countries replicating MAS sandbox model</div>
+      <div class="kpi-note">Singapore FCA-equivalent launched 2016, Sandbox Express 2019. 160+ firms tested.</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">5<span class="unit">yrs</span></div>
+      <div class="kpi-label">Vietnam fintech sandbox in draft</div>
+      <div class="kpi-note">SBV framework circulated 2021. Not gazetted as of June 2026. That is not a delay — it is a decision.</div>
+    </div>
+  </div>
+
+  <!-- 02 PRIMARY VIZ: Policy-Product Failure Map -->
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title">Policy-Product Failure Map</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="viz-container">
+    <div class="viz-title">Where the Product Analogy Breaks — and Where It Holds</div>
+    <div class="viz-subtitle">Every regulation has users, features, distribution, and success metrics. The failure modes map directly to known product anti-patterns.</div>
+    <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <defs>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L6,3 z" fill="#7A7268"/>
+        </marker>
+      </defs>
+
+      <!-- Column headers -->
+      <rect x="8" y="6" width="140" height="14" rx="2" fill="#1E3828"/>
+      <text x="78" y="16" fill="#C9A84C" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle" letter-spacing="0.1">PRODUCT ELEMENT</text>
+
+      <rect x="158" y="6" width="140" height="14" rx="2" fill="#1E3828"/>
+      <text x="228" y="16" fill="#C9A84C" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle" letter-spacing="0.1">POLICY EQUIVALENT</text>
+
+      <rect x="308" y="6" width="180" height="14" rx="2" fill="#1E3828"/>
+      <text x="398" y="16" fill="#E8634B" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle" letter-spacing="0.1">WHERE IT BREAKS DOWN</text>
+
+      <rect x="498" y="6" width="176" height="14" rx="2" fill="#1E3828"/>
+      <text x="586" y="16" fill="#00B14F" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle" letter-spacing="0.1">VIETNAM INSTANCE</text>
+
+      <!-- Rows -->
+      <!-- Row 1 -->
+      <rect x="8" y="26" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="16" y="36" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">User Research</text>
+      <text x="16" y="44" fill="#7A7268" font-size="5.5" font-family="DM Sans">Ethnographic, iterative</text>
+
+      <rect x="158" y="26" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="166" y="36" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Stakeholder Consultation</text>
+      <text x="166" y="44" fill="#7A7268" font-size="5.5" font-family="DM Sans">Public comment, RIA</text>
+
+      <rect x="308" y="26" width="180" height="20" rx="1" fill="rgba(232,99,75,0.06)" stroke="rgba(232,99,75,0.15)" stroke-width="0.5"/>
+      <text x="316" y="36" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Consultation is theater; no</text>
+      <text x="316" y="44" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">ethnographic research</text>
+
+      <rect x="498" y="26" width="176" height="20" rx="1" fill="rgba(0,177,79,0.05)" stroke="rgba(0,177,79,0.12)" stroke-width="0.5"/>
+      <text x="506" y="36" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Decree 13: no mapping of</text>
+      <text x="506" y="44" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">90%+ informal businesses</text>
+
+      <!-- Row 2 -->
+      <rect x="8" y="50" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="16" y="60" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">MVP / Pilot</text>
+      <text x="16" y="68" fill="#7A7268" font-size="5.5" font-family="DM Sans">Test before full launch</text>
+
+      <rect x="158" y="50" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="166" y="60" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Regulatory Sandbox</text>
+      <text x="166" y="68" fill="#7A7268" font-size="5.5" font-family="DM Sans">Time-limited pilot license</text>
+
+      <rect x="308" y="50" width="180" height="20" rx="1" fill="rgba(232,99,75,0.06)" stroke="rgba(232,99,75,0.15)" stroke-width="0.5"/>
+      <text x="316" y="60" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Most policy ships at "v1.0 full</text>
+      <text x="316" y="68" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">feature set" — no MVP phase</text>
+
+      <rect x="498" y="50" width="176" height="20" rx="1" fill="rgba(0,177,79,0.05)" stroke="rgba(0,177,79,0.12)" stroke-width="0.5"/>
+      <text x="506" y="60" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">SBV sandbox: 5 years in draft,</text>
+      <text x="506" y="68" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">not gazetted</text>
+
+      <!-- Row 3 -->
+      <rect x="8" y="74" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="16" y="84" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Distribution / Delivery</text>
+      <text x="16" y="92" fill="#7A7268" font-size="5.5" font-family="DM Sans">Reaches intended users</text>
+
+      <rect x="158" y="74" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="166" y="84" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Enforcement Mechanism</text>
+      <text x="166" y="92" fill="#7A7268" font-size="5.5" font-family="DM Sans">Inspectors, penalties</text>
+
+      <rect x="308" y="74" width="180" height="20" rx="1" fill="rgba(232,99,75,0.06)" stroke="rgba(232,99,75,0.15)" stroke-width="0.5"/>
+      <text x="316" y="84" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Uneven enforcement; opt-out</text>
+      <text x="316" y="92" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">for powerful users</text>
+
+      <rect x="498" y="74" width="176" height="20" rx="1" fill="rgba(0,177,79,0.05)" stroke="rgba(0,177,79,0.12)" stroke-width="0.5"/>
+      <text x="506" y="84" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Circular 39/2014 conflicts with</text>
+      <text x="506" y="92" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">2023 P2P draft; SBV overlap</text>
+
+      <!-- Row 4 -->
+      <rect x="8" y="98" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="16" y="108" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Success Metrics</text>
+      <text x="16" y="116" fill="#7A7268" font-size="5.5" font-family="DM Sans">DAU, retention, outcomes</text>
+
+      <rect x="158" y="98" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="166" y="108" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Compliance Rate</text>
+      <text x="166" y="116" fill="#7A7268" font-size="5.5" font-family="DM Sans">Behavioral adoption</text>
+
+      <rect x="308" y="98" width="180" height="20" rx="1" fill="rgba(232,99,75,0.06)" stroke="rgba(232,99,75,0.15)" stroke-width="0.5"/>
+      <text x="316" y="108" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Measured by promulgation,</text>
+      <text x="316" y="116" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">not behavioral compliance</text>
+
+      <rect x="498" y="98" width="176" height="20" rx="1" fill="rgba(0,177,79,0.05)" stroke="rgba(0,177,79,0.12)" stroke-width="0.5"/>
+      <text x="506" y="108" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Decree 13: no compliance rate</text>
+      <text x="506" y="116" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">instrumentation published</text>
+
+      <!-- Row 5 -->
+      <rect x="8" y="122" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="16" y="132" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Deprecation</text>
+      <text x="16" y="140" fill="#7A7268" font-size="5.5" font-family="DM Sans">Retire what stopped working</text>
+
+      <rect x="158" y="122" width="140" height="20" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <text x="166" y="132" fill="#F0EDE6" font-size="6.5" font-family="DM Sans">Repeal / Sunset Clause</text>
+      <text x="166" y="140" fill="#7A7268" font-size="5.5" font-family="DM Sans">Formal revocation</text>
+
+      <rect x="308" y="122" width="180" height="20" rx="1" fill="rgba(232,99,75,0.06)" stroke="rgba(232,99,75,0.15)" stroke-width="0.5"/>
+      <text x="316" y="132" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Almost never proactive;</text>
+      <text x="316" y="140" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">regulatory debt accumulates</text>
+
+      <rect x="498" y="122" width="176" height="20" rx="1" fill="rgba(0,177,79,0.05)" stroke="rgba(0,177,79,0.12)" stroke-width="0.5"/>
+      <text x="506" y="132" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">No sunset clause in Decree 13;</text>
+      <text x="506" y="140" fill="#B8B0A0" font-size="6.5" font-family="DM Sans">Cybersecurity Law unresolved</text>
+
+      <!-- Legend -->
+      <rect x="8" y="150" width="10" height="7" rx="1" fill="rgba(232,99,75,0.15)" stroke="rgba(232,99,75,0.3)" stroke-width="0.5"/>
+      <text x="22" y="156" fill="#7A7268" font-size="5.5" font-family="DM Sans">Failure mode</text>
+      <rect x="80" y="150" width="10" height="7" rx="1" fill="rgba(0,177,79,0.08)" stroke="rgba(0,177,79,0.2)" stroke-width="0.5"/>
+      <text x="94" y="156" fill="#7A7268" font-size="5.5" font-family="DM Sans">Vietnam instance</text>
+      <text x="200" y="156" fill="#7A7268" font-size="5.5" font-family="DM Sans">Source: Sa. Partners analysis · Decree 13/2023 · SBV circulars · OECD Regulatory Outlook</text>
+    </svg>
+  </div>
+
+  <!-- 03 VIZ 2: Regulatory Debt Trajectory + Compliance Cost Asymmetry -->
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title">Two Structural Asymmetries</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+
+    <!-- VIZ 2A: Regulatory Debt Growth -->
+    <div class="viz-container" style="margin-bottom:0;">
+      <div class="viz-title">Regulatory Debt Compounds</div>
+      <div class="viz-subtitle">US CFR page count as proxy for regulatory accumulation without version control</div>
+      <svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- Grid lines -->
+        <line x1="40" y1="15" x2="40" y2="105" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+        <line x1="40" y1="105" x2="285" y2="105" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+        <line x1="40" y1="75" x2="285" y2="75" stroke="rgba(255,255,255,0.04)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="40" y1="45" x2="285" y2="45" stroke="rgba(255,255,255,0.04)" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+        <!-- Y axis labels -->
+        <text x="36" y="108" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="end">0</text>
+        <text x="36" y="78" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="end">60k</text>
+        <text x="36" y="48" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="end">120k</text>
+        <text x="36" y="18" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="end">185k</text>
+
+        <!-- Area fill -->
+        <path d="M50,103 L90,101 L130,95 L170,82 L210,62 L250,20 L285,18 L285,105 L50,105 Z"
+              fill="rgba(232,99,75,0.08)" stroke="none"/>
+        <!-- Line -->
+        <path d="M50,103 L90,101 L130,95 L170,82 L210,62 L250,20 L285,18"
+              fill="none" stroke="#E8634B" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- Dots -->
+        <circle cx="50" cy="103" r="2.5" fill="#E8634B"/>
+        <circle cx="130" cy="95" r="2.5" fill="#E8634B"/>
+        <circle cx="210" cy="62" r="2.5" fill="#E8634B"/>
+        <circle cx="285" cy="18" r="2.5" fill="#E8634B"/>
+
+        <!-- X axis labels -->
+        <text x="50" y="113" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">1960</text>
+        <text x="130" y="113" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">1980</text>
+        <text x="210" y="113" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">2000</text>
+        <text x="285" y="113" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">2019</text>
+
+        <!-- Annotation -->
+        <rect x="188" y="28" width="88" height="18" rx="1" fill="rgba(232,99,75,0.12)" stroke="rgba(232,99,75,0.2)" stroke-width="0.5"/>
+        <text x="232" y="37" fill="#E8634B" font-size="6" font-family="DM Sans" font-weight="700" text-anchor="middle">+700%</text>
+        <text x="232" y="43" fill="#B8B0A0" font-size="5" font-family="DM Sans" text-anchor="middle">in 59 years</text>
+
+        <!-- Label -->
+        <text x="50" y="10" fill="#7A7268" font-size="5" font-family="DM Sans">US Code of Federal Regulations (pages)</text>
+      </svg>
+    </div>
+
+    <!-- VIZ 2B: Compliance Cost Asymmetry -->
+    <div class="viz-container" style="margin-bottom:0;">
+      <div class="viz-title">Compliance Costs Scale Inversely With Company Size</div>
+      <div class="viz-subtitle">Decree 13/2023: same obligations, 60-day window, regardless of headcount or revenue</div>
+      <svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- Bars -->
+        <!-- Series A startup -->
+        <rect x="45" y="30" width="50" height="65" rx="1" fill="rgba(232,99,75,0.7)"/>
+        <text x="70" y="26" fill="#E8634B" font-size="6.5" font-family="DM Sans" font-weight="700" text-anchor="middle">~15%</text>
+        <text x="70" y="101" fill="#B8B0A0" font-size="5.5" font-family="DM Sans" text-anchor="middle">Series A</text>
+        <text x="70" y="108" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">startup</text>
+
+        <!-- Series B -->
+        <rect x="125" y="55" width="50" height="40" rx="1" fill="rgba(201,168,76,0.5)"/>
+        <text x="150" y="51" fill="#C9A84C" font-size="6.5" font-family="DM Sans" font-weight="700" text-anchor="middle">~6%</text>
+        <text x="150" y="101" fill="#B8B0A0" font-size="5.5" font-family="DM Sans" text-anchor="middle">Series B</text>
+        <text x="150" y="108" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">scaleup</text>
+
+        <!-- Large platform -->
+        <rect x="205" y="82" width="50" height="13" rx="1" fill="rgba(0,177,79,0.5)"/>
+        <text x="230" y="78" fill="#00B14F" font-size="6.5" font-family="DM Sans" font-weight="700" text-anchor="middle">~1%</text>
+        <text x="230" y="101" fill="#B8B0A0" font-size="5.5" font-family="DM Sans" text-anchor="middle">Large</text>
+        <text x="230" y="108" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">platform</text>
+
+        <!-- Y axis -->
+        <line x1="38" y1="15" x2="38" y2="97" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+        <text x="34" y="98" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="end">0%</text>
+        <text x="34" y="55" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="end">10%</text>
+        <text x="34" y="18" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="end">20%</text>
+        <text x="9" y="60" fill="#7A7268" font-size="5" font-family="DM Sans" transform="rotate(-90 18 60)" text-anchor="middle">Compliance cost as % revenue</text>
+
+        <!-- Baseline -->
+        <line x1="38" y1="97" x2="270" y2="97" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+
+        <!-- Annotation -->
+        <text x="153" y="10" fill="#7A7268" font-size="5" font-family="DM Sans" text-anchor="middle">Same rule. Wildly different burden.</text>
+        <line x1="38" y1="55" x2="270" y2="55" stroke="rgba(255,255,255,0.04)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 04 CONTRAST -->
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title">Consensus View vs. Operator Reality</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="contrast-grid">
+    <div class="contrast-col consensus">
+      <div class="contrast-label coral">The Consensus View</div>
+      <div class="contrast-item">Vietnam needs better regulations — more sophisticated, more aligned with international standards</div>
+      <div class="contrast-item">The sandbox delay is a capacity/capability gap in the regulator</div>
+      <div class="contrast-item">Compliance timelines are tight but companies can adapt if they prioritize</div>
+      <div class="contrast-item">Regulatory overlap is a drafting problem, solvable with better interministerial coordination</div>
+      <div class="contrast-item">PM thinking in government is a best practice borrowed from tech — nice to have</div>
+    </div>
+    <div class="contrast-col real">
+      <div class="contrast-label green">What the Data Shows</div>
+      <div class="contrast-item">Sophistication of text ≠ quality of outcome. Decree 13 is GDPR-adjacent in language, not in effect</div>
+      <div class="contrast-item">The sandbox stall is deliberate — it reflects negotiated incumbent protection, not bureaucratic capacity</div>
+      <div class="contrast-item">60-day windows are survivable for large platforms; they are existential for Series-A/B companies</div>
+      <div class="contrast-item">Overlapping circulars exist because jurisdictional ambiguity benefits ministries with overlapping authority — not a coordination failure, a power equilibrium</div>
+      <div class="contrast-item">PM thinking is the minimum viable condition for policy that closes the gap between text and behavior</div>
+    </div>
+  </div>
+
+  <!-- THESIS -->
+  <div class="thesis-block">
+    <div class="thesis-label">Central Argument</div>
+    <div class="thesis-text">The enforcement layer is a second, undesigned product operating on top of the promulgation layer — and it is the enforcement layer, not the text, that operators actually experience. Applying PM thinking only to regulation-writing without addressing the enforcement interpretation layer will not close Vietnam's compliance fragility gap.</div>
+  </div>
+
+  <!-- 05 VIZ 3: GovTech Maturity Ladder -->
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title">GovTech Maturity Ladder</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="viz-container">
+    <div class="viz-title">From Promulgation-First to Feedback-Loop Governance — Where Does Vietnam Sit?</div>
+    <svg viewBox="0 0 680 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+
+      <!-- Spine -->
+      <line x1="50" y1="50" x2="650" y2="50" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+
+      <!-- Arrow -->
+      <polygon points="650,46 660,50 650,54" fill="rgba(255,255,255,0.15)"/>
+
+      <!-- Stage nodes and labels -->
+      <!-- Stage 1 -->
+      <circle cx="90" cy="50" r="8" fill="#243D2E" stroke="#C9A84C" stroke-width="1.5"/>
+      <text x="90" y="53" fill="#C9A84C" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle">1</text>
+      <text x="90" y="28" fill="#B8B0A0" font-size="6" font-family="DM Sans" text-anchor="middle">Promulgation-</text>
+      <text x="90" y="35" fill="#B8B0A0" font-size="6" font-family="DM Sans" text-anchor="middle">only</text>
+      <text x="90" y="68" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">No feedback</text>
+      <text x="90" y="74" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">loop</text>
+
+      <!-- Stage 2 — Vietnam marker -->
+      <circle cx="210" cy="50" r="8" fill="#00B14F" stroke="#00B14F" stroke-width="1.5"/>
+      <text x="210" y="53" fill="#fff" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle">2</text>
+      <text x="210" y="28" fill="#F0EDE6" font-size="6" font-family="DM Sans" font-weight="700" text-anchor="middle">Sophisticated</text>
+      <text x="210" y="35" fill="#F0EDE6" font-size="6" font-family="DM Sans" font-weight="700" text-anchor="middle">Text</text>
+      <text x="210" y="68" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">Uneven</text>
+      <text x="210" y="74" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">enforcement</text>
+      <!-- Vietnam pin -->
+      <rect x="187" y="14" width="46" height="11" rx="2" fill="rgba(0,177,79,0.2)" stroke="rgba(0,177,79,0.4)" stroke-width="0.5"/>
+      <text x="210" y="22" fill="#00B14F" font-size="5.5" font-family="DM Sans" font-weight="700" text-anchor="middle">VIETNAM NOW</text>
+      <line x1="210" y1="25" x2="210" y2="41" stroke="#00B14F" stroke-width="0.8" stroke-dasharray="2,1.5"/>
+
+      <!-- Stage 3 -->
+      <circle cx="330" cy="50" r="8" fill="#243D2E" stroke="#C9A84C" stroke-width="1.5"/>
+      <text x="330" y="53" fill="#C9A84C" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle">3</text>
+      <text x="330" y="28" fill="#B8B0A0" font-size="6" font-family="DM Sans" text-anchor="middle">Instrumented</text>
+      <text x="330" y="35" fill="#B8B0A0" font-size="6" font-family="DM Sans" text-anchor="middle">Compliance</text>
+      <text x="330" y="68" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">Sandbox +</text>
+      <text x="330" y="74" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">data feedback</text>
+
+      <!-- Stage 4 -->
+      <circle cx="450" cy="50" r="8" fill="#243D2E" stroke="#C9A84C" stroke-width="1.5"/>
+      <text x="450" y="53" fill="#C9A84C" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle">4</text>
+      <text x="450" y="28" fill="#B8B0A0" font-size="6" font-family="DM Sans" text-anchor="middle">Iterative</text>
+      <text x="450" y="35" fill="#B8B0A0" font-size="6" font-family="DM Sans" text-anchor="middle">Regulation</text>
+      <text x="450" y="68" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">Sunset clauses,</text>
+      <text x="450" y="74" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">version history</text>
+
+      <!-- Stage 5 -->
+      <circle cx="580" cy="50" r="8" fill="#243D2E" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+      <text x="580" y="53" fill="#9A7A38" font-size="7" font-family="DM Sans" font-weight="700" text-anchor="middle">5</text>
+      <text x="580" y="28" fill="#7A7268" font-size="6" font-family="DM Sans" text-anchor="middle">Digital-by-</text>
+      <text x="580" y="35" fill="#7A7268" font-size="6" font-family="DM Sans" text-anchor="middle">Default State</text>
+      <text x="580" y="68" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">Estonia / GDS</text>
+      <text x="580" y="74" fill="#7A7268" font-size="5.5" font-family="DM Sans" text-anchor="middle">equivalent</text>
+
+      <!-- Scenario A target -->
+      <rect x="416" y="14" width="68" height="11" rx="2" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.25)" stroke-width="0.5"/>
+      <text x="450" y="22" fill="#9A7A38" font-size="5.5" font-family="DM Sans" text-anchor="middle">SCENARIO A TARGET</text>
+      <line x1="450" y1="25" x2="450" y2="41" stroke="#9A7A38" stroke-width="0.8" stroke-dasharray="2,1.5"/>
+
+      <!-- Gap arrow -->
+      <path d="M222,50 L438,50" stroke="rgba(201,168,76,0.3)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr2)"/>
+      <defs>
+        <marker id="arr2" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+          <path d="M0,0 L0,5 L5,2.5 z" fill="rgba(201,168,76,0.5)"/>
+        </marker>
+      </defs>
+      <text x="330" y="83" fill="#9A7A38" font-size="5.5" font-family="DM Sans" text-anchor="middle">Gap to close under Scenario A (20% probability)</text>
+    </svg>
+  </div>
+
+  <!-- 06 OPERATOR INSIGHT -->
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title">Operator Insight</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-item">
+      <div class="insight-icon">
+        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5" cy="5" r="4" stroke="#00B14F" stroke-width="1"/>
+          <path d="M3 5l1.5 1.5L7 3.5" stroke="#00B14F" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="insight-body">
+        <div class="insight-claim">The sandbox stall is a decision, made repeatedly by people with reasons — not a capability gap</div>
+        <div class="insight-detail">SBV's sandbox has been "in review" since 2021. This is not incompetence. It reflects a negotiated equilibrium between state banks (who benefit from the status quo), fintech challengers (who need the sandbox), and MoF (who owns the fiscal risk). Understanding the incentive structure is more operationally useful than framing it as a product failure.</div>
+      </div>
+    </div>
+    <div class="insight-item">
+      <div class="insight-icon">
+        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5" cy="5" r="4" stroke="#00B14F" stroke-width="1"/>
+          <path d="M3 5l1.5 1.5L7 3.5" stroke="#00B14F" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="insight-body">
+        <div class="insight-claim">Decree 13's 60-day window was a market structure decision disguised as a compliance deadline</div>
+        <div class="insight-detail">Large platforms survived — they had legal teams, DPO infrastructure, and existing data governance frameworks. Series-A/B startups did not. The survivors of that compliance sprint are now incumbent. The rule that would have disrupted them has instead protected them. This is regulatory capture by timeline, not by lobbying.</div>
+      </div>
+    </div>
+    <div class="insight-item">
+      <div class="insight-icon">
+        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5" cy="5" r="4" stroke="#00B14F" stroke-width="1"/>
+          <path d="M3 5l1.5 1.5L7 3.5" stroke="#00B14F" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="insight-body">
+        <div class="insight-claim">The enforcement interpretation layer is a second, undesigned product — and it is the one operators actually experience</div>
+        <div class="insight-detail">You can comply perfectly with the text of a circular and still fail an audit because district-level inspectors apply different interpretations. GDS/Estonia succeeded in part because digital-by-default services collapse the interpretation layer — the code IS the regulation. Vietnam's challenge is that the interpretation layer is constitutive of its governance model, not incidental to it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 OPPORTUNITY MAP -->
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title">Scenario Opportunity Map</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="opp-grid">
+    <div class="opp-card">
+      <div class="opp-scenario" style="color:#00B14F;">Scenario A — Accelerated GovTech</div>
+      <div class="opp-prob" style="color:#00B14F;">20%</div>
+      <div class="opp-title">GDS-equivalent built, sandbox gazetted, sunset clauses default</div>
+      <div class="opp-body">Requires political will beyond technical capacity. Trigger: leadership mandate at MPI level + donor-backed GDS pilot. Vietnam re-rates vs. Indonesia and Philippines. Capital discount closes within one investment cycle.</div>
+      <div class="opp-signal"><strong>Watch for:</strong> SBV sandbox gazettal + compliance rate data publication within 12 months</div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-scenario" style="color:#C9A84C;">Scenario B — Muddling Through</div>
+      <div class="opp-prob" style="color:#C9A84C;">55%</div>
+      <div class="opp-title">Sophisticated regulations, limited implementation, incremental improvement</div>
+      <div class="opp-body">Base case. Vietnam discount persists. Compliance costs continue to scale inversely with size. Incumbents protected. Early-stage fintech builds offshore and treats Vietnam as a distribution market, not a home jurisdiction.</div>
+      <div class="opp-signal"><strong>Watch for:</strong> Continued circular revisions without behavioral metrics; sandbox timelines extending past 2027</div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-scenario" style="color:#E8634B;">Scenario C — Regulatory Fragmentation</div>
+      <div class="opp-prob" style="color:#E8634B;">25%</div>
+      <div class="opp-title">Domains regulated faster than capacity; innovation migrates offshore</div>
+      <div class="opp-body">Already partially live: Vietnamese fintech founders incorporating in Singapore, raising there, operating Vietnam as a "market." The regulatory arbitrage is active. If Cybersecurity Law + Decree 13 + SBV conflicts are not resolved, this accelerates.</div>
+      <div class="opp-signal"><strong>Watch for:</strong> Rising Singapore HoldCo structures in Vietnam-focused deals; decline in domestic Series-A volume</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-left">
+      <div class="cta-headline">The Investable Signal</div>
+      <div class="cta-body">Singapore launched its fintech sandbox in 2016 and reached regulatory normalization for digital banks by 2019 — a 3-year cycle. Vietnam's sandbox draft has been in review for 5 years. At some point, the option expires and capital goes where the clock is shorter. The question for operators and investors alike: structure Vietnam deals for Scenario B, with optionality triggers that activate on Scenario A signals.</div>
+    </div>
+    <div class="cta-tag">Sa. Partners · SEA Policy Intelligence</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    <div class="footer-logo">Sa. Partners</div>
+    Policy x Product Intelligence — Southeast Asia<br>
+    Analysis reflects publicly available data and operator synthesis as of June 2026.<br>
+    This brief is for informational purposes only and does not constitute legal or investment advice.
+  </div>
+  <div class="footer-right">
+    June 2026<br>
+    Vietnam · Digital Economy<br>
+    Regulatory Strategy
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+[
+  {
+    "id": "healthcare",
+    "name": "Y tế",
+    "name_en": "Healthcare",
+    "icon": "assets/icons/healthcare.svg",
+    "description": "Public health expenditure, hospital infrastructure, insurance coverage, and preventive care programs.",
+    "official_source": "https://moh.gov.vn",
+    "key_metrics": [
+      "Health expenditure as % of GDP",
+      "Public vs. private health spend split",
+      "Health Insurance Fund (QBH) balance",
+      "Beds per 1,000 population"
+    ]
+  },
+  {
+    "id": "education",
+    "name": "Giáo dục",
+    "name_en": "Education",
+    "icon": "assets/icons/education.svg",
+    "description": "Education budget allocations across primary, secondary, and tertiary levels, plus vocational training.",
+    "official_source": "https://moet.gov.vn",
+    "key_metrics": [
+      "Education expenditure as % of GDP",
+      "Budget per student (primary/secondary/tertiary)",
+      "Vocational training enrollment",
+      "School infrastructure investment"
+    ]
+  },
+  {
+    "id": "infrastructure",
+    "name": "Cơ sở hạ tầng",
+    "name_en": "Infrastructure",
+    "icon": "assets/icons/infrastructure.svg",
+    "description": "Transport networks, urban development, energy infrastructure, and public works investment.",
+    "official_source": "https://mpi.gov.vn",
+    "key_metrics": [
+      "Public investment disbursement rate",
+      "Road network expansion (km)",
+      "North-South Expressway progress",
+      "Port and logistics capacity"
+    ]
+  },
+  {
+    "id": "defense",
+    "name": "Quốc phòng",
+    "name_en": "Defense",
+    "icon": "assets/icons/defense.svg",
+    "description": "Defense and national security budget allocations, modernization programs, and related expenditures.",
+    "official_source": "https://mod.gov.vn",
+    "key_metrics": [
+      "Defense expenditure as % of GDP",
+      "Defense budget year-on-year growth",
+      "Defense expenditure as % of total budget"
+    ]
+  },
+  {
+    "id": "agriculture",
+    "name": "Nông nghiệp",
+    "name_en": "Agriculture",
+    "icon": "assets/icons/agriculture.svg",
+    "description": "Agricultural subsidies, rural development, irrigation, food security, and fisheries support.",
+    "official_source": "https://mard.gov.vn",
+    "key_metrics": [
+      "Agricultural support as % of budget",
+      "Irrigation infrastructure investment",
+      "Rural development fund disbursement",
+      "Export facilitation spend"
+    ]
+  },
+  {
+    "id": "environment",
+    "name": "Môi trường",
+    "name_en": "Environment",
+    "icon": "assets/icons/environment.svg",
+    "description": "Climate adaptation, pollution control, green transition financing, and natural resource management.",
+    "official_source": "https://monre.gov.vn",
+    "key_metrics": [
+      "Environmental protection fund allocation",
+      "Green bond issuance volume",
+      "Climate adaptation spending",
+      "Renewable energy subsidies"
+    ]
+  },
+  {
+    "id": "technology",
+    "name": "Công nghệ",
+    "name_en": "Technology & Digital",
+    "icon": "assets/icons/technology.svg",
+    "description": "Digital transformation, R&D investment, innovation hubs, and National Digital Economy programs.",
+    "official_source": "https://mic.gov.vn",
+    "key_metrics": [
+      "R&D expenditure as % of GDP",
+      "Digital transformation budget",
+      "Science & Technology Fund allocation",
+      "Innovation hub investment"
+    ]
+  },
+  {
+    "id": "social-protection",
+    "name": "Bảo trợ xã hội",
+    "name_en": "Social Protection",
+    "icon": "assets/icons/social-protection.svg",
+    "description": "Social insurance, poverty reduction, labor welfare, and support for vulnerable populations.",
+    "official_source": "https://molisa.gov.vn",
+    "key_metrics": [
+      "Social protection as % of GDP",
+      "Poverty reduction program spend",
+      "Social Insurance Fund (BHXH) balance",
+      "Unemployment insurance coverage"
+    ]
+  },
+  {
+    "id": "debt-management",
+    "name": "Quản lý nợ",
+    "name_en": "Debt Management",
+    "icon": "assets/icons/debt.svg",
+    "description": "Public debt levels, debt-to-GDP ratios, bond issuances, and fiscal sustainability indicators.",
+    "official_source": "https://mof.gov.vn",
+    "key_metrics": [
+      "Public debt as % of GDP",
+      "Government bond issuance volume",
+      "Debt service ratio",
+      "External vs. domestic debt split"
+    ]
+  }
+]

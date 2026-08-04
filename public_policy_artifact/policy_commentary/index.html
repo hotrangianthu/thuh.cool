@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vietnam Budget Infographics — policy sector spending data, official sources, and fiscal analysis." />
+  <title>Vietnam Budget Infographics</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-brand">
+        <span class="header-star" aria-hidden="true">&#9733;</span>
+        <div>
+          <div class="header-title">Vietnam Budget Infographics</div>
+          <div class="header-subtitle">Fiscal Policy &amp; Public Expenditure</div>
+        </div>
+      </div>
+      <div class="header-meta">
+        Data sourced from official GOV.VN ministries<br />
+        Updated: Q1 2026
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-eyebrow">Socialist Republic of Vietnam — Cộng hòa xã hội chủ nghĩa Việt Nam</div>
+      <h1 class="hero-heading">State Budget Allocation<br />by Policy Sector</h1>
+      <p class="hero-lead">
+        A structured reference for Vietnam's public spending priorities across 9 key sectors.
+        All data sourced from official Ministry publications, the State Budget Law, and MPI reports.
+      </p>
+      <div class="hero-badges">
+        <span class="badge badge-red">State Budget 2025–2026</span>
+        <span class="badge badge-yellow">9 Sectors</span>
+        <span class="badge badge-gray">Official GOV.VN Sources</span>
+        <span class="badge badge-gray">Quarterly Updates</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BUDGET DASHBOARD ===== -->
+  <section class="dashboard-section">
+    <div class="container">
+      <div class="section-label">State Budget 2025 Overview</div>
+
+      <!-- Key Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Revenue</div>
+          <div class="stat-value stat-positive" id="stat-revenue">--</div>
+          <div class="stat-unit">trillion VND</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Expenditure</div>
+          <div class="stat-value stat-negative" id="stat-expenditure">--</div>
+          <div class="stat-unit">trillion VND</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Budget Deficit</div>
+          <div class="stat-value stat-warning" id="stat-deficit">--</div>
+          <div class="stat-unit">trillion VND</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Deficit / GDP</div>
+          <div class="stat-value" id="stat-deficit-pct">--</div>
+          <div class="stat-unit">of GDP</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">Expenditure by Sector</div>
+          <div id="chart-expenditure-pie" class="chart-container"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Revenue Sources</div>
+          <div id="chart-revenue" class="chart-container"></div>
+        </div>
+      </div>
+
+      <!-- Trend Chart -->
+      <div class="chart-card chart-full">
+        <div class="chart-title">Revenue vs Expenditure Trend (2020-2025)</div>
+        <div id="chart-trend" class="chart-container-wide"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTOR GRID ===== -->
+  <main>
+    <section class="sectors-section">
+      <div class="container">
+        <div class="section-label">Select a policy sector to explore</div>
+        <!-- Cards injected by main.js -->
+        <div id="sector-grid" class="sector-grid" role="list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Vietnam Budget Infographics</div>
+          <p class="footer-brand-desc">
+            An independent reference compiling Vietnam's public expenditure data from
+            official government sources. Not affiliated with any government ministry.
+          </p>
+          <p class="footer-disclaimer">
+            Data accuracy depends on official ministry publications. Verify figures against
+            primary sources before citing in professional or academic work.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Official Sources</div>
+          <ul class="footer-links">
+            <li><a href="https://mof.gov.vn" target="_blank" rel="noopener">Ministry of Finance (MOF)</a></li>
+            <li><a href="https://mpi.gov.vn" target="_blank" rel="noopener">Ministry of Planning &amp; Investment (MPI)</a></li>
+            <li><a href="https://sbv.gov.vn" target="_blank" rel="noopener">State Bank of Vietnam (SBV)</a></li>
+            <li><a href="https://gso.gov.vn" target="_blank" rel="noopener">General Statistics Office (GSO)</a></li>
+            <li><a href="https://quochoi.vn" target="_blank" rel="noopener">National Assembly</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Sectors</div>
+          <ul class="footer-links">
+            <li><a href="sectors/healthcare.html">Healthcare</a></li>
+            <li><a href="sectors/education.html">Education</a></li>
+            <li><a href="sectors/infrastructure.html">Infrastructure</a></li>
+            <li><a href="sectors/defense.html">Defense</a></li>
+            <li><a href="sectors/agriculture.html">Agriculture</a></li>
+            <li><a href="sectors/environment.html">Environment</a></li>
+            <li><a href="sectors/technology.html">Technology</a></li>
+            <li><a href="sectors/social-protection.html">Social Protection</a></li>
+            <li><a href="sectors/debt-management.html">Debt Management</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Vietnam Budget Infographics — Independent Reference</span>
+        <span>Data: Official GOV.VN Ministry Publications</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/charts.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.VNBudgetCharts) {
+        window.VNBudgetCharts.initDashboardCharts();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+{
+  "fiscal_year": 2025,
+  "currency": "VND",
+  "unit": "trillion",
+  "source": "Ministry of Finance - State Budget Estimates 2025",
+  "last_updated": "2025-12-15",
+
+  "overview": {
+    "total_revenue": 1873.3,
+    "total_expenditure": 2119.4,
+    "deficit": -246.1,
+    "deficit_gdp_pct": 3.6,
+    "gdp_estimate": 6836
+  },
+
+  "revenue_breakdown": [
+    { "category": "Domestic Revenue", "amount": 1596.8, "pct": 85.2 },
+    { "category": "Import/Export Taxes", "amount": 218.5, "pct": 11.7 },
+    { "category": "Oil Revenue", "amount": 42.0, "pct": 2.2 },
+    { "category": "Grants & Aid", "amount": 16.0, "pct": 0.9 }
+  ],
+
+  "expenditure_by_sector": [
+    { "id": "education", "name": "Education & Training", "name_vn": "Giao duc", "amount": 318.5, "pct": 15.0, "color": "#3498db" },
+    { "id": "healthcare", "name": "Healthcare", "name_vn": "Y te", "amount": 148.4, "pct": 7.0, "color": "#e74c3c" },
+    { "id": "defense", "name": "Defense & Security", "name_vn": "Quoc phong", "amount": 275.5, "pct": 13.0, "color": "#2c3e50" },
+    { "id": "infrastructure", "name": "Infrastructure", "name_vn": "Co so ha tang", "amount": 381.5, "pct": 18.0, "color": "#e67e22" },
+    { "id": "agriculture", "name": "Agriculture & Rural Dev", "name_vn": "Nong nghiep", "amount": 127.2, "pct": 6.0, "color": "#27ae60" },
+    { "id": "social-protection", "name": "Social Protection", "name_vn": "Bao tro xa hoi", "amount": 190.7, "pct": 9.0, "color": "#9b59b6" },
+    { "id": "environment", "name": "Environment & Climate", "name_vn": "Moi truong", "amount": 63.6, "pct": 3.0, "color": "#1abc9c" },
+    { "id": "technology", "name": "Science & Technology", "name_vn": "Cong nghe", "amount": 42.4, "pct": 2.0, "color": "#f39c12" },
+    { "id": "debt-management", "name": "Debt Service", "name_vn": "Tra no", "amount": 296.7, "pct": 14.0, "color": "#7f8c8d" },
+    { "id": "other", "name": "Other Expenditure", "name_vn": "Khac", "amount": 274.9, "pct": 13.0, "color": "#bdc3c7" }
+  ],
+
+  "trend_data": {
+    "years": [2020, 2021, 2022, 2023, 2024, 2025],
+    "revenue": [1510.6, 1368.5, 1815.5, 1752.0, 1820.0, 1873.3],
+    "expenditure": [1780.8, 1852.2, 1905.5, 2025.0, 2078.0, 2119.4],
+    "deficit_pct": [3.4, 4.0, 3.6, 3.8, 3.7, 3.6]
+  },
+
+  "sector_details": {
+    "healthcare": {
+      "total_budget": 148.4,
+      "breakdown": [
+        { "item": "Hospital Operations", "amount": 58.2, "pct": 39.2 },
+        { "item": "Health Insurance Subsidy", "amount": 42.1, "pct": 28.4 },
+        { "item": "Preventive Care Programs", "amount": 22.3, "pct": 15.0 },
+        { "item": "Medical Equipment", "amount": 15.8, "pct": 10.6 },
+        { "item": "Health Workforce Training", "amount": 10.0, "pct": 6.8 }
+      ],
+      "kpis": {
+        "health_expenditure_gdp_pct": 2.2,
+        "public_private_split": "55:45",
+        "insurance_coverage_pct": 93.2,
+        "beds_per_1000": 3.1
+      }
+    },
+    "education": {
+      "total_budget": 318.5,
+      "breakdown": [
+        { "item": "Primary Education", "amount": 98.7, "pct": 31.0 },
+        { "item": "Secondary Education", "amount": 82.8, "pct": 26.0 },
+        { "item": "Higher Education", "amount": 63.7, "pct": 20.0 },
+        { "item": "Vocational Training", "amount": 41.4, "pct": 13.0 },
+        { "item": "Teacher Salaries & Training", "amount": 31.9, "pct": 10.0 }
+      ],
+      "kpis": {
+        "education_expenditure_gdp_pct": 4.7,
+        "primary_enrollment_pct": 99.2,
+        "secondary_enrollment_pct": 92.5,
+        "tertiary_enrollment_pct": 28.6
+      }
+    },
+    "infrastructure": {
+      "total_budget": 381.5,
+      "breakdown": [
+        { "item": "Road & Highway", "amount": 137.3, "pct": 36.0 },
+        { "item": "Urban Development", "amount": 76.3, "pct": 20.0 },
+        { "item": "Ports & Logistics", "amount": 57.2, "pct": 15.0 },
+        { "item": "Energy Infrastructure", "amount": 53.4, "pct": 14.0 },
+        { "item": "Water & Sanitation", "amount": 57.3, "pct": 15.0 }
+      ],
+      "kpis": {
+        "public_investment_disbursement_pct": 78.5,
+        "expressway_km": 2082,
+        "urbanization_rate_pct": 42.6
+      }
+    }
+  }
+}

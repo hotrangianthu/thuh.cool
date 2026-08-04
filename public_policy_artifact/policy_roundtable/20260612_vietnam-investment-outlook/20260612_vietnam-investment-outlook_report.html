@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vietnam Investment Outlook 2026 — Sa. Partners Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #162B20;
+      --surface: #1C3328;
+      --text: #FFFFFF;
+      --muted: #C9A84C;
+      --primary: #00B14F;
+      --accent: #C9A84C;
+      --border: #2A4A38;
+      --negative: #E8634B;
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 13mm 13mm 9mm;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header { margin-bottom: 12px; padding-bottom: 9px; border-bottom: 1.5px solid var(--border); }
+    .header-brand { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+    .logo { font-family: 'Playfair Display', Georgia, serif; font-size: 11px; font-weight: 900; color: var(--muted); letter-spacing: 0.02em; }
+    .logo sub { font-size: 8px; font-weight: 400; opacity: 0.7; }
+    .header-cat { font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); }
+    .header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 900; line-height: 1.2; letter-spacing: -0.3px; max-width: 92%; margin-top: 4px; }
+    .header h1 .hl { color: var(--negative); }
+    .header .subtitle { font-size: 8px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+    .header .subtitle strong { color: var(--text); }
+    .header-meta { margin-top: 5px; font-size: 6.5px; color: rgba(255,255,255,0.35); }
+
+    /* SECTION TITLES */
+    .section-num { display: inline-block; width: 16px; height: 16px; border-radius: 50%; background: var(--primary); color: var(--bg); font-size: 7px; font-weight: 700; text-align: center; line-height: 16px; margin-right: 6px; vertical-align: middle; }
+    .section-title { font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 12px; margin-bottom: 7px; display: flex; align-items: center; }
+    .section-title span { vertical-align: middle; }
+
+    /* KPI ROW */
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
+    .kpi { background: var(--surface); border-radius: 4px; padding: 8px 9px; border: 1px solid var(--border); position: relative; }
+    .kpi::after { content: ''; position: absolute; top: 8px; right: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--primary); }
+    .kpi-label { font-size: 6px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .kpi-value { font-size: 15px; font-weight: 700; margin-top: 1px; color: var(--text); }
+    .kpi-sub { font-size: 6px; color: var(--muted); margin-top: 2px; }
+    .kpi-sub .accent { color: var(--primary); font-weight: 600; }
+
+    /* VIZ CONTAINER */
+    .viz-container { background: var(--surface); border-radius: 5px; padding: 10px 12px; border: 1px solid var(--border); margin-bottom: 10px; }
+    .viz-title { font-size: 7px; font-weight: 600; color: rgba(201,168,76,0.6); margin-bottom: 7px; }
+
+    /* TWO COLUMN */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .list-box { background: var(--surface); border-radius: 4px; padding: 8px 10px; border: 1px solid var(--border); }
+    .list-box h4 { font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text); margin-bottom: 5px; }
+    .list-item { display: flex; align-items: flex-start; gap: 5px; margin-bottom: 4px; }
+    .list-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); margin-top: 3px; flex-shrink: 0; }
+    .list-item span { font-size: 6.5px; color: var(--muted); line-height: 1.45; }
+    .list-item span strong { color: var(--text); }
+    .list-item span em { color: var(--negative); font-style: italic; }
+
+    /* THESIS LINE */
+    .thesis-line { font-family: 'Playfair Display', Georgia, serif; font-size: 8.5px; font-weight: 700; color: var(--text); text-align: center; margin: 12px 0; padding: 7px 14px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    /* INSIGHT BOX */
+    .insight-box { background: var(--surface); border-radius: 4px; padding: 9px 11px; border-left: 3px solid var(--negative); margin-bottom: 10px; }
+    .insight-box p { font-size: 7px; color: var(--muted); line-height: 1.55; }
+    .insight-box strong { color: var(--text); }
+    .insight-box .hl { color: var(--primary); }
+
+    /* OPPORTUNITY ROW */
+    .opp-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 6px; }
+    .opp-card { background: var(--surface); border-radius: 4px; padding: 7px 8px; border: 1px solid var(--border); text-align: center; }
+    .opp-card h5 { font-size: 7px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .opp-card p { font-size: 5.5px; color: var(--muted); line-height: 1.35; }
+
+    /* CTA */
+    .cta { text-align: center; margin: 10px 0 7px; }
+    .cta p { font-size: 8.5px; font-style: italic; color: var(--muted); line-height: 1.5; }
+
+    /* FOOTER */
+    .footer { margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 6px; color: rgba(255,255,255,0.3); }
+    .footer .brand { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 9px; color: var(--muted); }
+
+    /* PRINT */
+    @media print {
+      body { background: var(--bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { margin: 0; padding: 10mm 10mm 7mm; }
+    }
+    @page { size: A4 portrait; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-brand">
+        <span class="logo">Sa.<sub>Partners</sub></span>
+        <span class="header-cat">INVESTMENT INTELLIGENCE | SOUTHEAST ASIA</span>
+      </div>
+      <h1>Vietnam Doubles Asia Pacific Investment Intent —<br><span class="hl">But Durability Requires More Than a Rankings Surge</span></h1>
+      <div class="subtitle">In a year when 60% of Asia Pacific CEOs froze new international investments, <strong>Vietnam nearly doubled its share of investor interest</strong>, rising to the #2 most-preferred investment destination globally — behind only the United States.</div>
+      <div class="header-meta">June 2026 &nbsp;·&nbsp; Southeast Asia &nbsp;·&nbsp; Source: PwC 29th Annual Global CEO Survey (Asia Pacific)</div>
+    </div>
+
+    <!-- 01: KEY METRICS -->
+    <div class="section-title"><span class="section-num">1</span><span>INVESTMENT INTENT SIGNALS — ASIA PACIFIC 2026</span></div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Vietnam Intent Share</div>
+        <div class="kpi-value">15%</div>
+        <div class="kpi-sub"><span class="accent">▲88% YoY</span> — up from 8% in 2025</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">CEO Investment Freeze</div>
+        <div class="kpi-value">60%</div>
+        <div class="kpi-sub"><span class="accent">was 44%</span> — contraction deepening, not recovering</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Vietnam's Global Rank</div>
+        <div class="kpi-value">#2</div>
+        <div class="kpi-sub"><span class="accent">Asia Pacific</span> — only US (42%) ranks higher</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">1-Year Point Gain</div>
+        <div class="kpi-value">+7pp</div>
+        <div class="kpi-sub"><span class="accent">Largest gain</span> among top 5 APAC destinations in 2026</div>
+      </div>
+    </div>
+
+    <!-- VIZ 1: Bar Chart -->
+    <div class="section-title"><span class="section-num">2</span><span>ASIA PACIFIC TOP INVESTMENT DESTINATIONS: 2025 VS 2026</span></div>
+    <div class="viz-container">
+      <div class="viz-title">% of Asia Pacific CEOs selecting each country as a top-3 investment destination (PwC CEO Survey 2026)</div>
+      <svg viewBox="0 0 440 118" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:'DM Sans',sans-serif;">
+        <!-- Legend -->
+        <rect x="265" y="5" width="7" height="7" fill="rgba(0,177,79,0.28)" rx="1"/>
+        <text x="276" y="12" fill="rgba(201,168,76,0.65)" font-size="6.5">2025</text>
+        <rect x="305" y="5" width="7" height="7" fill="#00B14F" rx="1"/>
+        <text x="316" y="12" fill="rgba(201,168,76,0.65)" font-size="6.5">2026</text>
+        <!-- Grid lines -->
+        <line x1="34" y1="95" x2="434" y2="95" stroke="#2A4A38" stroke-width="1"/>
+        <line x1="34" y1="62" x2="434" y2="62" stroke="#2A4A38" stroke-width="0.5" stroke-dasharray="2,3"/>
+        <text x="29" y="65" fill="rgba(201,168,76,0.4)" font-size="6" text-anchor="end">20%</text>
+        <line x1="34" y1="29" x2="434" y2="29" stroke="#2A4A38" stroke-width="0.5" stroke-dasharray="2,3"/>
+        <text x="29" y="32" fill="rgba(201,168,76,0.4)" font-size="6" text-anchor="end">40%</text>
+
+        <!-- Scale: 80px = 45%, so 1% = 1.778px. Baseline y=95. -->
+        <!-- US: 2025=33%(58.7px), 2026=42%(74.7px). Group start x=36. Bar x: 2025=36+12=48, 2026=48+18+4=70 -->
+        <rect x="48" y="36" width="18" height="59" fill="rgba(0,177,79,0.28)" rx="1"/>
+        <rect x="70" y="20" width="18" height="75" fill="#00B14F" rx="1"/>
+        <text x="68" y="108" fill="rgba(255,255,255,0.5)" font-size="6.5" text-anchor="middle">US</text>
+        <text x="79" y="17" fill="#00B14F" font-size="7" text-anchor="middle" font-weight="700">42%</text>
+        <text x="57" y="33" fill="rgba(0,177,79,0.55)" font-size="6" text-anchor="middle">33%</text>
+
+        <!-- Vietnam: 2025=8%(14.2px), 2026=15%(26.7px). Group start x=102. Bar x: 114, 136 -->
+        <rect x="114" y="81" width="18" height="14" fill="rgba(0,177,79,0.28)" rx="1"/>
+        <rect x="136" y="68" width="18" height="27" fill="#00B14F" rx="1"/>
+        <text x="132" y="108" fill="rgba(255,255,255,0.5)" font-size="6.5" text-anchor="middle">VN</text>
+        <text x="145" y="65" fill="#FFFFFF" font-size="7" text-anchor="middle" font-weight="700">15%</text>
+        <text x="123" y="78" fill="rgba(0,177,79,0.55)" font-size="6" text-anchor="middle">8%</text>
+        <!-- Vietnam highlight box -->
+        <rect x="110" y="59" width="48" height="46" fill="none" stroke="#C9A84C" stroke-width="1.5" rx="2" stroke-dasharray="3,2"/>
+        <text x="134" y="116" fill="#C9A84C" font-size="6.5" text-anchor="middle" font-weight="700">+88% YoY</text>
+
+        <!-- China: 2025=9%(16px), 2026=14%(24.9px). Group start x=168. Bar x: 180, 202 -->
+        <rect x="180" y="79" width="18" height="16" fill="rgba(0,177,79,0.28)" rx="1"/>
+        <rect x="202" y="70" width="18" height="25" fill="#00B14F" rx="1"/>
+        <text x="199" y="108" fill="rgba(255,255,255,0.5)" font-size="6.5" text-anchor="middle">CN</text>
+        <text x="211" y="67" fill="#FFFFFF" font-size="7" text-anchor="middle">14%</text>
+        <text x="189" y="76" fill="rgba(0,177,79,0.55)" font-size="6" text-anchor="middle">9%</text>
+
+        <!-- UK: 2025=13%(23.1px), 2026=13%(23.1px). Group start x=234. Bar x: 246, 268 -->
+        <rect x="246" y="72" width="18" height="23" fill="rgba(0,177,79,0.28)" rx="1"/>
+        <rect x="268" y="72" width="18" height="23" fill="#00B14F" rx="1"/>
+        <text x="265" y="108" fill="rgba(255,255,255,0.5)" font-size="6.5" text-anchor="middle">UK</text>
+        <text x="277" y="69" fill="#FFFFFF" font-size="7" text-anchor="middle">13%</text>
+
+        <!-- Singapore: 2025=13%(23.1px), 2026=13%(23.1px). Group start x=300. Bar x: 312, 334 -->
+        <rect x="312" y="72" width="18" height="23" fill="rgba(0,177,79,0.28)" rx="1"/>
+        <rect x="334" y="72" width="18" height="23" fill="#00B14F" rx="1"/>
+        <text x="331" y="108" fill="rgba(255,255,255,0.5)" font-size="6.5" text-anchor="middle">SG</text>
+        <text x="343" y="69" fill="#FFFFFF" font-size="7" text-anchor="middle">13%</text>
+
+        <!-- India: 2025=6%(10.7px), 2026=12%(21.3px). Group start x=366. Bar x: 378, 400 -->
+        <rect x="378" y="84" width="18" height="11" fill="rgba(0,177,79,0.28)" rx="1"/>
+        <rect x="400" y="74" width="18" height="21" fill="#00B14F" rx="1"/>
+        <text x="398" y="108" fill="rgba(255,255,255,0.5)" font-size="6.5" text-anchor="middle">India</text>
+        <text x="409" y="71" fill="#FFFFFF" font-size="7" text-anchor="middle">12%</text>
+        <text x="387" y="81" fill="rgba(0,177,79,0.55)" font-size="6" text-anchor="middle">6%</text>
+      </svg>
+    </div>
+
+    <!-- VIZ 2: Capital Concentration Mechanism -->
+    <div class="section-title"><span class="section-num">3</span><span>THE CAPITAL CONCENTRATION MECHANISM — WHY VIETNAM NOW</span></div>
+    <div class="viz-container">
+      <div class="viz-title">When 60% freeze, the 40% still investing concentrate into resilience-proven corridors — Vietnam wins all three qualifying criteria</div>
+      <svg viewBox="0 0 440 95" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:'DM Sans',sans-serif;">
+        <!-- CEO Pool box -->
+        <rect x="5" y="22" width="72" height="48" fill="#162B20" rx="3" stroke="#2A4A38" stroke-width="1"/>
+        <text x="41" y="40" fill="rgba(201,168,76,0.7)" font-size="6.5" text-anchor="middle" font-weight="700">ASIA PAC</text>
+        <text x="41" y="51" fill="rgba(201,168,76,0.7)" font-size="6.5" text-anchor="middle" font-weight="700">CEO POOL</text>
+        <text x="41" y="63" fill="rgba(255,255,255,0.35)" font-size="6" text-anchor="middle">100% base</text>
+
+        <!-- Split arrow -->
+        <line x1="77" y1="46" x2="96" y2="46" stroke="#2A4A38" stroke-width="1.5"/>
+        <polygon points="96,43 103,46 96,49" fill="#2A4A38"/>
+
+        <!-- Frozen box -->
+        <rect x="103" y="8" width="80" height="30" fill="#162B20" rx="3" stroke="#E8634B" stroke-width="1"/>
+        <text x="143" y="22" fill="#E8634B" font-size="7" text-anchor="middle" font-weight="700">60% FROZEN</text>
+        <text x="143" y="32" fill="rgba(255,255,255,0.4)" font-size="5.5" text-anchor="middle">No new intl investment (was 44%)</text>
+
+        <!-- Active box -->
+        <rect x="103" y="55" width="80" height="30" fill="#162B20" rx="3" stroke="#00B14F" stroke-width="1"/>
+        <text x="143" y="69" fill="#00B14F" font-size="7" text-anchor="middle" font-weight="700">40% ACTIVE</text>
+        <text x="143" y="79" fill="rgba(255,255,255,0.4)" font-size="5.5" text-anchor="middle">Concentrating capital selectively</text>
+
+        <!-- Connecting lines -->
+        <line x1="103" y1="46" x2="103" y2="23" stroke="#E8634B" stroke-width="1" opacity="0.5"/>
+        <line x1="103" y1="46" x2="103" y2="70" stroke="#00B14F" stroke-width="1" opacity="0.5"/>
+
+        <!-- Arrow from active to concentration zone -->
+        <line x1="183" y1="70" x2="204" y2="70" stroke="#00B14F" stroke-width="1.5"/>
+        <polygon points="204,67 211,70 204,73" fill="#00B14F"/>
+
+        <!-- Concentration zone -->
+        <rect x="211" y="12" width="220" height="76" fill="#1C3328" rx="3" stroke="#2A4A38" stroke-width="1"/>
+        <text x="321" y="24" fill="rgba(201,168,76,0.65)" font-size="6.5" text-anchor="middle" font-weight="700" letter-spacing="0.05em">CAPITAL CONCENTRATION TARGETS</text>
+
+        <!-- US row -->
+        <text x="222" y="39" fill="rgba(255,255,255,0.5)" font-size="6.5" font-weight="600">US</text>
+        <rect x="244" y="31" width="88" height="9" fill="#00B14F" rx="1" opacity="0.75"/>
+        <text x="220" y="39" fill="none" font-size="1">.</text>
+        <text x="337" y="39" fill="#00B14F" font-size="7" font-weight="700">42%</text>
+        <text x="354" y="39" fill="rgba(0,177,79,0.5)" font-size="5.5">▲ +9pp</text>
+
+        <!-- Vietnam row — highlighted -->
+        <rect x="218" y="44" width="3" height="10" fill="#C9A84C" rx="1"/>
+        <text x="226" y="52" fill="#FFFFFF" font-size="6.5" font-weight="700">Vietnam</text>
+        <rect x="266" y="44" width="32" height="9" fill="#C9A84C" rx="1" opacity="0.85"/>
+        <text x="337" y="52" fill="#C9A84C" font-size="7" font-weight="700">15% ▲</text>
+        <text x="354" y="52" fill="rgba(201,168,76,0.6)" font-size="5.5">+7pp</text>
+
+        <!-- China row -->
+        <text x="222" y="65" fill="rgba(255,255,255,0.5)" font-size="6.5">China</text>
+        <rect x="244" y="57" width="29" height="9" fill="#00B14F" rx="1" opacity="0.4"/>
+        <text x="337" y="65" fill="rgba(0,177,79,0.6)" font-size="7">14%</text>
+        <text x="354" y="65" fill="rgba(0,177,79,0.4)" font-size="5.5">▲ +5pp</text>
+
+        <!-- Drivers note -->
+        <text x="219" y="82" fill="rgba(201,168,76,0.45)" font-size="5.5">VN drivers: China+1 supply chain · ASEAN+ trade · government policy support</text>
+      </svg>
+    </div>
+
+    <!-- CONTRAST COLUMNS -->
+    <div class="section-title"><span class="section-num">4</span><span>CONSENSUS READING VS OPERATOR REALITY</span></div>
+    <div class="two-col">
+      <div class="list-box">
+        <h4>The Consensus Reading</h4>
+        <div class="list-item"><div class="list-dot"></div><span><strong>Vietnam is on a structural rise</strong> — China+1 is a decade-long supply chain shift, not a cycle trade</span></div>
+        <div class="list-item"><div class="list-dot"></div><span><strong>Government signals are strong</strong> — special economic zones, FDI law reform, and diplomatic positioning</span></div>
+        <div class="list-item"><div class="list-dot"></div><span><strong>ASEAN+ intra-regional trade</strong> is accelerating, compounding Vietnam's gateway position for Southeast Asia</span></div>
+      </div>
+      <div class="list-box" style="border-color: var(--negative);">
+        <h4 style="color: var(--negative);">The Operator Reality</h4>
+        <div class="list-item"><div class="list-dot" style="background:var(--negative)"></div><span><strong>60% froze investment</strong> — Vietnam's gain is within a <em>shrinking active-capital pool</em>. This is a fight for a smaller pie, not an expanding one.</span></div>
+        <div class="list-item"><div class="list-dot" style="background:var(--negative)"></div><span><strong>Concentration ≠ breadth</strong> — FDI intent is corridor-concentrated. Most of Vietnam's territory and SME base sits outside the investment zone.</span></div>
+        <div class="list-item"><div class="list-dot" style="background:var(--negative)"></div><span><strong>Intent ≠ disbursement</strong> — registered FDI historically converts at 60–70%. The 15% headline overstates actual capital arrival. <em>[NEEDS SIZING]</em></span></div>
+      </div>
+    </div>
+
+    <!-- THESIS LINE -->
+    <div class="thesis-line">Vietnam hasn't captured growth capital — it has captured resilience capital. The difference defines how long this lasts and what infrastructure it demands.</div>
+
+    <!-- VIZ 3: Durability Ladder -->
+    <div class="section-title"><span class="section-num">5</span><span>THE DURABILITY LADDER — WHERE VIETNAM STANDS TODAY</span></div>
+    <div class="viz-container">
+      <div class="viz-title">5 stages from CEO intent to durable economic density — current position: Stage 1 confirmed, Stage 2 tracking</div>
+      <svg viewBox="0 0 440 72" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:'DM Sans',sans-serif;">
+        <!-- Stage 1: CEO INTENT — CONFIRMED, bright green -->
+        <rect x="4" y="14" width="76" height="42" fill="#00B14F" rx="3"/>
+        <text x="42" y="29" fill="#FFFFFF" font-size="6.5" text-anchor="middle" font-weight="700">CEO INTENT</text>
+        <text x="42" y="40" fill="rgba(255,255,255,0.85)" font-size="6" text-anchor="middle">VN: 15%</text>
+        <text x="42" y="50" fill="rgba(255,255,255,0.7)" font-size="5.5" text-anchor="middle">Asia Pac #2</text>
+        <text x="42" y="66" fill="#00B14F" font-size="6" text-anchor="middle" font-weight="700">✓ CONFIRMED</text>
+
+        <!-- Arrow 1→2 -->
+        <line x1="80" y1="35" x2="87" y2="35" stroke="#2A4A38" stroke-width="1.5"/>
+        <polygon points="87,32 94,35 87,38" fill="#2A4A38"/>
+
+        <!-- Stage 2: REGISTERED FDI — WATCH, gold border -->
+        <rect x="94" y="14" width="76" height="42" fill="#1C3328" rx="3" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="132" y="29" fill="#C9A84C" font-size="6.5" text-anchor="middle" font-weight="700">REGISTERED</text>
+        <text x="132" y="40" fill="rgba(201,168,76,0.75)" font-size="6" text-anchor="middle">FDI intake</text>
+        <text x="132" y="50" fill="rgba(201,168,76,0.6)" font-size="5.5" text-anchor="middle">Tracking 2026</text>
+        <text x="132" y="66" fill="#C9A84C" font-size="6" text-anchor="middle">→ WATCH</text>
+
+        <!-- Arrow 2→3 -->
+        <line x1="170" y1="35" x2="177" y2="35" stroke="#2A4A38" stroke-width="1.5"/>
+        <polygon points="177,32 184,35 177,38" fill="#2A4A38"/>
+
+        <!-- Stage 3: DISBURSED — GAP, red border -->
+        <rect x="184" y="14" width="76" height="42" fill="#1C3328" rx="3" stroke="#2A4A38" stroke-width="1"/>
+        <text x="222" y="29" fill="rgba(255,255,255,0.65)" font-size="6.5" text-anchor="middle" font-weight="700">DISBURSED</text>
+        <text x="222" y="40" fill="rgba(255,255,255,0.45)" font-size="6" text-anchor="middle">Actual capital</text>
+        <text x="222" y="50" fill="#E8634B" font-size="5.5" text-anchor="middle">~60–70% of reg.</text>
+        <text x="222" y="66" fill="rgba(232,99,75,0.65)" font-size="6" text-anchor="middle">SIZING GAP</text>
+
+        <!-- Arrow 3→4 -->
+        <line x1="260" y1="35" x2="267" y2="35" stroke="#2A4A38" stroke-width="1.5"/>
+        <polygon points="267,32 274,35 267,38" fill="#2A4A38"/>
+
+        <!-- Stage 4: VALUE CHAIN — WEAK -->
+        <rect x="274" y="14" width="76" height="42" fill="#1C3328" rx="3" stroke="#2A4A38" stroke-width="1"/>
+        <text x="312" y="29" fill="rgba(255,255,255,0.65)" font-size="6.5" text-anchor="middle" font-weight="700">VALUE CHAIN</text>
+        <text x="312" y="40" fill="rgba(255,255,255,0.45)" font-size="6" text-anchor="middle">Local linkages</text>
+        <text x="312" y="50" fill="#E8634B" font-size="5.5" text-anchor="middle">Local content weak</text>
+        <text x="312" y="66" fill="rgba(232,99,75,0.65)" font-size="6" text-anchor="middle">WEAK TODAY</text>
+
+        <!-- Arrow 4→5 -->
+        <line x1="350" y1="35" x2="357" y2="35" stroke="#2A4A38" stroke-width="1.5"/>
+        <polygon points="357,32 364,35 357,38" fill="#2A4A38"/>
+
+        <!-- Stage 5: ECONOMIC DENSITY — TARGET -->
+        <rect x="364" y="14" width="72" height="42" fill="#1C3328" rx="3" stroke="#2A4A38" stroke-width="1"/>
+        <text x="400" y="29" fill="rgba(255,255,255,0.35)" font-size="6.5" text-anchor="middle" font-weight="700">ECONOMIC</text>
+        <text x="400" y="40" fill="rgba(255,255,255,0.35)" font-size="6.5" text-anchor="middle" font-weight="700">DENSITY</text>
+        <text x="400" y="50" fill="rgba(255,255,255,0.25)" font-size="5.5" text-anchor="middle">Durable premium</text>
+        <text x="400" y="66" fill="rgba(255,255,255,0.25)" font-size="6" text-anchor="middle">TARGET</text>
+
+        <!-- Current position -->
+        <text x="42" y="7" fill="rgba(0,177,79,0.75)" font-size="5.5" text-anchor="middle">● YOU ARE HERE</text>
+      </svg>
+    </div>
+
+    <!-- OPERATOR INSIGHT -->
+    <div class="section-title"><span class="section-num">6</span><span>OPERATOR INSIGHT</span></div>
+    <div class="insight-box">
+      <p><strong>The B2B Gap Nobody Is Pricing:</strong> The 15% intent figure represents hundreds of manufacturing, logistics, and supply chain firms actively evaluating Vietnam. <span class="hl">Every one of them needs treasury, payroll, compliance, and cross-border payment infrastructure in VND on day one</span> — and most will find the product stack years behind consumer fintech maturity. For platform operators building in Vietnam, the incoming FDI wave is a B2B market signal more than a consumer demand signal.</p>
+    </div>
+
+    <!-- OPPORTUNITY MAP -->
+    <div class="section-title"><span class="section-num">7</span><span>OPPORTUNITY MAP — INFRASTRUCTURE ENABLING THE INVESTMENT WAVE</span></div>
+    <div class="opp-row">
+      <div class="opp-card"><h5>Industrial Fintech</h5><p>Treasury &amp; FX management for incoming manufacturers operating VND/USD/CNY flows</p></div>
+      <div class="opp-card"><h5>Compliance Tech</h5><p>Regulatory onboarding, labor law, and investment registration for foreign entrants</p></div>
+      <div class="opp-card"><h5>Industrial Logistics</h5><p>Inputs, components, and finished goods movement across the 3 key FDI corridors</p></div>
+      <div class="opp-card"><h5>Cross-border Payments</h5><p>VND corridors for intra-ASEAN+ trade flows accelerated by supply chain restructuring</p></div>
+    </div>
+    <div class="opp-row">
+      <div class="opp-card"><h5>Workforce Platform</h5><p>Payroll, labor compliance, and HR infra for scale factory hiring during FDI entry</p></div>
+      <div class="opp-card"><h5>Supply Chain Finance</h5><p>Working capital for tier-2/3 local suppliers entering FDI manufacturer networks</p></div>
+      <div class="opp-card"><h5>Investment Intelligence</h5><p>Tracking FDI registration, disbursement, and sector concentration in real time</p></div>
+      <div class="opp-card"><h5>Policy Bridge</h5><p>Connecting FDI intent to government incentive programs, special zones, and approvals</p></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <p>If 15% of Asia Pacific's investment intent is pointed at Vietnam — what does the infrastructure layer need to look like to make that intent stick?</p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <span class="brand">Sa.<sub>Partners</sub></span>
+      <span>Southeast Asia</span>
+      <span>Intelligence Brief &nbsp;·&nbsp; June 2026</span>
+    </div>
+
+  </div>
+</body>
+</html>

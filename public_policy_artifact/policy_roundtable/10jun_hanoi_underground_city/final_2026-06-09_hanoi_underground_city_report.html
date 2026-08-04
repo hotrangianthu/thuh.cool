@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanoi Underground City — Sa. Partners Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #162B20;
+      --surface: #1C3328;
+      --text: #FFFFFF;
+      --muted: #C9A84C;
+      --primary: #00B14F;
+      --accent: #C9A84C;
+      --border: #2A4A38;
+      --negative: #E8634B;
+      --neutral: #C9A84C;
+      --depth-1: #1a5c3a;
+      --depth-2: #145230;
+      --depth-3: #0e4226;
+      --depth-4: #08321c;
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 14mm 14mm 10mm;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid var(--border); }
+    .header-brand { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .logo { font-family: 'Playfair Display', Georgia, serif; font-size: 11px; font-weight: 900; color: var(--muted); letter-spacing: 0.02em; }
+    .logo sub { font-size: 8px; font-weight: 400; color: var(--muted); opacity: 0.7; }
+    .header-cat { font-size: 7.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); }
+    .header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 900; line-height: 1.25; letter-spacing: -0.3px; max-width: 92%; margin-top: 4px; }
+    .header h1 .hl { color: var(--negative); }
+    .header .subtitle { font-size: 8.5px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+    .header .subtitle strong { color: var(--text); }
+    .header-meta { margin-top: 6px; font-size: 7px; color: rgba(255,255,255,0.4); }
+
+    /* SECTION TITLES */
+    .section-num { display: inline-block; width: 18px; height: 18px; border-radius: 50%; background: var(--primary); color: var(--bg); font-size: 8px; font-weight: 700; text-align: center; line-height: 18px; margin-right: 6px; vertical-align: middle; }
+    .section-title { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 14px; margin-bottom: 8px; display: flex; align-items: center; }
+    .section-title span { vertical-align: middle; }
+
+    /* KPI ROW */
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 12px; }
+    .kpi { background: var(--surface); border-radius: 5px; padding: 9px 10px; border: 1px solid var(--border); position: relative; }
+    .kpi::after { content: ''; position: absolute; top: 9px; right: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--primary); }
+    .kpi-label { font-size: 6.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .kpi-value { font-size: 14px; font-weight: 700; margin-top: 2px; color: var(--text); }
+    .kpi-sub { font-size: 6.5px; color: var(--muted); margin-top: 2px; }
+    .kpi-sub .accent { color: var(--primary); font-weight: 600; }
+
+    /* VIZ CONTAINER */
+    .viz-container { background: var(--surface); border-radius: 6px; padding: 12px 14px; border: 1px solid var(--border); margin-bottom: 12px; }
+    .viz-title { font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+
+    /* TWO COLUMN */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
+    /* LIST BOX */
+    .list-box { background: var(--surface); border-radius: 5px; padding: 9px 11px; border: 1px solid var(--border); }
+    .list-box h4 { font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text); margin-bottom: 6px; }
+    .list-item { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+    .list-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); margin-top: 4px; flex-shrink: 0; }
+    .list-item span { font-size: 7px; color: var(--muted); line-height: 1.45; }
+    .list-item span strong { color: var(--text); }
+
+    /* THESIS LINE */
+    .thesis-line { font-family: 'Playfair Display', Georgia, serif; font-size: 9px; font-weight: 700; color: var(--text); text-align: center; margin: 14px 0; padding: 8px 16px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    /* INSIGHT BOX */
+    .insight-box { background: var(--surface); border-radius: 5px; padding: 10px 12px; border-left: 3px solid var(--negative); margin-bottom: 12px; }
+    .insight-box p { font-size: 7.5px; color: var(--muted); line-height: 1.55; }
+    .insight-box strong { color: var(--text); }
+    .insight-box .hl { color: var(--primary); }
+
+    /* OPPORTUNITY ROW */
+    .opp-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
+    .opp-card { background: var(--surface); border-radius: 5px; padding: 8px 9px; border: 1px solid var(--border); text-align: center; }
+    .opp-card h5 { font-size: 7.5px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .opp-card p { font-size: 6px; color: var(--muted); line-height: 1.35; }
+
+    /* CTA */
+    .cta { text-align: center; margin: 12px 0 8px; }
+    .cta p { font-size: 9px; font-style: italic; color: var(--muted); }
+
+    /* FOOTER */
+    .footer { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 6.5px; color: rgba(255,255,255,0.35); }
+    .footer .brand { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 9px; color: var(--muted); }
+
+    /* SVG STYLES */
+    .svg-label { font-family: 'DM Sans', sans-serif; fill: var(--muted); }
+    .svg-value { font-family: 'DM Sans', sans-serif; fill: var(--text); font-weight: 700; }
+
+    /* PRINT */
+    @media print {
+      body { background: var(--bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { margin: 0; padding: 12mm 10mm 8mm; }
+    }
+    @page { size: A4 portrait; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-brand">
+        <span class="logo">Sa.<sub>Partners</sub></span>
+        <span class="header-cat">Vietnam Infrastructure | SEA Urban Policy</span>
+      </div>
+      <h1>Hanoi's Underground City Is Not a Construction Plan.<br>It's a <span class="hl">Legislative Sprint</span> With No Enabling Layer.</h1>
+      <div class="subtitle">The visible plan is tunnels. The valuable layer is <strong>what makes tunnels financeable, mappable, and legally possible.</strong></div>
+      <div class="header-meta">June 2026 | Vietnam / APAC Urban Infrastructure</div>
+    </div>
+
+    <!-- 01: KEY METRICS -->
+    <div class="section-title"><span class="section-num">1</span><span>Key Parameters</span></div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Depth Zones</div>
+        <div class="kpi-value">0–50m+</div>
+        <div class="kpi-sub"><span class="accent">4 regulated layers</span></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Horizon</div>
+        <div class="kpi-value">2026–65</div>
+        <div class="kpi-sub"><span class="accent">4 phases</span> / 40 years</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Underground Target</div>
+        <div class="kpi-value">40%</div>
+        <div class="kpi-sub"><span class="accent">central area</span> by 2045</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Population</div>
+        <div class="kpi-value">~10M</div>
+        <div class="kpi-sub"><span class="accent">surface saturated</span></div>
+      </div>
+    </div>
+
+    <!-- VIZ 1: CROSS-SECTION DIAGRAM — Underground Depth Layers -->
+    <div class="section-title"><span class="section-num">2</span><span>Underground Depth Layers — Cross-Section</span></div>
+    <div class="viz-container">
+      <svg viewBox="0 0 520 155" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+        <!-- Surface -->
+        <rect x="0" y="0" width="520" height="28" rx="3" fill="#2A4A38"/>
+        <text x="12" y="17" font-size="7.5" font-weight="700" fill="#FFFFFF" font-family="DM Sans, sans-serif">SURFACE (0m)</text>
+        <text x="200" y="17" font-size="6.5" fill="#C9A84C" font-family="DM Sans, sans-serif">Roads, buildings, parks — fully saturated (~10M pop.)</text>
+        <!-- Layer 1: 0-15m -->
+        <rect x="0" y="32" width="520" height="28" rx="3" fill="#1a5c3a"/>
+        <text x="12" y="49" font-size="7.5" font-weight="700" fill="#00B14F" font-family="DM Sans, sans-serif">LAYER 1: 0–15m</text>
+        <text x="140" y="49" font-size="6.5" fill="#C9A84C" font-family="DM Sans, sans-serif">Utilities, parking, pedestrian tunnels, commercial basements</text>
+        <rect x="430" y="36" width="80" height="18" rx="9" fill="none" stroke="#00B14F" stroke-width="1"/>
+        <text x="448" y="48" font-size="6" fill="#00B14F" font-family="DM Sans, sans-serif">Phase 1-2</text>
+        <!-- Layer 2: 15-30m -->
+        <rect x="0" y="64" width="520" height="28" rx="3" fill="#145230"/>
+        <text x="12" y="81" font-size="7.5" font-weight="700" fill="#00B14F" font-family="DM Sans, sans-serif">LAYER 2: 15–30m</text>
+        <text x="140" y="81" font-size="6.5" fill="#C9A84C" font-family="DM Sans, sans-serif">Metro lines, logistics corridors, stormwater systems</text>
+        <rect x="430" y="68" width="80" height="18" rx="9" fill="none" stroke="#C9A84C" stroke-width="1"/>
+        <text x="448" y="80" font-size="6" fill="#C9A84C" font-family="DM Sans, sans-serif">Phase 2-3</text>
+        <!-- Layer 3: 30-50m -->
+        <rect x="0" y="96" width="520" height="28" rx="3" fill="#0e4226"/>
+        <text x="12" y="113" font-size="7.5" font-weight="700" fill="#E8634B" font-family="DM Sans, sans-serif">LAYER 3: 30–50m</text>
+        <text x="140" y="113" font-size="6.5" fill="#C9A84C" font-family="DM Sans, sans-serif">Deep infrastructure, civil defense, energy storage</text>
+        <rect x="430" y="100" width="80" height="18" rx="9" fill="none" stroke="#E8634B" stroke-width="1"/>
+        <text x="448" y="112" font-size="6" fill="#E8634B" font-family="DM Sans, sans-serif">Phase 3-4</text>
+        <!-- Layer 4: 50m+ -->
+        <rect x="0" y="128" width="520" height="24" rx="3" fill="#08321c"/>
+        <text x="12" y="143" font-size="7.5" font-weight="700" fill="#E8634B" font-family="DM Sans, sans-serif">LAYER 4: 50m+</text>
+        <text x="140" y="143" font-size="6.5" fill="#C9A84C" font-family="DM Sans, sans-serif">Reserved — geological survey required before any designation</text>
+        <rect x="430" y="131" width="80" height="18" rx="9" fill="none" stroke="#E8634B" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="444" y="143" font-size="6" fill="#E8634B" font-family="DM Sans, sans-serif">Undefined</text>
+        <!-- Right side: Legal status annotations -->
+        <line x1="525" y1="32" x2="525" y2="60" stroke="#E8634B" stroke-width="1.5" stroke-dasharray="2,2" opacity="0"/>
+      </svg>
+      <div style="display:flex; gap:14px; margin-top:6px;">
+        <span style="font-size:6px; color:var(--primary);">&#9679; Legal framework exists</span>
+        <span style="font-size:6px; color:var(--negative);">&#9679; No subsurface property rights defined</span>
+        <span style="font-size:6px; color:var(--muted);">&#9679; No geospatial mapping available</span>
+      </div>
+    </div>
+
+    <!-- VIZ 2: FINANCING GAP WATERFALL -->
+    <div class="section-title"><span class="section-num">3</span><span>Financing Gap — Municipal Capacity vs. Required Capex</span></div>
+    <div class="viz-container">
+      <svg viewBox="0 0 520 110" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+        <!-- Y-axis labels -->
+        <text x="0" y="12" font-size="6" fill="#C9A84C" font-family="DM Sans, sans-serif">$50B</text>
+        <text x="0" y="42" font-size="6" fill="#C9A84C" font-family="DM Sans, sans-serif">$30B</text>
+        <text x="0" y="72" font-size="6" fill="#C9A84C" font-family="DM Sans, sans-serif">$10B</text>
+        <text x="0" y="97" font-size="6" fill="#C9A84C" font-family="DM Sans, sans-serif">$0</text>
+        <!-- Grid lines -->
+        <line x1="30" y1="10" x2="510" y2="10" stroke="#2A4A38" stroke-width="0.5"/>
+        <line x1="30" y1="40" x2="510" y2="40" stroke="#2A4A38" stroke-width="0.5"/>
+        <line x1="30" y1="70" x2="510" y2="70" stroke="#2A4A38" stroke-width="0.5"/>
+        <line x1="30" y1="95" x2="510" y2="95" stroke="#2A4A38" stroke-width="0.5"/>
+        <!-- Bar 1: Current Municipal Bond Capacity -->
+        <rect x="50" y="88" width="70" height="7" rx="2" fill="#00B14F"/>
+        <text x="85" y="84" font-size="7" font-weight="700" fill="#00B14F" font-family="DM Sans, sans-serif" text-anchor="middle">$0.5B</text>
+        <text x="85" y="104" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif" text-anchor="middle">Current Capacity</text>
+        <!-- Bar 2: ODA/FDI Pipeline -->
+        <rect x="145" y="75" width="70" height="20" rx="2" fill="#C9A84C"/>
+        <text x="180" y="71" font-size="7" font-weight="700" fill="#C9A84C" font-family="DM Sans, sans-serif" text-anchor="middle">$2-3B</text>
+        <text x="180" y="104" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif" text-anchor="middle">ODA/FDI Pipeline</text>
+        <!-- Bar 3: Low Estimate Required -->
+        <rect x="240" y="40" width="70" height="55" rx="2" fill="#2A4A38" stroke="#E8634B" stroke-width="1.5"/>
+        <text x="275" y="36" font-size="7" font-weight="700" fill="#E8634B" font-family="DM Sans, sans-serif" text-anchor="middle">$15B</text>
+        <text x="275" y="104" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif" text-anchor="middle">Low Estimate</text>
+        <!-- Bar 4: High Estimate Required -->
+        <rect x="335" y="10" width="70" height="85" rx="2" fill="#2A4A38" stroke="#E8634B" stroke-width="1.5"/>
+        <text x="370" y="7" font-size="7" font-weight="700" fill="#E8634B" font-family="DM Sans, sans-serif" text-anchor="middle">$50B</text>
+        <text x="370" y="104" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif" text-anchor="middle">High Estimate</text>
+        <!-- Gap annotation -->
+        <line x1="430" y1="15" x2="430" y2="88" stroke="#E8634B" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="440" y="50" font-size="7" font-weight="700" fill="#E8634B" font-family="DM Sans, sans-serif">FINANCING GAP</text>
+        <text x="440" y="60" font-size="6" fill="#E8634B" font-family="DM Sans, sans-serif">$12–47B unfunded</text>
+        <text x="440" y="72" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif">No LVC legislation</text>
+        <text x="440" y="82" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif">No municipal bond market</text>
+      </svg>
+    </div>
+
+    <!-- 04: CONTRAST COLUMNS -->
+    <div class="section-title"><span class="section-num">4</span><span>What Most Watch vs. What Actually Matters</span></div>
+    <div class="two-col">
+      <div class="list-box">
+        <h4>Surface Lens (Consensus)</h4>
+        <div class="list-item"><div class="list-dot"></div><span>Tunnel km announced</span></div>
+        <div class="list-item"><div class="list-dot"></div><span>Construction timeline milestones</span></div>
+        <div class="list-item"><div class="list-dot"></div><span>ODA/FDI commitment numbers</span></div>
+        <div class="list-item"><div class="list-dot"></div><span>Metro line progress updates</span></div>
+        <div class="list-item"><div class="list-dot"></div><span>Architect renders / masterplan visuals</span></div>
+      </div>
+      <div class="list-box" style="border-color: var(--negative);">
+        <h4 style="color: var(--negative);">Structural Lens (Real Blockers)</h4>
+        <div class="list-item"><div class="list-dot" style="background: var(--negative);"></div><span><strong>Subsurface property rights</strong> — legal void</span></div>
+        <div class="list-item"><div class="list-dot" style="background: var(--negative);"></div><span><strong>Municipal bonds</strong> — &lt;$500M vs $15-50B</span></div>
+        <div class="list-item"><div class="list-dot" style="background: var(--negative);"></div><span><strong>Geospatial data</strong> — no subsurface map</span></div>
+        <div class="list-item"><div class="list-dot" style="background: var(--negative);"></div><span><strong>Land value capture</strong> — no legislation</span></div>
+        <div class="list-item"><div class="list-dot" style="background: var(--negative);"></div><span><strong>Metro 2A precedent</strong> — 11yr late</span></div>
+      </div>
+    </div>
+
+    <!-- THESIS -->
+    <div class="thesis-line">The opportunity isn't the tunnel. It's building the missing layers that make the tunnel possible.</div>
+
+    <!-- VIZ 3: TIMELINE COMPARISON -->
+    <div class="section-title"><span class="section-num">5</span><span>International Comparison — Underground City Timelines</span></div>
+    <div class="viz-container">
+      <svg viewBox="0 0 520 95" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+        <!-- Helsinki -->
+        <text x="0" y="16" font-size="6.5" font-weight="600" fill="#FFFFFF" font-family="DM Sans, sans-serif">Helsinki</text>
+        <rect x="80" y="8" width="180" height="14" rx="3" fill="#00B14F" opacity="0.8"/>
+        <text x="86" y="18" font-size="5.5" fill="#162B20" font-weight="600" font-family="DM Sans, sans-serif">1960–2009 (49yr) — Master Plan published</text>
+        <circle cx="264" cy="15" r="4" fill="#00B14F"/>
+        <text x="272" y="18" font-size="5.5" fill="#00B14F" font-family="DM Sans, sans-serif">400+ facilities operational</text>
+        <!-- Singapore -->
+        <text x="0" y="38" font-size="6.5" font-weight="600" fill="#FFFFFF" font-family="DM Sans, sans-serif">Singapore</text>
+        <rect x="80" y="30" width="140" height="14" rx="3" fill="#C9A84C" opacity="0.8"/>
+        <text x="86" y="40" font-size="5.5" fill="#162B20" font-weight="600" font-family="DM Sans, sans-serif">2001–2019 (18yr) — Underground Master Plan</text>
+        <circle cx="224" cy="37" r="4" fill="#C9A84C"/>
+        <text x="232" y="40" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif">Jurong Rock Caverns operational</text>
+        <!-- Tokyo -->
+        <text x="0" y="60" font-size="6.5" font-weight="600" fill="#FFFFFF" font-family="DM Sans, sans-serif">Tokyo</text>
+        <rect x="80" y="52" width="200" height="14" rx="3" fill="#C9A84C" opacity="0.6"/>
+        <text x="86" y="62" font-size="5.5" fill="#162B20" font-weight="600" font-family="DM Sans, sans-serif">1960s–ongoing — organic growth, depth-based rights since 2001</text>
+        <text x="284" y="62" font-size="5.5" fill="#C9A84C" font-family="DM Sans, sans-serif">Deep Underground Use Act</text>
+        <!-- Hanoi -->
+        <text x="0" y="82" font-size="6.5" font-weight="700" fill="#E8634B" font-family="DM Sans, sans-serif">Hanoi</text>
+        <rect x="80" y="74" width="50" height="14" rx="3" fill="#E8634B" opacity="0.3" stroke="#E8634B" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="86" y="84" font-size="5.5" fill="#E8634B" font-weight="600" font-family="DM Sans, sans-serif">2026–35 Phase 1</text>
+        <text x="136" y="84" font-size="5.5" fill="#E8634B" font-family="DM Sans, sans-serif"> = Legal framework only. No construction.</text>
+        <!-- Scale -->
+        <line x1="80" y1="92" x2="510" y2="92" stroke="#2A4A38" stroke-width="0.5"/>
+        <text x="80" y="90" font-size="5" fill="#2A4A38" font-family="DM Sans, sans-serif">|</text>
+      </svg>
+    </div>
+
+    <!-- 06: OPERATOR INSIGHT -->
+    <div class="section-title"><span class="section-num">6</span><span>Operator Insight</span></div>
+    <div class="insight-box">
+      <p><strong>Sa. Partners view:</strong> Hanoi's underground city should not be analyzed as an infrastructure project. It is a <strong>legislative sprint</strong> disguised as a construction program. Phase 1 spans 9 years with zero construction. The immediate risk isn't failure — it's that <span class="hl">land development in central Hanoi freezes for a decade while delivering nothing.</span> The wedge opportunity is in the enabling layers: geospatial data platform, subsurface rights framework, and municipal bond market creation.</p>
+    </div>
+
+    <!-- 07: OPPORTUNITY MAP -->
+    <div class="section-title"><span class="section-num">7</span><span>Where Value Accrues — Enabling Layers</span></div>
+    <div class="opp-row">
+      <div class="opp-card">
+        <h5>Subsurface Data</h5>
+        <p>Digital twin platform<br>40yr data moat</p>
+      </div>
+      <div class="opp-card">
+        <h5>Municipal Bonds</h5>
+        <p>New SEA asset class<br>$15-50B financing gap</p>
+      </div>
+      <div class="opp-card">
+        <h5>LVC Framework</h5>
+        <p>Land value capture<br>legislative catalyst</p>
+      </div>
+      <div class="opp-card">
+        <h5>Property Rights</h5>
+        <p>Depth-based ownership<br>investor prerequisite</p>
+      </div>
+    </div>
+    <div class="opp-row">
+      <div class="opp-card">
+        <h5>GPR Scanning</h5>
+        <p>Ground-penetrating radar<br>first data layer</p>
+      </div>
+      <div class="opp-card">
+        <h5>Utility Mapping</h5>
+        <p>Digitize existing infra<br>JICA archive integration</p>
+      </div>
+      <div class="opp-card">
+        <h5>PPP Framework</h5>
+        <p>Delivery structure<br>never demonstrated</p>
+      </div>
+      <div class="opp-card">
+        <h5>Capacity Build</h5>
+        <p>Institutional design<br>agency creation</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <p>What must happen in 90 days for this program to be real?</p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <span class="brand">Sa.<sub>Partners</sub></span>
+      <span>Vietnam / APAC Urban Infrastructure</span>
+      <span>Intelligence Brief | Jun 2026</span>
+    </div>
+
+  </div>
+</body>
+</html>

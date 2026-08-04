@@ -1,0 +1,131 @@
+[
+  {
+    "slide": 1,
+    "action_title": "Vietnam’s enterprise base is expanding, but scale is the binding constraint",
+    "claims": [
+      {"claim": "859,048 enterprises were active with business results at end-2025.", "source": "https://www.nso.gov.vn/bai-top/2026/06/ket-qua-so-bo-tong-dieu-tra-kinh-te-nam-2026/", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "The scale constraint is the report thesis, supported by average employment per enterprise and ownership-type differences."
+  },
+  {
+    "slide": 2,
+    "action_title": "Enterprise growth is real, but formalization quality—not the headline count—will determine economic impact",
+    "claims": [
+      {"claim": "Active enterprise count increased 25.5% from 2020 to 2025.", "source": "NSO preliminary census, p. 37", "evidence_type": "data point", "confidence": "high"},
+      {"claim": "Enterprise capital increased 69.9% from 2020 to 2025.", "source": "NSO preliminary census, p. 41", "evidence_type": "data point", "confidence": "high"},
+      {"claim": "The census collected 5,194,348 individual business establishments.", "source": "NSO preliminary census, p. 25", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "Formalization quality is an interpretation based on the gap between the household establishment pool and the scale of domestic private firms."
+  },
+  {
+    "slide": 3,
+    "action_title": "The headline measures productive activity, not every registered enterprise in the administrative universe",
+    "claims": [
+      {"claim": "The census covered nearly 6.3 million operating economic establishments.", "source": "NSO preliminary census, p. 31", "evidence_type": "data point", "confidence": "high"},
+      {"claim": "1,220,678 enterprises were surveyed; 859,048 met the active-with-results definition.", "source": "NSO preliminary census, pp. 25, 37", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "The funnel is a measurement-boundary diagram, not a claim that all categories are strict subsets in every legal respect."
+  },
+  {
+    "slide": 4,
+    "action_title": "Firm count rose steadily, while capital and revenue deepened three times faster over 2020–25",
+    "claims": [
+      {"claim": "2020–25 cumulative changes were +25.5% enterprises, +19.7% employment, +69.9% capital and +65.6% net revenue.", "source": "NSO preliminary census, pp. 37, 39, 41, 43", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "2024 index values are reconstructed from 2025 year-on-year rates. Series are indexed to 2020=100."
+  },
+  {
+    "slide": 5,
+    "action_title": "Non-state firms dominate the count, but FDI and state firms carry disproportionate employment and capital",
+    "claims": [
+      {"claim": "2025 active enterprises: 827.5k non-state, 29.8k FDI and 1,770 state-owned.", "source": "NSO preliminary census, pp. 37–38", "evidence_type": "data point", "confidence": "high"},
+      {"claim": "Employment and capital shares are calculated from reported ownership totals.", "source": "NSO preliminary census, pp. 39, 41", "evidence_type": "calculation", "confidence": "high"}
+    ],
+    "inference_notes": "Percentages may not sum exactly due to rounded source totals."
+  },
+  {
+    "slide": 6,
+    "action_title": "Services hold 71% of firms, while industry and construction still employ 59% of enterprise workers",
+    "claims": [
+      {"claim": "Services accounted for 612.5k enterprises, or 71.3% of the total.", "source": "NSO preliminary census, p. 38", "evidence_type": "data point", "confidence": "high"},
+      {"claim": "Industry and construction employed 10.4 million people and had 240.6k enterprises.", "source": "NSO preliminary census, pp. 38, 40", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "Composition shares are calculated from rounded sector totals for count, employment, capital and revenue."
+  },
+  {
+    "slide": 7,
+    "action_title": "The typical domestic private firm employs 13 people—one-sixteenth the FDI average",
+    "claims": [
+      {"claim": "Average employment per enterprise was 553.7 state-owned, 206.4 FDI, 20.5 overall and 12.6 non-state.", "source": "NSO preliminary census, p. 40", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "The 16.4x gap is 206.4 divided by 12.6. Average values do not describe the full size distribution."
+  },
+  {
+    "slide": 8,
+    "action_title": "Two economic cores host 72% of firms, but northern frontier regions are growing faster from a smaller base",
+    "claims": [
+      {"claim": "The Southeast had 349,672 enterprises and the Red River Delta had 267,240.", "source": "NSO preliminary census, p. 39", "evidence_type": "data point", "confidence": "high"},
+      {"claim": "Northern midlands and mountains enterprise count grew 8.7% year on year and 44.4% from 2020.", "source": "NSO preliminary census, p. 39", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "The 72% share uses the two reported regional counts divided by the national active-enterprise total."
+  },
+  {
+    "slide": 9,
+    "action_title": "Formalization creates value only when lower entry friction is paired with capabilities that improve survival and scale",
+    "claims": [
+      {"claim": "Nghị quyết 68 promotes private-sector development and encourages household businesses to become enterprises.", "source": "https://xaydungchinhsach.chinhphu.vn/toan-van-nghi-quyet-so-68-nq-tw-ve-phat-trien-kinh-te-tu-nhan-119250505101309949.htm", "evidence_type": "reported fact", "confidence": "high"}
+    ],
+    "inference_notes": "The policy transmission chain is a Sa.Partners analytical model; specific commercial effects are directional."
+  },
+  {
+    "slide": 10,
+    "action_title": "Reaching two million active enterprises would require an 18.4% annual pace—four times the recent trend",
+    "claims": [
+      {"claim": "Nghị quyết 68 targets two million enterprises by 2030.", "source": "https://xaydungchinhsach.chinhphu.vn/toan-van-nghi-quyet-so-68-nq-tw-ve-phat-trien-kinh-te-tu-nhan-119250505101309949.htm", "evidence_type": "reported fact", "confidence": "high"},
+      {"claim": "Starting from 859,048, reaching two million in five years implies 18.4% CAGR.", "source": "Sa.Partners calculation from NSO and Nghị quyết 68", "evidence_type": "calculation", "confidence": "medium"}
+    ],
+    "inference_notes": "The scenario assumes the policy target and census active-enterprise definition are aligned; this may not be the official target convention."
+  },
+  {
+    "slide": 11,
+    "action_title": "The transition opens a B2B infrastructure market around compliance, finance, workforce and distribution",
+    "claims": [
+      {"claim": "The addressable transition includes 827.5k non-state enterprises and 5.19m individual establishments.", "source": "NSO preliminary census, pp. 25, 37", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "Opportunity categories and control-layer framing are market inferences, not measured market sizes."
+  },
+  {
+    "slide": 12,
+    "action_title": "The thesis weakens if conversion raises the firm count without improving survival, scale or productivity",
+    "claims": [
+      {"claim": "Industry and construction enterprise count fell 5.2% in 2025 while overall enterprise count increased.", "source": "NSO preliminary census, p. 38", "evidence_type": "data point", "confidence": "high"},
+      {"claim": "The preliminary census may be revised before final publication in December 2026.", "source": "NSO publication note", "evidence_type": "reported fact", "confidence": "high"}
+    ],
+    "inference_notes": "Risk ratings are judgmental and intended as monitoring priorities, not probabilities."
+  },
+  {
+    "slide": 13,
+    "action_title": "Seven indicators will show whether Vietnam is building more firms—or merely recording more registrations",
+    "claims": [
+      {"claim": "Baselines include 859k active firms, 70.4% active-to-surveyed ratio, 5.19m individual establishments, 12.6 non-state workers per firm and ₫2.6bn revenue per worker.", "source": "NSO preliminary census, pp. 25, 37, 40, 43; Sa.Partners calculation", "evidence_type": "data point", "confidence": "high"}
+    ],
+    "inference_notes": "Confirmation directions are proposed monitoring rules, not official policy thresholds."
+  },
+  {
+    "slide": 14,
+    "action_title": "Vietnam’s enterprise agenda should be managed as a conversion-and-scaling system, not a registration campaign",
+    "claims": [
+      {"claim": "The gap between the 2025 census base and two-million target is approximately 1.14 million enterprises.", "source": "Sa.Partners calculation from NSO and Nghị quyết 68", "evidence_type": "calculation", "confidence": "medium"}
+    ],
+    "inference_notes": "Stakeholder implications synthesize the evidence and are recommendations for discussion, not official policy."
+  },
+  {
+    "slide": 15,
+    "action_title": "Definitions and source notes are essential because administrative and census enterprise counts are not interchangeable",
+    "claims": [
+      {"claim": "The active-with-results definition excludes pre-operating, inactive and temporarily suspended enterprises.", "source": "NSO preliminary census, p. 37 footnote 4", "evidence_type": "reported fact", "confidence": "high"},
+      {"claim": "Official 2026 Economic Census results are expected in December 2026.", "source": "https://www.nso.gov.vn/bai-top/2026/06/ket-qua-so-bo-tong-dieu-tra-kinh-te-nam-2026/", "evidence_type": "reported fact", "confidence": "high"}
+    ],
+    "inference_notes": "This slide records caveats and calculation conventions used across the report."
+  }
+]

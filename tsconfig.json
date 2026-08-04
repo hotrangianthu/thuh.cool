@@ -26,6 +26,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@policy/*": [
+        "./public_policy_artifact/src/*"
       ]
     },
     "types": [

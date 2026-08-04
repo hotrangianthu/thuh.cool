@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanoi Underground City — Policy Roundtable Brief</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #1a1a2e;
+      --surface: #242442;
+      --text: #FFFFFF;
+      --muted: #a0a0b8;
+      --primary: #00B14F;
+      --accent: #D3F035;
+      --border: #333355;
+      --negative: #FF4639;
+      --neutral: #FEBA02;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 18mm 16mm 14mm;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* === HEADER === */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .header-left h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+    .header-left .subtitle {
+      font-size: 9.5px;
+      color: var(--muted);
+      margin-top: 3px;
+      max-width: 380px;
+      line-height: 1.4;
+    }
+    .header-right {
+      text-align: right;
+      font-size: 8px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .header-right .score {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* === SECTION TITLES === */
+    .section-title {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--primary);
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    /* === KPI ROW === */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .kpi {
+      background: var(--surface);
+      border-radius: 5px;
+      padding: 7px 8px;
+      border-left: 3px solid var(--primary);
+    }
+    .kpi-label { font-size: 7px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .kpi-value { font-size: 14px; font-weight: 700; margin-top: 2px; }
+    .kpi-sub { font-size: 7px; color: var(--muted); margin-top: 1px; }
+
+    /* === THREE CARDS === */
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: 5px;
+      padding: 8px 9px;
+      border-top: 2px solid var(--primary);
+    }
+    .card h4 {
+      font-size: 9px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: var(--text);
+    }
+    .card p {
+      font-size: 7.5px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .card-num {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      opacity: 0.5;
+      float: right;
+      margin-top: -2px;
+    }
+
+    /* === TWO COLUMN === */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    /* === TIMELINE === */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .tl-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .tl-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .tl-text { font-size: 7.5px; color: var(--muted); line-height: 1.4; }
+    .tl-text strong { color: var(--text); }
+
+    /* === METRO BOX === */
+    .metro-box {
+      background: var(--surface);
+      border-radius: 5px;
+      padding: 8px 10px;
+      border-left: 3px solid var(--negative);
+    }
+    .metro-box h4 { font-size: 9px; font-weight: 700; margin-bottom: 4px; color: var(--negative); }
+    .metro-box p { font-size: 7.5px; color: var(--muted); line-height: 1.5; }
+    .metro-box .big-num { font-size: 22px; font-weight: 700; color: var(--negative); }
+
+    /* === OPPORTUNITY ROW === */
+    .opp-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .opp-card {
+      background: var(--surface);
+      border-radius: 5px;
+      padding: 7px 8px;
+    }
+    .opp-card .audience-tag {
+      font-size: 7px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 3px;
+    }
+    .opp-card p { font-size: 7.5px; color: var(--muted); line-height: 1.4; }
+
+    /* === SIGNAL ROW === */
+    .signal-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .signal {
+      background: var(--surface);
+      border-radius: 5px;
+      padding: 7px 8px;
+      border-top: 2px solid var(--neutral);
+    }
+    .signal h4 { font-size: 8px; font-weight: 600; margin-bottom: 2px; }
+    .signal p { font-size: 7px; color: var(--muted); line-height: 1.4; }
+
+    /* === THESIS BOX === */
+    .thesis-box {
+      background: var(--surface);
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      padding: 9px 12px;
+      margin-top: 6px;
+    }
+    .thesis-box p {
+      font-size: 8.5px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .thesis-box strong { color: var(--accent); }
+
+    /* === FOOTER === */
+    .footer {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 7px;
+      color: var(--muted);
+    }
+
+    /* === PRINT === */
+    @media print {
+      body { background: var(--bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { margin: 0; padding: 14mm 12mm 10mm; }
+    }
+    @page { size: A4 portrait; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-left">
+        <h1>Hanoi's Underground City: 3D City Master Plan</h1>
+        <div class="subtitle">Is a 40-year, multi-billion-dollar subsurface program credible — or a planning document that freezes central-city development for a decade while delivering nothing?</div>
+      </div>
+      <div class="header-right">
+        Policy Roundtable Brief<br>
+        9 June 2026<br>
+        Source: CafeF<br>
+        <span class="score">19/25 CONDITIONAL</span>
+      </div>
+    </div>
+
+    <!-- SECTION 1: THE ANNOUNCEMENT -->
+    <div class="section-title">01 — The Announcement</div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Depth Zones</div>
+        <div class="kpi-value">0–50m+</div>
+        <div class="kpi-sub">4 regulated layers</div>
+      </div>
+      <div class="kpi" style="border-color: var(--accent);">
+        <div class="kpi-label">Horizon</div>
+        <div class="kpi-value">2026–2065</div>
+        <div class="kpi-sub">4 phases, 40 years</div>
+      </div>
+      <div class="kpi" style="border-color: var(--neutral);">
+        <div class="kpi-label">Underground</div>
+        <div class="kpi-value">40%</div>
+        <div class="kpi-sub">Central area by 2045</div>
+      </div>
+      <div class="kpi" style="border-color: var(--negative);">
+        <div class="kpi-label">Population</div>
+        <div class="kpi-value">~10M</div>
+        <div class="kpi-sub">Surface saturated</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 + 4: PRECEDENT GAP + METRO TEST -->
+    <div class="two-col">
+      <div>
+        <div class="section-title">02 — The Precedent Gap</div>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>Helsinki</strong> (2009) — &lt;30% done by 2025. Est. EUR 10B / 30yr.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>Singapore Jurong</strong> — $1.5B single facility. 15yr to operate.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>Tokyo UWDC</strong> — 17 years (1992–2009). Single-purpose flood ctrl.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>Montreal RESO</strong> — 60+ years incremental. No master plan at this scale.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">04 — The Metro Test</div>
+        <div class="metro-box">
+          <h4>Hanoi Metro Line 2A (Cat Linh — Ha Dong)</h4>
+          <p>
+            <span class="big-num">11yr</span> late &nbsp;|&nbsp; 2.7x cost overrun<br>
+            Planned 2010, opened 2021. 13km elevated rail — simplest form.<br>
+            Single contractor. Not multi-party PPP.<br>
+            <strong style="color: var(--negative);">This program assumes competencies never demonstrated.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: THREE MISSING LAYERS -->
+    <div class="section-title">03 — The Three Missing Layers (Each a Structural Blocker)</div>
+    <div class="cards-3">
+      <div class="card">
+        <span class="card-num">01</span>
+        <h4>Property Rights</h4>
+        <p>Vietnam's 2024 Land Law defines surface rights only. Below-ground ownership = legal void. No investor commits capital without depth-based ownership clarity.</p>
+      </div>
+      <div class="card" style="border-top-color: var(--neutral);">
+        <span class="card-num">02</span>
+        <h4>Financing Mechanism</h4>
+        <p>Municipal bonds outstanding: &lt;$500M. Program capex est: $15–50B. No land value capture legislation. The mechanism to pay for this does not exist.</p>
+      </div>
+      <div class="card" style="border-top-color: var(--accent);">
+        <span class="card-num">03</span>
+        <h4>Subsurface Data</h4>
+        <p>No comprehensive underground mapping. No digitized utility data. Cannot build at 30m without knowing what's at 5m. First product is data, not concrete.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 5: OPERATOR INSIGHT (inline) -->
+    <div class="section-title">05 — The Operator Insight</div>
+    <div style="font-size: 8.5px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; padding-left: 10px; border-left: 2px solid var(--neutral);">
+      Phase 1 = 9 years of "legal framework." <strong style="color: var(--text);">No construction.</strong> The immediate risk isn't failure — it's that land development in central Hanoi freezes for a decade while delivering nothing. Every developer, investor, property holder faces uncertainty today.
+    </div>
+
+    <!-- SECTION 6: OPPORTUNITY MAP -->
+    <div class="section-title">06 — The Opportunity Map</div>
+    <div class="opp-row">
+      <div class="opp-card">
+        <div class="audience-tag" style="color: var(--accent);">Builders</div>
+        <p>Wedge product = subsurface data platform. First mover on geospatial layer captures data moat for 40yr of construction. The product is a digital twin, not a tunnel.</p>
+      </div>
+      <div class="opp-card">
+        <div class="audience-tag" style="color: var(--neutral);">Capital</div>
+        <p>Municipal infrastructure bonds = new SEA asset class. LVC legislation as catalyst. $15–50B financing gap is the investment thesis for infrastructure finance instruments.</p>
+      </div>
+      <div class="opp-card">
+        <div class="audience-tag" style="color: var(--primary);">Policy</div>
+        <p>Legislative sprint in Phase 1 determines if Phase 2 happens. Subsurface rights + LVC framework + capacity assessment — all needed in 9 years. Clock starts now.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 7: 90-DAY SIGNAL -->
+    <div class="section-title">07 — The 90-Day Signal (Watch by Sep 2026)</div>
+    <div class="signal-row">
+      <div class="signal">
+        <h4>MoC Consultation Paper</h4>
+        <p>Subsurface rights framework consultation issued?</p>
+      </div>
+      <div class="signal">
+        <h4>MoF Bond Authorization</h4>
+        <p>Pilot municipal infrastructure bond approved?</p>
+      </div>
+      <div class="signal">
+        <h4>Geospatial Tender</h4>
+        <p>Subsurface mapping/survey in public procurement?</p>
+      </div>
+    </div>
+
+    <!-- THESIS -->
+    <div class="thesis-box">
+      <p><strong>THESIS:</strong> The program is real in ambition but structurally unfinanceable without three prerequisites — subsurface property rights, municipal bond framework, and a geospatial data layer that doesn't exist. <strong>The opportunity isn't the tunnel. It's building the missing layers that make the tunnel possible.</strong></p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <span>Policy Roundtable | Chair + Policy + Builder + Capital</span>
+      <span>Reframe: Infrastructure Prerequisite (#10) + Broken Pipe (#2)</span>
+      <span>Next: /post-craft (Policy audience)</span>
+    </div>
+
+  </div>
+</body>
+</html>
