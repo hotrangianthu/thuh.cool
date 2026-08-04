@@ -88,7 +88,7 @@ export default async function SaPartnersReportPage({ params }: Props) {
             <li><CheckCircle2 size={15} /> Market and operating implications made explicit</li>
           </ul>
         </div>
-        <InquiryForm reportSlug={report.slug} reportTitle={report.title} />
+        <InquiryForm reportSlug={report.slug} reportTitle={report.title} isPublic={report.access === 'public'} />
       </section>
     </div>
   )

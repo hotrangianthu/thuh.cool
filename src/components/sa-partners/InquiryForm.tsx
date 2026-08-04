@@ -6,7 +6,7 @@ import { SA_PARTNERS_CONTACT_EMAIL } from '@/data/sa-partners'
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
 
-export default function InquiryForm({ reportSlug, reportTitle }: { reportSlug: string; reportTitle: string }) {
+export default function InquiryForm({ reportSlug, reportTitle, isPublic = false }: { reportSlug: string; reportTitle: string; isPublic?: boolean }) {
   const [state, setState] = useState<FormState>('idle')
   const [error, setError] = useState('')
 
@@ -37,9 +37,11 @@ export default function InquiryForm({ reportSlug, reportTitle }: { reportSlug: s
 
   return (
     <div className="sa-inquiry-card" id="inquiry">
-      <span className="sa-eyebrow">Qualified access</span>
-      <h2>Request the full report</h2>
-      <p>Share a little context so we can respond with the most relevant access option. No payment is collected on this site.</p>
+      <span className="sa-eyebrow">{isPublic ? 'Research inquiry' : 'Qualified access'}</span>
+      <h2>{isPublic ? 'Discuss this research' : 'Request the full report'}</h2>
+      <p>{isPublic
+        ? 'Share the decision or research question you are working on and we will respond directly.'
+        : 'Share a little context so we can respond with the most relevant access option. No payment is collected on this site.'}</p>
       <form className="sa-inquiry-form" onSubmit={submit}>
         <label className="sa-field">Name<input name="name" required maxLength={100} autoComplete="name" /></label>
         <label className="sa-field">Work email<input name="email" type="email" required maxLength={255} autoComplete="email" /></label>
@@ -51,7 +53,7 @@ export default function InquiryForm({ reportSlug, reportTitle }: { reportSlug: s
         {state === 'error' && <div className="sa-form-message error" role="alert">{error} You can also email us directly below.</div>}
         <div className="sa-form-footer">
           <button className="sa-button sa-button-primary" type="submit" disabled={state === 'submitting'}>
-            {state === 'submitting' ? 'Sending…' : 'Send inquiry'} <ArrowRight size={15} />
+            {state === 'submitting' ? 'Sending…' : isPublic ? 'Start a conversation' : 'Send inquiry'} <ArrowRight size={15} />
           </button>
           <p>Prefer email? <a href={mailto}>{SA_PARTNERS_CONTACT_EMAIL}</a></p>
         </div>

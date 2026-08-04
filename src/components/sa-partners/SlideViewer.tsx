@@ -13,8 +13,14 @@ export default function SlideViewer({ report, count }: { report: SaPartnersRepor
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowLeft') previous()
-      if (event.key === 'ArrowRight') next()
+      const target = event.target as HTMLElement | null
+      if (target?.closest('input, textarea, select, button, a')) return
+      if (event.key === 'ArrowLeft') {
+        setSlide((current) => Math.max(1, current - 1))
+      }
+      if (event.key === 'ArrowRight') {
+        setSlide((current) => Math.min(count, current + 1))
+      }
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)

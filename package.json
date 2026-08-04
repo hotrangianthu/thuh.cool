@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare:sa-partners": "node scripts/prepare-sa-partners-assets.mjs",
-    "validate:sa-partners": "node scripts/validate-sa-partners-assets.mjs"
+    "validate:sa-partners": "node scripts/validate-sa-partners-assets.mjs && tsx scripts/validate-sa-partners-catalog.ts"
   },
   "dependencies": {
     "@supabase/auth-ui-react": "^0.4.0",
