@@ -9,6 +9,8 @@ import {
   FolderTree,
   LogOut,
   Home,
+  Sprout,
+  Mailbox,
 } from 'lucide-react'
 
 const navItems = [
@@ -17,6 +19,8 @@ const navItems = [
   { href: '/admin/posts/new', label: 'New Post', icon: Plus },
   { href: '/admin/books', label: 'Books', icon: FileText },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
+  { href: '/admin/flagship', label: 'Flagship Research', icon: Sprout },
+  { href: '/admin/sa-partners/inquiries', label: 'Sa. Partners Inquiries', icon: Mailbox },
 ]
 
 export default function AdminSidebar() {
@@ -74,4 +78,3 @@ export default function AdminSidebar() {
     </aside>
   )
 }
-

@@ -199,6 +199,10 @@
 .policy-site .prose-academic li { margin-bottom: 0.5em; }
 
 @media (max-width: 860px) {
+  .policy-site .policy-flagship-card {
+    grid-template-columns: 1fr !important;
+  }
+
   .policy-site .policy-nav-shell {
     padding: 0.85rem 1.25rem !important;
     align-items: flex-start !important;

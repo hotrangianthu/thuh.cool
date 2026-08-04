@@ -166,6 +166,64 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── Flagship Project ───────────────────────────────── */}
+        <section
+          style={{
+            paddingTop: '2.5rem',
+            paddingBottom: '2.5rem',
+            borderBottom: '1px solid var(--color-border)',
+          }}
+        >
+          <FadeIn direction="up">
+            <Link
+              href="/flagship/from-income-to-assets/en"
+              style={{ textDecoration: 'none', display: 'block' }}
+            >
+              <article
+                className="policy-flagship-card"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(0, 1.4fr) minmax(220px, .6fr)',
+                  gap: '2rem',
+                  padding: '2rem',
+                  border: '1px solid #176B52',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'linear-gradient(135deg, #F9FFF2 0%, #E6F0D8 100%)',
+                  boxShadow: 'var(--shadow-card)',
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', gap: '.55rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                    <span className="tag">Flagship Project</span>
+                    <span className="tag">Nationwide Sampling</span>
+                    <span className="tag">Open Research</span>
+                  </div>
+                  <h2 style={{ margin: 0, color: '#18322D', fontSize: 'clamp(1.7rem, 3vw, 2.4rem)' }}>
+                    From Income to Assets
+                  </h2>
+                  <p style={{ margin: '.45rem 0 1rem', color: '#176B52', fontFamily: 'var(--font-serif)', fontSize: 'var(--text-lg)', fontStyle: 'italic' }}>
+                    Vietnam Rural Wealth Progression Project
+                  </p>
+                  <p style={{ maxWidth: '680px', margin: 0, color: '#49635D', lineHeight: '1.7' }}>
+                    An independent public-interest initiative studying what helps rural households turn income into savings, resilience, and productive assets. The research is now opening three routes for household surveys, stories, and local partners.
+                  </p>
+                </div>
+                <div style={{ alignSelf: 'end' }}>
+                  <div style={{ color: '#176B52', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.65rem' }}>
+                    Active phase · Aug 2026
+                  </div>
+                  <div style={{ color: '#18322D', fontSize: 'var(--text-sm)', lineHeight: '1.6', marginBottom: '1.1rem' }}>
+                    Nationwide outreach target<br />Vietnamese-first · bilingual
+                  </div>
+                  <span style={{ display: 'inline-block', padding: '.72rem 1rem', background: '#176B52', color: '#fff', borderRadius: '3px', fontWeight: 700, fontSize: 'var(--text-sm)' }}>
+                    Explore or contribute &rarr;
+                  </span>
+                </div>
+              </article>
+            </Link>
+          </FadeIn>
+        </section>
+
         {/* ── Stats ────────────────────────────────────────────── */}
         <section
           style={{

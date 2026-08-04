@@ -236,3 +236,16 @@ FROM information_schema.tables t
 WHERE table_schema = 'public' 
   AND table_name IN ('guestbook', 'newsletter_subscribers', 'posts', 'categories', 'user_profiles');
 
+-- ===========================================
+-- 00010: From Income to Assets research intake
+-- Apply database/migrations/00010_create_flagship_research.sql after this
+-- legacy aggregate script; it is kept separate so research-data RLS can be
+-- reviewed and deployed independently before public intake is enabled.
+-- ===========================================
+
+-- ===========================================
+-- 00011: Sa. Partners qualified-access inquiries
+-- Apply database/migrations/00011_create_sa_partners_inquiries.sql separately.
+-- It remains outside this legacy aggregate so its private-inbox RLS can be
+-- reviewed before the public inquiry form is enabled.
+-- ===========================================

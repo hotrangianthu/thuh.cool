@@ -24,6 +24,15 @@ const nextConfig = {
   // Optimize for production
   poweredByHeader: false,
   compress: true,
+  async redirects() {
+    return [
+      {
+        source: '/public-policy/from-income-to-assets',
+        destination: '/flagship/from-income-to-assets/en',
+        permanent: true,
+      },
+    ]
+  },
   eslint: {
     ignoreDuringBuilds: false,
   },

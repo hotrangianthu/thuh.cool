@@ -15,6 +15,10 @@ node_modules/
 # production
 /build
 
+# local/private research source material (never commit paid reports)
+/private_content/
+/public/sa_partners_20260601_research_fleet/
+
 # misc
 .DS_Store
 *.pem
