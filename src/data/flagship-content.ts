@@ -255,7 +255,7 @@ export const safeguards: LocalizedText[] = [
 export const evidenceArtifacts = [
   {
     href: '/public-policy/field-notes/merchant-conversations',
-    title: { vi: 'Sáu cuộc trò chuyện tại Tây Ninh', en: 'Six Tây Ninh conversations' },
+    title: { vi: 'Sáu cuộc trò chuyện tại cộng đồng nông nghiệp Bình Định', en: 'Six conversations in a Binh Dinh agricultural community' },
     label: { vi: 'Ghi chép định hình câu hỏi · 03/2024', en: 'Formative field notes · Mar 2024' },
     use: {
       vi: 'Dùng để hình thành giả thuyết về tiền mặt, niềm tin và giao dịch nhỏ. Sáu lời kể được dựng lại từ ghi chép đương thời, không phải mẫu đại diện và không được tính vào mẫu mới.',

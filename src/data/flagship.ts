@@ -7,11 +7,11 @@ export const flagshipRoutes = {
 } as const
 
 export const provinces = [
-  'An Giang', 'Bắc Ninh', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng',
+  'An Giang', 'Bắc Ninh', 'Bình Định', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng',
   'Đắk Lắk', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Nội',
   'Hà Tĩnh', 'Hải Phòng', 'Hưng Yên', 'Huế', 'Khánh Hòa', 'Lai Châu',
   'Lâm Đồng', 'Lạng Sơn', 'Lào Cai', 'Nghệ An', 'Ninh Bình', 'Phú Thọ',
-  'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sơn La', 'Tây Ninh',
+  'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sơn La',
   'Thanh Hóa', 'Thái Nguyên', 'Thành phố Hồ Chí Minh', 'Tuyên Quang', 'Vĩnh Long',
 ] as const
 
@@ -164,4 +164,3 @@ export const copy = {
     readPrivacy: 'Read the privacy notice',
   },
 } as const
-

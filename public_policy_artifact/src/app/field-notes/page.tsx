@@ -4,17 +4,17 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Field Notes',
   description:
-    'On-the-ground observations from rural Vietnam — what I saw, heard, and concluded from field visits to Tay Ninh province.',
+    'On-the-ground observations from rural Vietnam — what I saw, heard, and concluded from field visits to agricultural communities in Binh Dinh province.',
 }
 
 const quotes = [
   {
     text: 'My daughter set up MoMo for me. I used it once to send money to my son in Binh Duong. But here? Everyone pays cash. If I ask for QR, they look at me strange.',
-    speaker: 'Vegetable seller, Cho Long Hoa market',
+    speaker: 'Vegetable seller, local commune market in Binh Dinh',
   },
   {
     text: 'Cash is trust. I show up with money, the farmer knows I\'m serious. A bank transfer? He has to wait, check, wonder if it\'s real. Cash is now.',
-    speaker: 'Rice trader, Tay Ninh province',
+    speaker: 'Rice trader, Binh Dinh province',
   },
   {
     text: 'We\'re supposed to push digital government services. But half the people who come here don\'t have smartphones. The other half don\'t know how to use the apps.',
@@ -109,7 +109,7 @@ export default function FieldNotesPage() {
           }}
         >
           {/* Note 1 — published */}
-          <Link href="/public-policy/field-notes/72-hours-tay-ninh" style={{ textDecoration: 'none' }}>
+          <Link href="/public-policy/field-notes/72-hours-binh-dinh" style={{ textDecoration: 'none' }}>
             <article
               style={{
                 backgroundColor: 'var(--color-bg-card)',
@@ -155,7 +155,7 @@ export default function FieldNotesPage() {
                   marginBottom: '0.6rem',
                 }}
               >
-                72 Hours in Tay Ninh
+                72 Hours in Binh Dinh
               </h3>
               <p
                 style={{
@@ -178,7 +178,7 @@ export default function FieldNotesPage() {
                   gap: '1rem',
                 }}
               >
-                <span>Tay Ninh</span>
+                <span>Binh Dinh</span>
                 <span>6 sections</span>
                 <span style={{ color: 'var(--color-accent-red)', fontWeight: '500' }}>Read &rarr;</span>
               </div>
@@ -255,7 +255,7 @@ export default function FieldNotesPage() {
                   gap: '1rem',
                 }}
               >
-                <span>Tay Ninh</span>
+                <span>Binh Dinh</span>
                 <span>6 conversations</span>
                 <span style={{ color: 'var(--color-accent-red)', fontWeight: '500' }}>Read &rarr;</span>
               </div>
@@ -319,7 +319,7 @@ export default function FieldNotesPage() {
                 lineHeight: 'var(--leading-relaxed)',
               }}
             >
-              Timestamped observations from Tay Ninh, Long An, and Ben Tre — payment
+              Timestamped observations from Binh Dinh, Long An, and Ben Tre — payment
               infrastructure, bank branch density, and merchant digital adoption by
               district type.
             </p>
@@ -413,7 +413,7 @@ export default function FieldNotesPage() {
         </p>
 
         <Link
-          href="/public-policy/field-notes/72-hours-tay-ninh"
+          href="/public-policy/field-notes/72-hours-binh-dinh"
           style={{ textDecoration: 'none', display: 'block' }}
         >
           <article
@@ -449,7 +449,7 @@ export default function FieldNotesPage() {
                   fontStyle: 'italic',
                 }}
               >
-                Cho Long Hoa Market &mdash; Tay Ninh, March 2024
+                Local commune market &mdash; Binh Dinh, March 2024
               </div>
               <div
                 style={{
@@ -473,7 +473,7 @@ export default function FieldNotesPage() {
                   flexWrap: 'wrap',
                 }}
               >
-                {['Photo Essay', 'Tay Ninh', 'March 2024'].map((tag) => (
+                {['Photo Essay', 'Binh Dinh', 'March 2024'].map((tag) => (
                   <span
                     key={tag}
                     style={{
@@ -502,7 +502,7 @@ export default function FieldNotesPage() {
                   marginBottom: '0.75rem',
                 }}
               >
-                72 Hours in Tay Ninh
+                72 Hours in Binh Dinh
               </h2>
 
               <p
@@ -514,7 +514,7 @@ export default function FieldNotesPage() {
                   marginBottom: '1.25rem',
                 }}
               >
-                I returned to the province where I grew up with a single question: how much
+                I returned to the Binh Dinh agricultural community where I grew up with a single question: how much
                 has rural financial access actually changed since I left for Ho Chi Minh City
                 twelve years ago? Three days. Six sites. One consistent answer.
               </p>
@@ -680,7 +680,7 @@ export default function FieldNotesPage() {
               lineHeight: 'var(--leading-relaxed)',
             }}
           >
-            Timestamped observations from field visits across Tay Ninh, Long An, and
+            Timestamped observations from field visits across Binh Dinh, Long An, and
             Ben Tre provinces — payment infrastructure, bank branch density, mobile
             coverage, and merchant digital adoption by district type.
           </p>

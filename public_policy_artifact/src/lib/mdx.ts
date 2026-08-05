@@ -2,13 +2,10 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
-const contentDir = path.join(
-  process.cwd(),
-  'public_policy_artifact',
-  'src',
-  'content',
-  'research'
-)
+const standaloneContentDir = path.join(process.cwd(), 'src', 'content', 'research')
+const contentDir = fs.existsSync(standaloneContentDir)
+  ? standaloneContentDir
+  : path.join(process.cwd(), 'public_policy_artifact', 'src', 'content', 'research')
 
 export interface ResearchFrontmatter {
   title: string

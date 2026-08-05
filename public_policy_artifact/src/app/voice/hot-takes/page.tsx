@@ -99,7 +99,7 @@ const hotTakes: HotTake[] = [
       'The real barrier to rural digital inclusion is not infrastructure — it is trust.',
     confidence: 80,
     reasoning:
-      'Coverage maps show 4G reaching most of Vietnam\'s provinces. But network coverage and active digital participation are not the same thing. In Tay Ninh fieldwork, the most common response to "why don\'t you use mobile banking?" was not "no signal" — it was "I don\'t trust it" and "I don\'t know what happens if something goes wrong." Trust is a policy problem, not a telecom problem. It requires accountability mechanisms, redress systems, and visible enforcement.',
+      'Coverage maps show 4G reaching most of Vietnam\'s provinces. But network coverage and active digital participation are not the same thing. In fieldwork with an agricultural community in Binh Dinh, the most common response to "why don\'t you use mobile banking?" was not "no signal" — it was "I don\'t trust it" and "I don\'t know what happens if something goes wrong." Trust is a policy problem, not a telecom problem. It requires accountability mechanisms, redress systems, and visible enforcement.',
     implications: [
       'Consumer protection frameworks for digital finance need rural-specific implementation.',
       'Dispute resolution mechanisms must be accessible without smartphones or internet.',

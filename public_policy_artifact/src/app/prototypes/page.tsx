@@ -123,7 +123,7 @@ export default function PrototypesPage() {
                 flexWrap: 'wrap',
               }}
             >
-              {['Pilot Proposal', 'Agent Banking', 'Rural Finance', 'Tay Ninh'].map((tag) => (
+              {['Pilot Proposal', 'Agent Banking', 'Rural Finance', 'Binh Dinh'].map((tag) => (
                 <span
                   key={tag}
                   style={{
@@ -164,7 +164,7 @@ export default function PrototypesPage() {
                 marginBottom: '1.5rem',
               }}
             >
-              A full proposal for extending financial access to rural Tay Ninh via an
+              A full proposal for extending financial access to agricultural communities in Binh Dinh via an
               authorized agent network using existing retail infrastructure. Covers
               geography selection, agent criteria, 18-month timeline, 2.5B VND budget,
               and risk mitigation.

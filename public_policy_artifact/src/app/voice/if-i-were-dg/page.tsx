@@ -217,7 +217,7 @@ export default function IfIWereDGPage() {
             {[
               {
                 number: '01',
-                title: 'Agent Banking in Tay Ninh',
+                title: 'Agent Banking in Binh Dinh',
                 body: '5 communes, 15 agents, 25,000 target population. Partnership with Agribank. 18-month timeline. I\'ve already designed this.',
                 link: '/prototypes/agent-banking-pilot',
                 linkText: 'See the full proposal',

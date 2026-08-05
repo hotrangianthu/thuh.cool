@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: '72 Hours in Tay Ninh',
+  title: '72 Hours in Binh Dinh',
   description:
-    'A personal field essay — returning to the province where I grew up to measure how much rural financial access has actually changed.',
+    'A personal field essay — returning to the Binh Dinh agricultural community where I grew up to measure how much rural financial access has actually changed.',
 }
 
 function ImagePlaceholder({ caption }: { caption: string }) {
@@ -151,7 +151,7 @@ const sectionHeading: React.CSSProperties = {
   marginTop: '0',
 }
 
-export default function TayNinhEssayPage() {
+export default function BinhDinhEssayPage() {
   return (
     <div
       style={{
@@ -192,7 +192,7 @@ export default function TayNinhEssayPage() {
             flexWrap: 'wrap',
           }}
         >
-          {['Photo Essay', 'Tay Ninh', 'March 2024'].map((tag) => (
+          {['Photo Essay', 'Binh Dinh', 'March 2024'].map((tag) => (
             <span
               key={tag}
               style={{
@@ -221,7 +221,7 @@ export default function TayNinhEssayPage() {
             marginBottom: '1.25rem',
           }}
         >
-          72 Hours in Tay Ninh
+          72 Hours in Binh Dinh
         </h1>
 
         <p
@@ -233,7 +233,8 @@ export default function TayNinhEssayPage() {
             marginBottom: '1.5rem',
           }}
         >
-          In March 2024, I returned to Tay Ninh &mdash; the province where I grew up &mdash;
+          In March 2024, I returned to the agricultural community where I grew up in
+          Binh Dinh &mdash;
           with a specific question: how much has rural financial access actually changed since
           I left for Ho Chi Minh City twelve years ago?
         </p>
@@ -262,7 +263,7 @@ export default function TayNinhEssayPage() {
           <h2 style={sectionHeading}>The Market</h2>
 
           <p style={bodyText}>
-            Cho Long Hoa market, 6am. I had forgotten what a cash economy sounds like
+            The local commune market, 6am. I had forgotten what a cash economy sounds like
             &mdash; the snap of notes, the clink of coins against plastic trays, the
             vendors counting change by touch. The b&aacute;nh m&igrave; seller. The
             vegetable vendors. The motorbike repair shop around the corner. All cash. One
@@ -276,7 +277,7 @@ export default function TayNinhEssayPage() {
             But here? Everyone pays cash. If I ask for QR, they look at me strange.&rdquo;
           </p>
 
-          <ImagePlaceholder caption="Market scene, Cho Long Hoa, Tay Ninh — 6am, March 2024" />
+          <ImagePlaceholder caption="Local commune market, Binh Dinh — 6am, March 2024" />
 
           <Insight>
             Digital payments exist at the edge of traditional commerce, not inside it.
@@ -306,7 +307,7 @@ export default function TayNinhEssayPage() {
             use it because they have to, not because it helps them build wealth.
           </p>
 
-          <ImagePlaceholder caption="Agribank branch exterior, Tay Ninh — 2pm queue, March 2024" />
+          <ImagePlaceholder caption="Agribank branch exterior, Binh Dinh — 2pm queue, March 2024" />
 
           <Insight>
             Banks in rural Vietnam serve administrative functions: bill payment, cash
@@ -338,7 +339,7 @@ export default function TayNinhEssayPage() {
             transaction value, the more likely a customer would scan.
           </p>
 
-          <ImagePlaceholder caption="Phone shop interior, provincial road, Tay Ninh — March 2024" />
+          <ImagePlaceholder caption="Phone shop interior, provincial road, Binh Dinh — March 2024" />
 
           <Insight>
             Digital finance is infrastructure for remittances out, not commerce in. Mobile
@@ -354,7 +355,7 @@ export default function TayNinhEssayPage() {
           <h2 style={sectionHeading}>My Uncle&rsquo;s Farm</h2>
 
           <p style={bodyText}>
-            My uncle grows cassava on a small plot outside of town. He sells to a
+            My uncle grows rice on a small plot outside the commune. He sells to a
             middleman who comes every two weeks. The middleman arrives with cash. Has
             always arrived with cash. My uncle has never received a payment digitally.
           </p>
@@ -371,7 +372,7 @@ export default function TayNinhEssayPage() {
             mobile wallet and you don&rsquo;t have one.
           </p>
 
-          <ImagePlaceholder caption="Cassava field, outskirts of Tay Ninh town — March 2024" />
+          <ImagePlaceholder caption="Rice field outside the commune, Binh Dinh — March 2024" />
 
           <Insight>
             Agricultural value chains are cash-based end-to-end. Digital payment adoption
@@ -400,7 +401,7 @@ export default function TayNinhEssayPage() {
             told to promote but could not demonstrate.
           </p>
 
-          <ImagePlaceholder caption="Commune learning center, Tay Ninh — March 2024" />
+          <ImagePlaceholder caption="Commune learning center, Binh Dinh — March 2024" />
 
           <Insight>
             The infrastructure for digital literacy programs exists in name. Not in
@@ -539,7 +540,7 @@ export default function TayNinhEssayPage() {
             When I read Vietnam&rsquo;s 2025&ndash;2035 National Plan and find no
             integrated framework for rural digital inclusion, I am not looking at an
             abstract gap in a policy document. I am looking at the market at 6am. The
-            line at the Agribank branch. My uncle&rsquo;s cassava field.
+            line at the Agribank branch. My uncle&rsquo;s rice field.
           </p>
 
           <p

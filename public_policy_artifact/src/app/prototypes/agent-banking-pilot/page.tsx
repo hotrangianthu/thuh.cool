@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Agent Banking Pilot Proposal',
   description:
-    'A full proposal for extending financial access to rural Tay Ninh via commune-level agent banking — 5 communes, 15 agents, 25,000 target population.',
+    'A full proposal for extending financial access to agricultural communities in Binh Dinh via commune-level agent banking — 5 communes, 15 agents, 25,000 target population.',
 }
 
 const slideStyle = {
@@ -118,7 +118,7 @@ export default function AgentBankingPilotPage() {
             lineHeight: 'var(--leading-relaxed)',
           }}
         >
-          A proposal for extending financial access to rural Tay Ninh
+          A proposal for extending financial access to agricultural communities in Binh Dinh
         </p>
 
         <div
@@ -185,7 +185,7 @@ export default function AgentBankingPilotPage() {
             },
             {
               label: 'Ask',
-              text: '18-month pilot in 5 communes, Tay Ninh province',
+              text: '18-month pilot in 5 agricultural communes in Binh Dinh',
               accent: '#5B6E4A',
               bg: '#EEF2EB',
             },
@@ -268,7 +268,7 @@ export default function AgentBankingPilotPage() {
           }}
         >
           {[
-            { metric: '8km', detail: 'Average distance to nearest bank branch in rural Tay Ninh' },
+            { metric: '8km', detail: 'Average distance to nearest bank branch in rural Binh Dinh' },
             { metric: '45 min', detail: 'Average wait time per bank transaction' },
             { metric: '73%', detail: 'Rural residents using banks only for mandatory transactions' },
             { metric: '0%', detail: 'Formal credit access rate among surveyed small farmers' },
@@ -357,14 +357,15 @@ export default function AgentBankingPilotPage() {
       {/* Slide 5: Target Geography */}
       <section style={slideStyle}>
         <p style={sectionLabel}>Slide 5 &mdash; Target Geography</p>
-        <h2 style={slideH2}>Why Tay Ninh — And Which Five Communes</h2>
+        <h2 style={slideH2}>Why Binh Dinh — And How to Select Five Communes</h2>
 
         <p style={{ ...bodyText, marginBottom: '1.5rem' }}>
-          Tay Ninh is my home province. I have firsthand knowledge of the terrain,
-          the retail infrastructure, and the relationship between commune officials
-          and residents. Selection criteria for pilot communes: (1) distance from
+          Binh Dinh is the agricultural community I know firsthand. I understand the
+          local livelihoods, retail infrastructure, and relationship between commune
+          officials and residents. Selection criteria for pilot communes: (1) distance from
           nearest bank branch &gt;5km, (2) population &gt;3,000, (3) existing retail
-          infrastructure with fixed-location shops.
+          infrastructure with fixed-location shops. Final sites would be confirmed through
+          baseline validation; the profiles below are planning assumptions.
         </p>
 
         <div
@@ -379,7 +380,7 @@ export default function AgentBankingPilotPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ backgroundColor: 'var(--color-bg-secondary)' }}>
-                {['Commune', 'Distance to Branch', 'Est. Population', 'Retail Shops'].map((h) => (
+                {['Candidate Profile', 'Distance to Branch', 'Est. Population', 'Retail Shops'].map((h) => (
                   <th
                     key={h}
                     style={{
@@ -401,11 +402,11 @@ export default function AgentBankingPilotPage() {
             </thead>
             <tbody>
               {[
-                ['Thanh Phuoc', '9.2km', '4,800', '12'],
-                ['Phuoc Vinh', '7.5km', '5,200', '8'],
-                ['Thanh Tam', '11.0km', '3,600', '6'],
-                ['Long Thanh', '6.8km', '5,400', '15'],
-                ['Bau Don', '8.4km', '5,900', '10'],
+                ['Coastal rice-growing commune', '9.2km', '4,800', '12'],
+                ['Lowland mixed-crop commune', '7.5km', '5,200', '8'],
+                ['Foothill farming commune', '11.0km', '3,600', '6'],
+                ['Market-linked farming commune', '6.8km', '5,400', '15'],
+                ['Remote smallholder commune', '8.4km', '5,900', '10'],
               ].map((row, i) => (
                 <tr
                   key={row[0]}
@@ -549,7 +550,7 @@ export default function AgentBankingPilotPage() {
             {
               phase: 'Month 13–18',
               label: 'Scale Assessment',
-              detail: 'Evaluate agent profitability, user retention, and satisfaction. Prepare expansion proposal for remaining Tay Ninh communes and potential provincial replication.',
+              detail: 'Evaluate agent profitability, user retention, and satisfaction. Prepare an expansion proposal for other agricultural communities in Binh Dinh and potential regional replication.',
               target: '10,000 active accounts',
             },
           ].map((item, i) => (

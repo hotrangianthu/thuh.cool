@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 const timeline = [
   {
     period: 'Origin',
-    label: 'Tay Ninh Province, Vietnam',
+    label: 'Agricultural community, Binh Dinh, Vietnam',
     detail:
-      'Grew up in a farming household an hour from Ho Chi Minh City. Electricity was reliable. A smartphone was not. The local bank required a 40-minute motorcycle ride. Financial services existed in theory, not in practice.',
+      'Grew up in a farming household on Vietnam\'s south-central coast. Electricity was reliable. A smartphone was not. The local bank required a 40-minute motorcycle ride. Financial services existed in theory, not in practice.',
   },
   {
     period: '2014–2016',

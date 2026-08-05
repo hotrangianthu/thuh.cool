@@ -4,13 +4,13 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Merchant Conversations',
   description:
-    'Six interview excerpts from Tay Ninh province — vegetable sellers, traders, farmers, and officials on cash, trust, and digital finance.',
+    'Six interview excerpts from an agricultural community in Binh Dinh province — vegetable sellers, traders, farmers, and officials on cash, trust, and digital finance.',
 }
 
 const conversations = [
   {
     id: 1,
-    speaker: 'Vegetable Seller, Cho Long Hoa Market',
+    speaker: 'Vegetable Seller, Local Commune Market',
     context: 'Female, approximately 55 years old, selling vegetables for over 20 years at the same stall.',
     quote:
       "My daughter set up MoMo for me. I used it once to send money to my son in Binh Duong. But here? Everyone pays cash. If I ask for QR, they look at me strange.",
@@ -21,7 +21,7 @@ const conversations = [
   {
     id: 2,
     speaker: 'Motorbike Repair Shop Owner',
-    context: 'Male, approximately 40 years old, roadside repair shop on a provincial road near Tay Ninh town.',
+    context: 'Male, approximately 40 years old, roadside repair shop near an agricultural commune in Binh Dinh.',
     quote:
       "I know about VNPay, ZaloPay. But my customers — they come with 50,000 đồng in their pocket. They're not going to scan a code for a tire patch.",
     insight:
@@ -61,9 +61,9 @@ const conversations = [
   {
     id: 6,
     speaker: "Giant's Cousin — Young Farmer",
-    context: 'Male, 28 years old, dragon fruit farmer. High school educated. Active Shopee and MoMo user.',
+    context: 'Male, 28 years old, rice farmer. High school educated. Active Shopee and MoMo user.',
     quote:
-      "I use Shopee, I use MoMo. But that's for buying things online. Selling my fruit? The buyer pays cash. That's just how it works here.",
+      "I use Shopee, I use MoMo. But that's for buying things online. Selling my rice crop? The buyer pays cash. That's just how it works here.",
     insight:
       'Even digitally fluent young people operate in a cash economy for their core livelihood. Consumer digital adoption and commercial digital adoption are separate problems. Being a Shopee buyer does not make you a digital seller or enable you to receive digital payment for agricultural output.',
     themes: ['Youth', 'Agricultural Trade', 'Consumer vs. Commerce'],
@@ -166,7 +166,7 @@ export default function MerchantConversationsPage() {
             marginBottom: '1rem',
           }}
         >
-          Six conversations from Tay Ninh province, March 2024. These are not a
+          Six conversations from an agricultural community in Binh Dinh province, March 2024. These are not a
           statistically representative sample. They are a starting point &mdash; the
           voices that prompted the questions my research attempts to answer.
         </p>
@@ -396,7 +396,7 @@ export default function MerchantConversationsPage() {
           }}
         >
           <Link
-            href="/public-policy/field-notes/72-hours-tay-ninh"
+            href="/public-policy/field-notes/72-hours-binh-dinh"
             style={{
               fontFamily: 'var(--font-sans)',
               fontSize: 'var(--text-sm)',
@@ -404,7 +404,7 @@ export default function MerchantConversationsPage() {
               textDecoration: 'none',
             }}
           >
-            &larr; 72 Hours in Tay Ninh
+            &larr; 72 Hours in Binh Dinh
           </Link>
           <Link
             href="/public-policy/research"

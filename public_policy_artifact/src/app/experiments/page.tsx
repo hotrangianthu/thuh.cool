@@ -40,7 +40,7 @@ export default function ExperimentsPage() {
           lineHeight: 'var(--leading-relaxed)',
           maxWidth: '65ch'
         }}>
-          Theory without practice is speculation. Here's where I put my ideas to the test —
+          Theory without practice is speculation. Here&apos;s where I put my ideas to the test —
           tracking predictions, documenting real-world experiments, and holding myself accountable
           to outcomes.
         </p>
@@ -73,7 +73,7 @@ export default function ExperimentsPage() {
         }}>
           Anyone can make predictions after the fact. The only way to know if your mental models
           are actually useful is to make predictions <em>before</em> you know the outcome, write them down,
-          and track your hit rate. I'm wrong more often than I'd like to admit — but that's how
+          and track your hit rate. I&apos;m wrong more often than I&apos;d like to admit — but that&apos;s how
           the models get better.
         </p>
       </div>
@@ -171,7 +171,7 @@ export default function ExperimentsPage() {
           color: 'var(--color-text-secondary)',
           margin: 0
         }}>
-          "Strong opinions, weakly held — but written down, timestamped, and tracked."
+          &ldquo;Strong opinions, weakly held — but written down, timestamped, and tracked.&rdquo;
         </p>
       </div>
     </main>

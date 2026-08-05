@@ -31,7 +31,7 @@ const provinces: Province[] = [
   { name: 'Binh Duong', region: 'South', connectivity: 82, literacy: 75, fintech: 48, banking: 58 },
   { name: 'Can Tho', region: 'Mekong', connectivity: 72, literacy: 65, fintech: 35, banking: 45 },
   { name: 'Nghe An', region: 'North Central', connectivity: 62, literacy: 58, fintech: 22, banking: 32 },
-  { name: 'Tay Ninh', region: 'South', connectivity: 58, literacy: 52, fintech: 18, banking: 28 },
+  { name: 'Binh Dinh', region: 'South Central', connectivity: 58, literacy: 52, fintech: 18, banking: 28 },
   { name: 'Dak Lak', region: 'Highlands', connectivity: 55, literacy: 48, fintech: 15, banking: 22 },
   { name: 'Son La', region: 'Northwest', connectivity: 45, literacy: 42, fintech: 8, banking: 15 },
   { name: 'Cao Bang', region: 'Northeast', connectivity: 42, literacy: 38, fintech: 6, banking: 12 },

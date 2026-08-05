@@ -30,7 +30,7 @@ Contact details must be stored separately from research answers. The survey must
 
 Every metric is explicitly marked `verified`, `pending`, or `target`. Unverified historic counts must never appear as achieved results. Initial targets are nationwide outreach across the 34 current provincial-level units, 600 completed surveys, 60 interviews or stories, 15 partners, one learning session, one open decision tool, and one policy memo.
 
-The existing six Tây Ninh conversations from March 2024 may be referenced only as pre-project grounding. The Jan 2025–present timeline remains editable and requires founder-supplied evidence before any milestone can be marked verified.
+The existing six conversations from a Bình Định agricultural community in March 2024 may be referenced only as pre-project grounding. The Jan 2025–present timeline remains editable and requires founder-supplied evidence before any milestone can be marked verified.
 
 Measure recruitment and completion, representation by segment and region, tool usage, learning-session knowledge change, intended action, consented follow-up behavior, and partner feedback.
 

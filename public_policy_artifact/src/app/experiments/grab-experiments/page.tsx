@@ -245,8 +245,8 @@ export default function GrabExperimentsPage() {
           lineHeight: 'var(--leading-relaxed)',
           maxWidth: '65ch'
         }}>
-          Real experiments I ran or contributed to during my decade at Grab. These aren't case studies
-          written for success — they're honest accounts of what worked, what failed, and what I learned.
+          Real experiments I ran or contributed to during my decade at Grab. These aren&apos;t case studies
+          written for success — they&apos;re honest accounts of what worked, what failed, and what I learned.
         </p>
       </header>
 
@@ -359,7 +359,7 @@ export default function GrabExperimentsPage() {
                 lineHeight: 'var(--leading-relaxed)',
                 fontStyle: 'italic'
               }}>
-                "{exp.hypothesis}"
+                &ldquo;{exp.hypothesis}&rdquo;
               </p>
 
               {/* Expanded content */}
@@ -426,7 +426,7 @@ export default function GrabExperimentsPage() {
                     borderLeft: '3px solid #8B1A1A'
                   }}>
                     <h3 style={{ fontSize: 'var(--text-sm)', fontWeight: '600', color: '#8B1A1A', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
-                      What I'd Do Differently
+                      What I&apos;d Do Differently
                     </h3>
                     <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-secondary)', lineHeight: 'var(--leading-relaxed)', margin: 0 }}>
                       {exp.whatIWouldDoDifferently}

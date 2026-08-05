@@ -204,7 +204,7 @@ export default function HypothesisTrackerPage() {
           lineHeight: 'var(--leading-relaxed)',
           maxWidth: '65ch'
         }}>
-          Predictions I've made about rural fintech, policy outcomes, and Vietnam's digital economy.
+          Predictions I&apos;ve made about rural fintech, policy outcomes, and Vietnam&apos;s digital economy.
           Each hypothesis is timestamped, tracked, and evaluated against reality.
         </p>
       </header>
