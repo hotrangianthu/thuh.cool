@@ -13,34 +13,16 @@ const artifactGrid = [
     href: '/public-policy/research',
   },
   {
-    icon: '🧪',
-    title: 'Interactive Playgrounds',
-    description: 'Tools you can run — province scorers, policy simulators.',
-    href: '/public-policy/playgrounds',
-  },
-  {
     icon: '📓',
-    title: 'Field Notes',
-    description: 'Raw observations from merchant interviews and village visits.',
-    href: '/public-policy/field-notes',
-  },
-  {
-    icon: '⚙️',
-    title: 'Prototypes',
-    description: 'Working demos built to test policy assumptions, not just argue them.',
-    href: '/public-policy/prototypes',
+    title: 'Writings',
+    description: 'Field notes, interactive tools, prototypes, and argued positions—organized as one working record.',
+    href: '/public-policy/writings',
   },
   {
     icon: '🔬',
     title: 'Experiments Log',
     description: 'What I tried, what broke, what I learned.',
     href: '/public-policy/experiments',
-  },
-  {
-    icon: '💬',
-    title: 'Voice & Opinion',
-    description: 'Positions I am prepared to defend, with evidence.',
-    href: '/public-policy/voice',
   },
 ]
 
@@ -372,7 +354,7 @@ export default function Home() {
                 marginBottom: '2rem',
               }}
             >
-              Six types of artifacts. All open.
+              Three types of artifacts. All open.
             </p>
           </FadeIn>
 

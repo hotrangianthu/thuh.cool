@@ -4,6 +4,7 @@ import DecisionTool from './DecisionTool'
 import DocumentLanguage from './DocumentLanguage'
 import BusinessReferralForm from './BusinessReferralForm'
 import ResearchWorkflowContent from './content/ResearchWorkflowContent'
+import FlagshipTrackTabs from './FlagshipTrackTabs'
 import {
   copy,
   flagshipMetrics,
@@ -27,6 +28,7 @@ export default function FlagshipPage({ locale }: { locale: FlagshipLocale }) {
     <>
       <DocumentLanguage locale={locale} />
       <header className="flagship-header">
+        <FlagshipTrackTabs locale={locale} active="nationwide" />
         <nav className="flagship-shell flagship-nav" aria-label={locale === 'vi' ? 'Điều hướng dự án' : 'Project navigation'}>
           <Link className="flagship-brand" href="/">
             <small>thuh.cool / flagship</small>

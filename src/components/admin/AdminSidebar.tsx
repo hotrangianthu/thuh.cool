@@ -20,6 +20,7 @@ const navItems = [
   { href: '/admin/books', label: 'Books', icon: FileText },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
   { href: '/admin/flagship', label: 'Flagship Research', icon: Sprout },
+  { href: '/admin/flagship/case-studies/binh-dinh-women-led', label: 'Bình Định Case Study', icon: Sprout },
   { href: '/admin/sa-partners/inquiries', label: 'Sa. Partners Inquiries', icon: Mailbox },
 ]
 
@@ -41,7 +42,10 @@ export default function AdminSidebar() {
       <nav className="flex-1 p-4 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+          const isCaseStudy = pathname.startsWith('/admin/flagship/case-studies/')
+          const isActive = pathname === item.href || (
+            pathname.startsWith(item.href + '/') && !(item.href === '/admin/flagship' && isCaseStudy)
+          )
           return (
             <Link
               key={item.href}

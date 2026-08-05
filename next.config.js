@@ -31,6 +31,26 @@ const nextConfig = {
         destination: '/flagship/from-income-to-assets/en',
         permanent: true,
       },
+      {
+        source: '/public-policy/field-notes',
+        destination: '/public-policy/writings#field-notes',
+        permanent: true,
+      },
+      {
+        source: '/public-policy/playgrounds',
+        destination: '/public-policy/writings#tools',
+        permanent: true,
+      },
+      {
+        source: '/public-policy/prototypes',
+        destination: '/public-policy/writings#prototypes',
+        permanent: true,
+      },
+      {
+        source: '/public-policy/voice',
+        destination: '/public-policy/writings#positions',
+        permanent: true,
+      },
     ]
   },
   eslint: {

@@ -249,3 +249,10 @@ WHERE table_schema = 'public'
 -- It remains outside this legacy aggregate so its private-inbox RLS can be
 -- reviewed before the public inquiry form is enabled.
 -- ===========================================
+
+-- ===========================================
+-- 00012: Bình Định women-led household-business case study
+-- Apply database/migrations/00012_create_flagship_case_study.sql separately.
+-- It adds an isolated private research-operations schema and does not alter
+-- the nationwide flagship intake tables.
+-- ===========================================

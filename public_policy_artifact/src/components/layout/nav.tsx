@@ -5,10 +5,7 @@ import Link from 'next/link'
 const navLinks = [
   { href: '/flagship/from-income-to-assets/en', label: 'Flagship' },
   { href: '/public-policy/research', label: 'Research' },
-  { href: '/public-policy/field-notes', label: 'Field notes' },
-  { href: '/public-policy/playgrounds', label: 'Tools' },
-  { href: '/public-policy/prototypes', label: 'Prototypes' },
-  { href: '/public-policy/voice', label: 'Voice' },
+  { href: '/public-policy/writings', label: 'Writings' },
   { href: '/about', label: 'About' },
 ]
 
